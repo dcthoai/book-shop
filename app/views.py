@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt # disable django's verifier (Cross-Site Request Forgery Exempt)
 from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome
 import json
-# from django.contrib import messages
+# from django.contrib import messages ggyiuihu
 
 # Create your views here.
 
