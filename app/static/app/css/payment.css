@@ -1,0 +1,246 @@
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.payment{
+    width: 960px;
+    max-width: 80%;
+    margin: 120px auto;
+    margin-bottom: 240px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 0 2px 1px #cdcdcd;
+}
+
+.payment .payment__header{
+    width: 100%;
+    height: 80px;
+    text-align: center;
+}
+
+.payment .payment__header span{
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 80px;
+}
+
+.payment .payment__content{
+    margin: 16px 32px;
+    padding-bottom: 32px;
+}
+
+.payment .payment__content h4{
+    font-size: 18px;
+    margin: 32px 0;
+}
+
+.payment .payment__content .product{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin: 16px 0;
+}
+
+.payment .payment__content .product a{
+    color: #000;
+    text-decoration: none;
+}
+
+.payment .payment__content .product__info{
+    width: 60%;
+    display: flex;
+    flex: 1;
+}
+
+.payment .payment__content .product__info-img{
+    width: 100px;
+    height: 140px;
+    border: 1px solid #ccc;
+}
+
+.payment .payment__content .product__info-decription{
+    flex: 1;
+    padding: 12px 48px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.payment .payment__content .product__info-decription .heading{
+    font-size: 20px;
+}
+
+.payment .payment__content .product__info-decription .price{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.payment .payment__content .product__info-decription del{
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 18px;
+    color: #777777;
+}
+
+.payment .payment__content .product__price{
+    width: 120px;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 32px;
+}
+
+.payment .payment__content .product__price-quantity{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.payment .payment__content .product__price-total{
+    font-size: 18px;
+    font-weight: 600;
+    color: #ff7300;
+}
+
+.payment .payment__content .product .product__control{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+}
+
+
+.payment .payment__info{
+    width: 100%;
+    padding: 32px 0;
+}
+
+.payment .payment__info .wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.payment .payment__info span{
+    margin-left: 64px;
+    margin-top: 12px;
+    font-size: 20px;
+    font-weight: 300;
+
+}
+
+.payment .payment__info .info__input{
+    width: 540px;
+    height: 32px;
+    max-width: 80%;
+    margin: 12px 64px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-indent: 12px;
+}
+
+.payment .payment__method{
+    width: 100%;
+    padding: 32px 64px;
+}
+
+.payment .payment__method .payment__method-heading{
+    font-size: 20px;
+    font-weight: 400;
+    margin: 16px 0;
+}
+
+.payment .payment__method li{
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.payment .payment__method li input{
+    width: 20px;
+    height: 20px;
+}
+
+.payment .payment__method li .des{
+    width: 380px;
+    display: flex;
+    align-items: center;
+}
+
+.payment .payment__method li .des__icon{
+    margin: 12px 16px 8px;
+}
+
+.payment .payment__controls{
+    width: 100vw;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    padding: 32px 0;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    box-shadow: 0 -2px 5px 2px #bcbcbc;
+    border-radius: 6px;
+}
+
+.payment .payment__controls .wrapper{
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.payment .payment__controls-back{
+    width: 180px;
+    height: 48px;
+    color: #ff0000;
+    cursor: pointer;
+}
+
+.payment .payment__controls-back a{
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #ff0000;
+}
+
+.payment .payment__controls-price{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.payment .payment__controls-price span{
+    font-size: 20px;
+    font-weight: 600;
+    color: #ff0000;
+}
+
+.payment .payment__controls-confirm{
+    float: right;
+    margin-right: 32px;
+    width: 300px;
+    height: 48px;
+    background-color: #ff0000;
+    border: 1px solid #ff0000;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.payment .payment__controls-confirm button{
+    background: none;
+    border: none;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.payment .space{
+    width: 95%;
+    margin: 0 auto;
+    border-bottom: 1px solid #ccc;
+}
