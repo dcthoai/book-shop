@@ -4,7 +4,18 @@ from django.utils.text import slugify
 import unidecode
 import re
 
-# Create your models here.
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(null=True, blank=True)
+
+    @property
+    def avatarURL(self):
+        url = 'static/app/images/avatar-icon.png'
+        try:
+            url = self.avatar.url
+        except:
+            url = 'static/app/images/avatar-icon.png'
+        return url
 
 class Product(models.Model):
     name = models.CharField(max_length=100, null=True)
@@ -14,7 +25,7 @@ class Product(models.Model):
     publisher = models.CharField(default='N/A', max_length=100, null=True, blank=True)
     author = models.CharField(default='N/A', max_length=100, null=True, blank=True)
     description = models.CharField(default='Người bán chưa cung cấp thông tin mô tả sản phẩm.', max_length=3000, null=True, blank=True)
-    slugName = models.SlugField(null=True, blank=True)
+    slugName = models.SlugField(unique=True, null=True, blank=True)
     
     def save(self, *args, **kwargs):
         if self.name:
@@ -35,7 +46,7 @@ class Product(models.Model):
         try:
             url = self.image.url
         except:
-            url = 'static/app/images/no-image-icon.png'
+            url = 'static/app/images/avatar-icon.png'
         return url
 
 class Order(models.Model):
@@ -57,8 +68,7 @@ class Order(models.Model):
         orderitems = self.orderitem_set.all()
         total = sum([item.get_total for item in orderitems])
         return total
-
-     
+ 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
@@ -68,7 +78,6 @@ class OrderItem(models.Model):
     @property
     def get_total(self):
         return self.product.price * self.quantity
-
 
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)

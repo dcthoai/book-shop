@@ -58,6 +58,7 @@ const formSignInHtml = `
         </div>
     </form>
 `;
+
 var isLoggedIn = false;
 var isSignIn;
 var signBtn = document.getElementById('sign-btn');
@@ -117,14 +118,12 @@ var validateSignUp = function(){
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 isSignIn = true;
                 transFormSign();
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-            console.log(data);
         }
     });
 }
@@ -140,7 +139,6 @@ var validateSignIn = function(){
             Validator.minLength('#password', 'Vui lòng nhập mật khẩu đủ 8 kí tự trở lên'),
         ],
         onSubmit: function(data){
-            console.log(data);
             // Call API
             fetch('/login/', {
                 method: 'POST',
@@ -151,12 +149,10 @@ var validateSignIn = function(){
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.message === 'User logged in successfully') {
                     loginSuccess();
                 }else{
                     alert("Email hoặc mật khẩu chưa đúng.");
-                    console.log('Login failed');
                 }
             })
             .catch((error) => {
@@ -171,11 +167,11 @@ var moreBook = document.querySelector("#more-book-btn");
 if(moreBook){
     moreBook.onclick = function(){
         var content = document.querySelector(".content .wrapper");
-    
-        for(var i=0; i<24; ++i){
+
+        for(var i=0; i<10; ++i){
             content.insertAdjacentHTML('beforeend', `
                 <div class="book">
-                    <a href="${bookURL}" class="book__link">
+                    <a href="" class="book__link">
                         <div class="book__img" style="background-image: url(${staticURL}app/images/shin.jpg);"></div>
                         <div class="book__info">
                             <h4 class="info__name">Mua sách đê các bạn ơi. Giảm giá 50%</h4>
@@ -207,7 +203,7 @@ window.addEventListener = ('load', function() {
         signBtn.style.display = 'none';
         userBtn.style.display = 'block';
         userBtn.onclick = function(event){
-            event.stopPropagation(); 
+            event.stopPropagation();
             getFormUser();
         }
     }else{
@@ -240,7 +236,6 @@ function getFormUser(){
         formUser.style.display = 'block';    
         var logoutBtn = formUser.querySelector('.user__logout-btn');
         logoutBtn.onclick = function(){
-            console.log("logout");
             fetch('/logout/', {
                 method: 'POST',
                 headers: {
@@ -274,8 +269,6 @@ window.addEventListener('load', function(){
 
     var fullText = content.innerHTML;
     var shortText = fullText;
-    console.log('Full', fullText);
-    console.log('short', shortText);
 
     if (fullText.length > 200) {
         shortText = fullText.substr(0, 200) + '...';

@@ -4,15 +4,12 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt # disable django's verifier (Cross-Site Request Forgery Exempt)
-from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome
+from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome, Profile
 import json
-# from django.contrib import messages
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your views here.
-
-# for product in Product.objects.all():
-#     product.save()
-
 # Handle send and receive new user account registration information
 @csrf_exempt
 def register(request):
@@ -56,7 +53,6 @@ def signOut(request):
     logout(request)
     # return redirect('home')
     return JsonResponse({'message': 'User logged out successfully'}, status=200)
-
 
 # Load Home page
 def home(request):
@@ -131,3 +127,7 @@ def updateItem(request):
 
     return JsonResponse('added', safe=False)
 
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
