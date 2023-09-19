@@ -186,6 +186,10 @@ body{
   text-align: left;
 }
 
+.header .nav .nav__support:hover .nav__support-link{
+  color: #ff0000;
+}
+
 .header .nav .nav__support-link{
   font-size: 18px;
   font-weight: 600;

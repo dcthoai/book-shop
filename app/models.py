@@ -6,7 +6,7 @@ import re
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(null=True, blank=True)
+    avatar = models.ImageField(upload_to='avatar', null=True, blank=True)
 
     @property
     def avatarURL(self):
@@ -21,7 +21,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100, null=True)
     price = models.IntegerField()
     cost = models.IntegerField()
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(upload_to='product', null=True, blank=True)
     publisher = models.CharField(default='N/A', max_length=100, null=True, blank=True)
     author = models.CharField(default='N/A', max_length=100, null=True, blank=True)
     description = models.CharField(default='Người bán chưa cung cấp thông tin mô tả sản phẩm.', max_length=3000, null=True, blank=True)
@@ -90,5 +90,5 @@ class ShippingAddress(models.Model):
         return self.address
 
 class SliderHome(models.Model):
-    image = models.ImageField(null=True, blank=True)
-    url = models.CharField(default='home', max_length=200 ,null=True, blank=True)
+    image = models.ImageField(upload_to='sliders', null=True, blank=True)
+    url = models.CharField(default='', max_length=200 ,null=True, blank=True)
