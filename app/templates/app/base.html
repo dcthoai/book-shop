@@ -1,0 +1,151 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block home_title %}{% endblock home_title %}
+    {% block book_title %}{% endblock book_title %}
+    {% block cart_title %}{% endblock cart_title %}
+    {% block payment_title %}{% endblock payment_title %}
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia|Mooli">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="shortcut icon" href="{% static 'app/images/favicon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'app/css/reset.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/css/book.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/css/cart.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/css/payment.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}"/>
+
+    <script type="text/javascript">
+        var user = '{{request.user}}';
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+    </script>
+</head>
+<body>
+    {% comment %} Header site {% endcomment %}
+    <header>
+        <div class="header">
+            <div class="nav grid">
+                <div class="nav__logo">
+                    <a href="{% url 'home' %}" class="logo-link">
+                        <img class="logo-link__icon" src="{% static 'app/images/book-logo.png' %}" alt="">
+                        <h2 class="logo-link__heading">ABC Book</h2>
+                    </a>
+                </div>
+
+                <div class="nav__search">
+                    <input class="seacrh__input" type="text" placeholder="Hôm nay bạn muốn đọc gì?">
+                    <button type="button" class="search__btn ">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+                
+                <div class="nav__notify">
+                    <div class="nav__notify-icon"><i class="fa-regular fa-bell"></i></div>
+                    <div class="wrapper">
+                        <div>
+                            <div style="background-image: url({% static 'app/images/icon-notify.png' %})" class="wrapper__icon"></div>
+                            <h4 class="wrapper__heading">Bạn không có thông báo nào</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav__support">
+                    <a href="" class="nav__support-link">Hỗ trợ</a>
+                </div>
+
+                <div class="nav__cart">
+                    <a href="{% url "cart" %}" class="nav__cart-link">
+                        <div>
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <div class="nav__cart-quantity">{{order.get_cart_items}}</div>
+                        </div>
+                    </a>
+                </div>
+                    
+                <div class="nav__user">
+                    <button type="button" id="sign-btn" class="sign-btn">Sign Up</button>
+                    <button type="button" id="user-btn" class="user-btn">
+                        <div class="nav__user-avatar" style="background-image: url({{request.user.profile.avatarURL}})"></div>
+                    </button>
+
+                    <div id="user-form" class="user">
+                        <div class="user__header">
+                            <h4>Tài khoản</h4>
+                            <div class="user__header-avatar">
+                                <img src="{{request.user.profile.avatarURL}}" style="width: 100%; height: 100%; border-radius: 100%;" alt="Avatar">
+                                <button type="button" class="change-avatar"><i class="fa-solid fa-camera"></i></button>
+                            </div>
+                            <div class="user__header-info">
+                                <div class="fullname">{{request.user.username}}</div>
+                                <div class="username">@{{request.user.username}}</div>
+                            </div>
+                        </div>
+            
+                        <div class="user__body">
+                            <div class="wrapper">
+                                <a href="" class="wrapper__link">Thông tin tài khoản</a>
+                                <a href="" class="wrapper__link">Đơn hàng</a>
+                            </div>
+                            <button type="button" class="user__logout-btn">Đăng xuất</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    {% comment %} Form SignIn {% endcomment %}
+    <div id="form-main" class="form-main">
+        <div class="form">
+            <div class="form__close-btn">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+
+            <div class="form__layer">
+         
+            </div>
+        </div>
+    </div>
+
+    {% comment %} Content {% endcomment %}
+    {% block content %}{% endblock content %}
+
+    {% comment %} Book infomation {% endcomment %}
+    {% block content_book %}{% endblock content_book %}
+
+    {% comment %} Cart {% endcomment %}
+    {% block content_cart %}{% endblock content_cart %}
+
+    {% comment %} Cart {% endcomment %}
+    {% block payment_content %}{% endblock payment_content %}
+
+    {% comment %} Footer site {% endcomment %}
+    {% block footer %}{% endblock footer %}
+
+    <script>
+        var staticURL = '{% static "" %}';
+    </script>
+    <script src="{% static 'app/js/cart.js' %}"></script>
+    <script src="{% static 'app/js/app.js' %}"></script>
+    <script src="{% static 'app/js/validator.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block cart_title %}<title>Giỏ hàng</title>{% endblock cart_title %}
+
+{% block content_cart %}
+
+    <div class="content__cart">
+        <div class="cart__header">
+            <h4 class="cart__heading">GIỎ HÀNG</h4>
+        </div>
+
+        <div class="nav">
+            <input class="nav__select-all" type="checkbox">
+
+            <div class="nav__col select__all">Chọn tất cả <span>({{order.get_cart_items}} sản phẩm)</span></div>
+            <div class="nav__col amount">Số lượng</div>
+            <div class="nav__col price">Thành tiền</div>
+        </div>
+
+        <div class="list-product">
+            {% for item in items %}
+                <div class="product">
+                    <input class="product__select" type="checkbox">
+
+                    <div class="product__info">
+                        <div class="product__info-img">
+                            <a href="{% url 'book' item.product.slugName %}">
+                                <img style="width: 100%; height: 100%;" src="{{item.product.imageURL}}" alt="">
+                            </a>
+                        </div>
+                        <div class="product__info-decription">
+                            <div class="heading"><a href="{% url 'book' item.product.slugName %}">{{item.product.name}}</a></div>
+                            <div class="price">{{item.product.price}}đ <del>{{item.product.cost}}đ</del></div>
+                        </div>
+                    </div>
+
+                    <div class="product__control">
+                        <div class="product__control-quantity">
+                            <button type="button" data-product="{{item.product.id}}" data-action="remove" class="quantity__sub add-to-cart">
+                                <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <input type="text" class="quantity__input" value="{{item.quantity}}">
+                            <button type="button" data-product="{{item.product.id}}" data-action="add" class="quantity__next add-to-cart">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+
+                        <div class="product__control-price">
+                            <span>{{item.get_total}}đ</span>
+                        </div>
+
+                        <button type="button" class="product__control-del add-to-cart" data-product="{{item.product.id}}" data-action="delete">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="payment-controls">
+        <div class="total__price">
+            <div class="total__price-heading">Tổng thanh toán:</div>
+            <span>{{order.get_cart_total}}đ</span>
+        </div>
+
+        <a href="{% url 'payment' %}" class="payment__link">
+            <button type="button" class="payment__link-btn">Thanh toán</button>
+        </a>
+    </div>
+   
+{% endblock content_cart %}
+
+{% block footer %}
+    <footer class="footer">
+        <div class="wrapper">
+            <h2 class="heading">CONTACT US</h2>
+            
+            <div class="contact">
+                <div class="contact__info">
+                    <ul style="list-style: none;">
+                        <li><i class="fa-solid fa-location-dot"></i>Chicago, US</li>
+                        <li><i class="fa fa-phone"></i>Phone: +00 151515</li>
+                        <li><i class="fa fa-envelope"></i>Email: mail@mail.com</li>
+                    </ul>
+                </div>
+
+                <div class="contact__form">
+                    <div class="form__input"><input type="text" placeholder="Name" ></div>
+                    <div class="form__input"><input type="text" placeholder="Email"></div>
+                    <div class="form__message"><input type="text" placeholder="Message"></div>
+                    <button type="button" class="form__send-btn">SEND</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock footer %}
