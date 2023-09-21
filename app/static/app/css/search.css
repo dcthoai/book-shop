@@ -1,0 +1,23 @@
+.search_content {
+    margin-top: 100px;
+    min-height: 350px;
+}
+
+.search_header, .sub_search_header {
+    margin: 0 0 35px 30px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.list_suggest {
+    text-align: left; 
+    margin-left: 50px;
+    font-weight: 400;
+}
+
+.list_suggest li {
+    padding-left: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}

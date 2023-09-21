@@ -8,6 +8,7 @@ from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome
 import json
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import unidecode
 
 # Create your views here.
 # Handle send and receive new user account registration information
@@ -131,3 +132,17 @@ def updateItem(request):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+def search(request, query):
+
+    result = query
+
+    query = '-'.join(unidecode.unidecode(query.strip()).split())
+
+    products = Product.objects.filter(slugName__icontains=query)
+
+    size = products.count()
+
+    context = {'result' : result, 'size' : size ,'products' : products}
+
+    return render(request, 'app/search.html', context)

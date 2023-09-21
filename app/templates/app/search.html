@@ -1,24 +1,72 @@
 {% extends 'app/base.html' %}
 {% load static%}
 
-<<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-       {% block register  %}
-       <h5> Result search for </h5>
-       {% endblock register  %}
-       
-    </body>
-</html>>
+{% block search_title %}<title>Search</title>{% endblock search_title %}
+ 
+{% block search_item %}
+
+    <div class="content search_content">
+
+        {% if size %}
+            <h1 class="search_header">Result search for: "{{result}}"</h1>
+
+            <div class="wrapper grid">
+
+            {% for product in products %}
+                <div class="book">
+                    <a href="{% url 'book' product.slugName %}" class="book__link">
+                        <div class="book__img" style="background-image: url({{product.imageURL}});"></div>
+                        <div class="book__info">
+                            <h4 class="info__name">{{product.name}}</h4>
+                            <h4 class="info__price"><del>{{product.cost}}đ</del>  {{product.price}}đ</h4>
+                        </div>
+                    </a>
+
+                    <button type="button" data-product="{{product.id}}" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
+                </div>
+            {% endfor %}
+
+        {% else %}
+
+        <h1 class="search_header">I'm sorry, we couldn't find any results for "{{result}}"</h1> 
+
+        <h2 class="sub_search_header">Try adjusting your search. Here are some ideas:</h2>
+
+        <ul class="list_suggest" style=" ">
+            <li class="">Make sure all words are spelled correctly</li>
+            <li>Try different search terms</li>
+            <li>Try more general search terms</li>
+        </ul>
+
+            {% endif %}
+        </div>
+
+    </div>
+
+
+{% endblock search_item %}
+
+{% block footer %}
+    <footer style="margin-top: 30px;" class="footer">
+        <div class="wrapper">
+            <h2 class="heading">CONTACT US</h2>
+            
+            <div class="contact">
+                <div class="contact__info">
+                    <ul style="list-style: none;">
+                        <li><i class="fa-solid fa-location-dot"></i>Chicago, US</li>
+                        <li><i class="fa fa-phone"></i>Phone: +00 151515</li>
+                        <li><i class="fa fa-envelope"></i>Email: mail@mail.com</li>
+                    </ul>
+                </div>
+
+                <div class="contact__form">
+                    <div class="form__input"><input type="text" placeholder="Name" ></div>
+                    <div class="form__input"><input type="text" placeholder="Email"></div>
+                    <div class="form__message"><input type="text" placeholder="Message"></div>
+                    <button type="button" class="form__send-btn">SEND</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock footer %}

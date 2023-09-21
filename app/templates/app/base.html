@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block home_title %}{% endblock home_title %}
+    {% block search_title %}{% endblock search_title %}
     {% block book_title %}{% endblock book_title %}
     {% block cart_title %}{% endblock cart_title %}
     {% block payment_title %}{% endblock payment_title %}
@@ -19,6 +20,9 @@
     <link rel="stylesheet" href="{% static 'app/css/cart.css' %}"/>
     <link rel="stylesheet" href="{% static 'app/css/payment.css' %}"/>
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/css/search.css' %}"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <script type="text/javascript">
         var user = '{{request.user}}';
@@ -39,6 +43,41 @@
         }
         const csrftoken = getCookie('csrftoken');
     </script>
+
+    <script>
+
+        $(document).ready(function(){
+
+            function Search(query) {
+
+                window.location.href = '/search/' + query;
+
+            }
+
+            $('#search-input').keypress(function(event){
+
+                if(event.which == 13) {
+
+                    var data = $('#search-input').val();
+
+                    Search(data);
+
+                }
+
+            });
+
+            $('#search-button').click(function(event){
+
+                var data = $('#search-input').val();
+
+                    Search(data);
+
+            });
+
+        });
+
+    </script>
+
 </head>
 <body>
     {% comment %} Header site {% endcomment %}
@@ -53,8 +92,8 @@
                 </div>
 
                 <div class="nav__search">
-                    <input class="seacrh__input" type="text" placeholder="Hôm nay bạn muốn đọc gì?">
-                    <button type="button" class="search__btn ">
+                    <input id="search-input" class="seacrh__input" type="text" placeholder="Hôm nay bạn muốn đọc gì?">
+                    <button id="search-button" type="button" class="search__btn">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
@@ -128,6 +167,9 @@
 
     {% comment %} Content {% endcomment %}
     {% block content %}{% endblock content %}
+
+    {% comment %} Search item {% endcomment %}
+    {% block search_item %}{% endblock search_item %}
 
     {% comment %} Book infomation {% endcomment %}
     {% block content_book %}{% endblock content_book %}
