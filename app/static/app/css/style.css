@@ -101,6 +101,7 @@ body{
   background-color: #fff;
   border: none;
   border-radius: 100%;
+  cursor: pointer;
 }
 
 .header .nav .search__btn-active{
@@ -178,14 +179,6 @@ body{
   margin-top: 60px;
   background-size: contain;
   background-repeat: no-repeat;
-}
-
-.wrapper__icon {
-  background-image: url("{% static 'app/images/icon-notify.png' %}");
-}
-
-.slider__more-img {
-  background-image: url("{% static 'app/images/banner1.png' %}");
 }
 
 /* Nav support */

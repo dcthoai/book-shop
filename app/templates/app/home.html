@@ -13,7 +13,7 @@
             <div class="wrapper">
                 {% for slider in sliders %}
                     <a href="{{ slider.url }}" class="slider__link">
-                        <div class="slider_link-item" style="background-image: url('{{ slider.image.url }}')"></div>
+                        <div class="slider_link-item" style="background-image: url({{ slider.image.url }})"></div>
                     </a>
                 {% endfor %}
             </div>
@@ -22,10 +22,10 @@
 
         <div class="slider__more">
             <a href="" class="slider__more-link">
-                <div class="slider__more-img"></div>
+                <div class="slider__more-img" style="background-image: url({% static 'app/images/banner1.png' %});"></div>
             </a>
             <a href="" class="slider__more-link">
-                <div class="slider__more-img"></div>
+                <div class="slider__more-img" style="background-image: url({% static 'app/images/banner2.png' %});"></div>
             </a>
         </div>
     </div>
