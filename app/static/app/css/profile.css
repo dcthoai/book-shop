@@ -1,0 +1,357 @@
+*{
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #ffffff;
+    position: relative;
+}
+
+.personal{
+    margin: 32px auto;
+    width: 1200px;
+    max-width: 100%;
+    background: linear-gradient(to left, #e6f1ff, #f5f9ff);
+    border-radius: 16px;
+    display: flex;
+}
+
+/* CSS for Navigation and account information */
+.personal .controls{
+    padding: 24px;
+    border-right: 0.6px solid #dbdbdb;
+}
+
+.controls .info{        /* CSS for controls info */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    background-color: #ffffff80;
+}
+
+.controls .info__avatar{
+    margin: 24px;
+    width: 180px;
+    height: 180px;
+    border-radius: 100%;
+    position: relative;
+}
+
+.controls .info__avatar #avatar{
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+}
+
+.controls .info__avatar-change{
+    width: 46px;
+    height: 46px;
+    border-radius: 100%;
+    border: 4px solid #fff;
+    background-color: #e1e1e1;
+    position: absolute;
+    right: 14px;
+    bottom: -4px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.controls .info__avatar-change:hover{
+    background-color: #ededed;
+}
+
+.controls .info__avatar-change img{
+    width: 70%;
+    height: 70%;
+}
+
+.controls .info__name{
+    margin: 12px;
+    margin-right: 24px;
+}
+
+.controls .info__name-fullname{
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 40px;
+    color: #333;
+}
+
+.controls .info__name-username{
+    font-size: 18px;
+    font-weight: 300;
+    color: #555;
+}
+
+.controls .nav{         /* CSS for controls navigations */
+    margin: 48px 0;
+    border-radius: 10px;
+}
+
+.controls .nav__heading{
+    font-size: 20px;
+    font-weight: 600;
+    width: 100%;
+    height: 40px;
+}
+
+.controls .nav__item{
+    width: 100%;
+    height: 56px;
+    padding-left: 16px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 56px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.controls .nav__item:hover{
+    background-color: #fff;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.05);
+}
+
+.controls .nav__item.active{
+    color: #fff;
+    background-color: #557589;
+}
+
+/* CSS for Account details and settings */
+.personal .details{
+    flex: 1;
+    padding: 32px;
+}
+
+.personal .details .wrapper{
+    display: none;
+    width: 100%;
+}
+
+.personal .details .wrapper.active{
+    display: block;
+}
+
+.personal .details .wrapper__header{    /* CSS for header of form detail */
+    width: 100%;
+    height: auto;
+    margin-bottom: 36px;
+}
+
+.personal .details .wrapper__header-heading{
+    width: 100%;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 32px;
+    color: #20333e;
+    text-align: left;
+}
+
+.personal .details .wrapper__header-des{
+    width: 100%;
+    padding: 8px 0;
+}
+
+.personal .details .wrapper__header-des p{
+    font-family: 'Mooli', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+    color: #4d6272;
+}
+
+.personal .details .wrapper__body{      /* CSS for body of form detail */
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.personal .details .wrapper__body .line{
+    width: 100%;
+    height: 0;
+    border-bottom: 1px solid #ededed;
+}
+
+.personal .details .form__group{
+    width: 100%;
+    height: 60px;
+    padding-left: 24px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.personal .details .form__group:hover{
+    background-color: #eeeeeec3;
+    cursor: pointer;
+}
+
+.personal .details .form__group i{
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+.personal .details .form__group-heading{
+    font-family: 'Mooli', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 28px;
+    color: #263a4a;
+}
+
+.personal .details .form__group-des{
+    font-family: 'Mooli', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+    color: #4d6272;
+}
+
+.personal .details .terms .wrapper__header{
+    margin-bottom: 0;
+}
+
+.personal .details .terms .wrapper__header-des{
+    width: calc(100% + 20px);
+    padding-right: 12px;
+    max-height: 580px;
+    overflow: auto;
+}
+
+.personal .details .terms h4{
+    font-family: 'Mooli', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 28px;
+    color: #263a4a;
+    margin-top: 12px;
+}
+
+.personal .details .terms span{
+    font-weight: 600;
+}
+
+.personal .details .terms p{
+    text-indent: 26px;
+    text-align: justify;
+    margin-bottom: 8px;
+}
+
+/* CSS for form change Avatar */
+
+.personal .form-avatar{
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    min-width: 420px;
+    background-color: #fff;
+    border-radius: 26px;
+    overflow: hidden;
+    box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.15);
+    margin: 0 auto;
+}
+
+.personal .form-avatar .form__close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 42px;
+    height: 42px;
+    border-radius: 100%;
+    text-align: center;
+}
+
+.personal .form-avatar .form__close:hover{
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.personal .form-avatar .form__close i{
+    font-size: 24px;
+    line-height: 42px;
+}
+
+.personal .form-avatar .form__content{
+    width: calc(100% - 48px);
+    margin: 64px auto;
+    margin-bottom: 80px;
+}
+
+.personal .form-avatar .form__content-heading{
+    font-family: 'Mooli', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #3f3f3f;
+    margin-bottom: 12px;
+}
+
+.personal .form-avatar .form__content-demo{
+    width: 180px;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 100%;
+    margin: 24px auto;
+    background-image: url('./assets/images/avatar-icon.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.personal .form-avatar .form__submit{
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+}
+
+.personal .form-avatar .form__submit-btn{
+    width: 64px;
+    height: 36px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    background-color: #20e3d0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.personal .form-avatar .form__submit-btn:hover{
+    opacity: 0.8;
+}
+
+.personal .form-avatar input[type=file]{
+    width: 100%;
+}
+
+.personal .form-avatar input[type=file]:hover{
+    opacity: 0.85;
+}
+
+.personal .form-avatar input[type=file]::file-selector-button{
+    font-family: 'Mooli', sans-serif;
+    margin-right: 20px;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 10px;
+    background: #4982ff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.personal .container{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #dbeaff6c;
+    z-index: 100;
+}

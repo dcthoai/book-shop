@@ -1,0 +1,248 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài khoản</title>
+    <link rel="shortcut icon" href="{% static 'app/images/favicon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia|Mooli">
+    <link rel="stylesheet" href="{% static 'app/css/profile.css' %}">
+</head>
+<body>
+    <div class="personal">
+        <!-- Form change avatar personal -->
+        <div class="container">
+            <form action="" method="POST"  class="form-avatar">
+                <div class="form__close">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+    
+                <div class="form__content">
+                    <div class="form__content-heading">Chọn một ảnh làm ảnh đại diện của bạn</div>
+                    <p>Xem trước avatar của bạn:</p>
+                    <div class="form__content-demo">
+                        <img style="width: 100%; height: 100%; border-radius: 100%;" src="">
+                    </div>
+                    <input type="file" name="file-avatar" id="file-avatar">
+                </div>
+    
+                <div class="form__submit">
+                    <button type="button" class="form__submit-btn">OK</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Form controls -->
+        <div class="controls">
+            <div class="info">
+                <div class="info__avatar">
+                    <img id="avatar" src="{% static 'app/images/avatar-icon.png' %}" alt="Avatar">
+                    <button class="info__avatar-change" id="change-avatar">
+                        <img src="{% static 'app/images/icon-camera.png' %}" alt="Sửa">
+                    </button>
+                </div>
+
+                <div class="info__name">
+                    <div class="info__name-fullname">Nguyễn Văn An</div>
+                    <div class="info__name-username">@nvan</div>
+                </div>
+            </div>
+
+            <div class="nav">
+                <div class="nav__heading">Cài đặt tài khoản</div>
+                <div class="nav__item active">Thông tin cá nhân</div>
+                <div class="nav__item">Mật khẩu và bảo mật</div>
+                <div class="nav__item">Thanh toán</div>
+                <div class="nav__item">Điều khoản sử dụng</div>
+            </div>
+        </div>
+
+        <div class="details">
+            <!-- Personal infomations -->
+            <div class="wrapper active">
+                <div class="wrapper__header">
+                    <div class="wrapper__header-heading">Thông tin cá nhân</div>
+                    <div class="wrapper__header-des">
+                        <p>Chúng tôi sử dụng thông tin này để xác minh danh tính và bảo vệ tài khoản của bạn.</p>
+                        <p>Vui lòng cung cấp đầy đủ thông tin để chúng tôi dễ dàng lấy lại tài khoản giúp bạn khi gặp sự cố.</p>
+                    </div>
+                </div>
+
+                <div class="wrapper__body">
+                    <!-- Form fullname -->
+                    <div class="form__group">
+                        <div>
+                            <label class="form__group-heading">Họ và tên</label>
+                            <p class="form__group-des">Nguyễn Văn An</p>
+                        </div>
+
+                        <i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="line"></div>
+
+                    <!-- Form username -->
+                    <div class="form__group">
+                        <div>
+                            <label class="form__group-heading">Tên đăng nhập</label>
+                            <p class="form__group-des">nvan</p>
+                        </div>
+
+                        <i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="line"></div>
+
+                    <!-- Form email -->
+                    <div class="form__group">
+                        <div>
+                            <label class="form__group-heading">Email</label>
+                            <p class="form__group-des">nvan@gmail.com</p>
+                        </div>
+
+                        <i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="line"></div>
+
+                    <!-- Form phone number -->
+                    <div class="form__group">
+                        <div>
+                            <label class="form__group-heading">Số điện thoại</label>
+                            <p class="form__group-des">0123456789</p>
+                        </div>
+
+                        <i class="fa-solid fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Passwords and security -->
+            <div class="wrapper">
+                <div class="wrapper__header">
+                    <div class="wrapper__header-heading">Mật khẩu và Bảo mật</div>
+                    <div class="wrapper__header-des">
+                        <p>Quản lý mật khẩu, tùy chọn đăng nhập và khôi phục tài khoản.</p>
+                    </div>
+                </div>
+
+                <div class="wrapper__body">   
+                    <!-- Form change password -->
+                    <div class="form__group">
+                        <div>
+                            <label class="form__group-heading">Thay đổi mật khẩu</label>
+                            <p class="form__group-des">Tạo một mật khẩu mới bảo mật hơn.</p>
+                        </div>
+
+                        <i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="line"></div>
+
+                    <!-- Form forgot password -->
+                    <div class="form__group">
+                        <div>
+                            <label class="form__group-heading">Quên mật khẩu</label>
+                            <p class="form__group-des">Nhập email đã đăng ký để lấy lại mật khẩu</p>
+                        </div>
+
+                        <i class="fa-solid fa-angle-right"></i>
+                    </div>  
+                </div>
+            </div>
+
+            <!-- Payment -->
+            <div class="wrapper">
+                <div class="wrapper__header">
+                    <div class="wrapper__header-heading">Thanh toán</div>
+                    <div class="wrapper__header-des">
+                        <p>Thiết lập phương thức thanh toán và cập nhật địa chỉ giao hàng của bạn tại đây.</p>
+                    </div>
+                </div>
+
+                <div class="wrapper__body">
+                    <!-- Form payment method -->
+                    <div class="form__group">
+                        <div>
+                            <label class="form__group-heading">Thêm phương thức thanh toán</label>
+                            <p class="form__group-des">Thêm, sửa phương thức thanh toán mặc định của bạn.</p>
+                        </div>
+
+                        <i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="line"></div>
+
+                    <!-- Form shipping address -->
+                    <div class="form__group">
+                        <div>
+                            <label class="form__group-heading">Thay đổi địa chỉ giao hàng</label>
+                            <p class="form__group-des">Thêm, chỉnh sửa thông tin địa chỉ giao hàng của bạn.</p>
+                        </div>
+
+                        <i class="fa-solid fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms of Use -->
+            <div class="wrapper terms">
+                <div class="wrapper__header">
+                    <div class="wrapper__header-heading">Điều khoản sử dụng</div>
+                    <div class="wrapper__header-des">
+                        <p>Chào mừng quý khách đến mua sắm tại ABCBook. Sau khi truy cập vào website ABCBook 
+                            để tham khảo hoặc mua sắm, quý khách đã đồng ý tuân thủ và ràng buộc với những quy định của ABCBook. 
+                            Vui lòng xem kỹ các quy định và hợp tác với chúng tôi để xây dựng 1 website ABCBook 
+                            ngày càng thân thiện và phục vụ tốt những yêu cầu của chính quý khách. Ngoài ra, nếu có 
+                            bất cứ câu hỏi nào về những thỏa thuận trên đây, vui lòng email cho chúng tôi qua địa chỉ
+                            <a href="" class="email-link">support@ABCBook.com</a>
+                        </p>
+                        <h4>Tài khoản của khách hàng</h4>
+                        <p>Khi sử dụng dịch vụ ABCBook, quý khách sẽ cung cấp cho chúng tôi thông tin về địa chỉ email, 
+                            mật khẩu và họ tên để có được 1 tài khoản tại đây. Việc sử dụng và bảo mật thông tin tài khoản 
+                            là trách nhiệm và quyền lợi của quý khách khi sử dụng ABCBook. Ngoài ra, những thông tin khác 
+                            trong tài khoản như tên tuổi, địa chỉ.... là những thông tin sẽ giúp ABCBook phục vụ quý khách tốt nhất. 
+                            Trong trường hợp thông tin do quý khách cung cấp không đầy đủ hoặc sai dẫn đến việc không 
+                            thể giao hàng cho quý khách, chúng tôi có quyền đình chỉ hoặc từ chối phục vụ, giao hàng mà 
+                            không phải chịu bất cứ trách nhiệm nào đối với quý khách. Khi có những thay đổi thông tin của quý khách, 
+                            vui lòng cập nhật lại thông tin trong tài khoản trong phần thông tin tài khoản. 
+                            Quý khách phải giữ kín mật khẩu và tài khoản, hoàn toàn chịu trách nhiệm đối với tất cả 
+                            các hoạt động diễn ra thông qua việc sử dụng mật khẩu hoặc tài khoản của mình. Quý khách nên 
+                            đảm bảo thoát khỏi tài khoản tại ABCBook sau mỗi lần sử dụng để bảo mật thông tin của mình.
+                        </p>
+                        <h4>Quyền lợi bảo mật thông tin của khách hàng</h4>
+                        <p>Khi sử dụng dịch vụ tại website ABCBook, quý khách được đảm bảo rằng những thông tin cung cấp cho 
+                            chúng tôi sẽ chỉ được dùng để nâng cao chất lượng dịch vụ dành cho khách hàng của ABCBook và 
+                            sẽ không được chuyển giao cho 1 bên thứ ba nào khác vì mục đích thương mại. Thông tin của quý khách 
+                            tại ABCBook sẽ được chúng tôi bảo mật và chỉ trong trường hợp pháp luật yêu cầu, chúng tôi sẽ buộc 
+                            phải cung cấp những thông tin này cho các cơ quan pháp luật.
+                        </p>
+                        <h4>Trách nhiệm của khách hàng khi sử dụng dịch vụ của ABCBook</h4>
+                        <p>Quý khách tuyệt đối không được sử dụng bất kỳ công cụ, phương pháp nào để can thiệp, xâm nhập 
+                            bất hợp pháp vào hệ thống hay làm thay đổi cấu trúc dữ liệu tại website ABCBook. 
+                            Quý khách không được có những hành động (thực hiện, cổ vũ) việc can thiệp, xâm nhập dữ liệu 
+                            của ABCBook cũng như hệ thống máy chủ của chúng tôi. Ngoài ra, xin vui lòng thông báo cho 
+                            quản trị web của ABCBook ngay khi quý khách phát hiện ra lỗi hệ thống theo số điện thoại 
+                            <span>0123456789</span> hoặc email <a href="">support@ABCBook.com</a>
+                        </p>
+                        <p>Quý khách không được đưa ra những nhận xét, đánh giá có ý xúc phạm, quấy rối, làm phiền hoặc 
+                            có bất cứ hành vi nào thiếu văn hóa đối với người khác. Không nêu ra những nhận xét có tính 
+                            chính trị (tuyên truyền, chống phá, xuyên tạc chính quyền), kỳ thị tôn giáo, giới tính, sắc tộc....
+                            Tuyệt đối cấm mọi hành vi mạo nhận, cố ý tạo sự nhầm lẫn mình là một khách hàng khác hoặc 
+                            là thành viên Ban Quản Trị ABCBook.
+                        </p>
+                        <h4>Trách nhiệm và quyền lợi của ABCBook</h4>
+                        <p>Trong trường hợp có những phát sinh ngoài ý muốn hoặc trách nhiệm của mình, ABCBook sẽ không 
+                            chịu trách nhiệm về mọi tổn thất phát sinh. Ngoài ra, chúng tôi không cho phép các tổ chức, 
+                            cá nhân khác quảng bá sản phẩm tại website ABCBook mà chưa có sự đồng ý bằng văn bản từ đội ngũ ABCBook. 
+                            Các thỏa thuận và quy định trong Điều khoản sử dụng có thể thay đổi vào bất cứ lúc nào 
+                            nhưng sẽ được chúng tôi thông báo cụ thể trên website ABCBook.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'app/js/profile.js' %}"></script>
+</body>
+</html>

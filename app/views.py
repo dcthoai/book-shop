@@ -131,3 +131,11 @@ def updateItem(request):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+def account(request):
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = None
+    context = {'user': user}
+    return render(request, 'app/account.html', context)
