@@ -135,6 +135,20 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 def search(request, query):
 
+    if request.user.is_authenticated:
+
+        customer = request.user
+
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+
+        items = order.orderitem_set.all()
+
+    else:
+
+        items = []
+
+        order = {'get_cart_items':0, 'get_cart_total':0}
+
     result = query
 
     query = '-'.join(unidecode.unidecode(query.strip()).split())
@@ -143,6 +157,6 @@ def search(request, query):
 
     size = products.count()
 
-    context = {'result' : result, 'size' : size ,'products' : products}
+    context = {'result' : result, 'size' : size,'order' : order ,'products' : products}
 
     return render(request, 'app/search.html', context)
