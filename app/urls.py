@@ -13,4 +13,5 @@ urlpatterns = [
     path('book/<str:slugName>/', views.book, name='book'),
     path('payment/', views.payment, name="payment"),
     path('update_item/', views.updateItem, name="update_item"),
+    path('search/<str:query>/', views.search, name='search'),
 ]

@@ -101,6 +101,7 @@ body{
   background-color: #fff;
   border: none;
   border-radius: 100%;
+  cursor: pointer;
 }
 
 .header .nav .search__btn-active{
