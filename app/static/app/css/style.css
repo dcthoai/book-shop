@@ -180,6 +180,14 @@ body{
   background-repeat: no-repeat;
 }
 
+.wrapper__icon {
+  background-image: url("{% static 'app/images/icon-notify.png' %}");
+}
+
+.slider__more-img {
+  background-image: url("{% static 'app/images/banner1.png' %}");
+}
+
 /* Nav support */
 .header .nav .nav__support{
   width: 92px;
