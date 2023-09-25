@@ -6,7 +6,10 @@ import re
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    fullname = models.CharField(default='user', max_length=50, null=True, blank=True)
     avatar = models.ImageField(upload_to='avatar', null=True, blank=True)
+    phoneNumber = models.CharField(default='Chưa có', max_length=10, null=True, blank=True)
+    address = models.CharField(default='Chưa có', max_length=300, null=True, blank=True)
 
     @property
     def avatarURL(self):

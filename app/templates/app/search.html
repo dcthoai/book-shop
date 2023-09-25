@@ -1,49 +1,46 @@
 {% extends 'app/base.html' %}
 {% load static %}
 
-{% block search_title %}<title>Search</title>{% endblock search_title %}
+{% block search_title %}
+    <title>Search</title>
+    <link rel="stylesheet" href="{% static 'app/css/search.css' %}"/>
+{% endblock search_title %}
  
 {% block search_item %}
-
     <div class="content search_content">
 
         {% if size %}
-            <h1 class="search_header">Result search for: "{{result}}"</h1>
+            <h1 class="search_header">Kết quả tìm kiếm cho từ khóa: "{{result}}"</h1>
 
             <div class="wrapper grid">
+                {% for product in products %}
+                    <div class="book">
+                        <a href="{% url 'book' product.slugName %}" class="book__link">
+                            <div class="book__img" style="background-image: url({{product.imageURL}});"></div>
+                            <div class="book__info">
+                                <h4 class="info__name">{{product.name}}</h4>
+                                <h4 class="info__price"><del>{{product.cost}}đ</del>  {{product.price}}đ</h4>
+                            </div>
+                        </a>
 
-            {% for product in products %}
-                <div class="book">
-                    <a href="{% url 'book' product.slugName %}" class="book__link">
-                        <div class="book__img" style="background-image: url({{product.imageURL}});"></div>
-                        <div class="book__info">
-                            <h4 class="info__name">{{product.name}}</h4>
-                            <h4 class="info__price"><del>{{product.cost}}đ</del>  {{product.price}}đ</h4>
-                        </div>
-                    </a>
-
-                    <button type="button" data-product="{{product.id}}" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
-                </div>
-            {% endfor %}
+                        <button type="button" data-product="{{product.id}}" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
+                    </div>
+                {% endfor %}
+            </div>
 
         {% else %}
+            <div class="wrapper grid">
+                <h1 class="search_header">Rất tiếc, không có sản phẩm nào phù hợp với từ khóa này: "{{result}}"</h1> 
+                <h2 class="sub_search_header">Hãy thử tìm kiếm lại, đây là một số gợi ý cho bạn:</h2>
 
-        <h1 class="search_header">I'm sorry, we couldn't find any results for "{{result}}"</h1> 
-
-        <h2 class="sub_search_header">Try adjusting your search. Here are some ideas:</h2>
-
-        <ul class="list_suggest">
-            <li class="">Make sure all words are spelled correctly</li>
-            <li>Try different search terms</li>
-            <li>Try more general search terms</li>
-        </ul>
-        
-            {% endif %}
-        </div>
-
+                <ul class="list_suggest">
+                    <li>- Đảm bảo tất cả các từ được viết đúng chính tả</li>
+                    <li>- Thử các cụm từ tìm kiếm khác nhau</li>
+                    <li>- Thử các cụm từ tìm kiếm chung chung hơn</li>
+                </ul>
+            </div>
+        {% endif %}
     </div>
-
-
 {% endblock search_item %}
 
 {% block footer %}

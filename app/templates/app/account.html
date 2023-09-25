@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="{% static 'app/images/favicon.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia|Mooli">
-    <link rel="stylesheet" href="{% static 'app/css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/account.css' %}">
 </head>
 <body>
     <div class="personal">
@@ -25,7 +25,7 @@
                     <div class="form__content-heading">Chọn một ảnh làm ảnh đại diện của bạn</div>
                     <p>Xem trước avatar của bạn:</p>
                     <div class="form__content-demo">
-                        <img style="width: 100%; height: 100%; border-radius: 100%;" src="">
+                        <img style="width: 100%; height: 100%; border-radius: 100%;" src="{{user.profile.avatarURL}}">
                     </div>
                     <input type="file" name="file-avatar" id="file-avatar">
                 </div>
@@ -40,15 +40,15 @@
         <div class="controls">
             <div class="info">
                 <div class="info__avatar">
-                    <img id="avatar" src="{% static 'app/images/avatar-icon.png' %}" alt="Avatar">
+                    <img id="avatar" src="{{user.profile.avatarURL}}" alt="Avatar">
                     <button class="info__avatar-change" id="change-avatar">
                         <img src="{% static 'app/images/icon-camera.png' %}" alt="Sửa">
                     </button>
                 </div>
 
                 <div class="info__name">
-                    <div class="info__name-fullname">Nguyễn Văn An</div>
-                    <div class="info__name-username">@nvan</div>
+                    <div class="info__name-fullname">{{user.profile.fullname}}</div>
+                    <div class="info__name-username">@{{user.username}}</div>
                 </div>
             </div>
 
@@ -75,45 +75,77 @@
                 <div class="wrapper__body">
                     <!-- Form fullname -->
                     <div class="form__group">
-                        <div>
+                        <div class="form__group-box" style="margin-bottom: 0px;">
                             <label class="form__group-heading">Họ và tên</label>
-                            <p class="form__group-des">Nguyễn Văn An</p>
+                            <p class="form__group-des">{{user.profile.fullname}}</p>
                         </div>
 
                         <i class="fa-solid fa-angle-right"></i>
+
+                        <div class="form-change">
+                            <div class="form__heading">Thay đổi họ tên:</div>
+                            <div class="form__body">
+                                <input type="text" class="form__body-input" name="fullname">
+                                <button class="form__body-submit">Lưu</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="line"></div>
 
                     <!-- Form username -->
                     <div class="form__group">
-                        <div>
+                        <div class="form__group-box" style="margin-bottom: 0px;">
                             <label class="form__group-heading">Tên đăng nhập</label>
-                            <p class="form__group-des">nvan</p>
+                            <p class="form__group-des">{{user.username}}</p>
                         </div>
 
                         <i class="fa-solid fa-angle-right"></i>
+
+                        <div class="form-change">
+                            <div class="form__heading">Thay đổi tên đăng nhập:</div>
+                            <div class="form__body">
+                                <input type="text" class="form__body-input" name="username">
+                                <button class="form__body-submit">Lưu</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="line"></div>
 
                     <!-- Form email -->
                     <div class="form__group">
-                        <div>
+                        <div class="form__group-box" style="margin-bottom: 0px;">
                             <label class="form__group-heading">Email</label>
-                            <p class="form__group-des">nvan@gmail.com</p>
+                            <p class="form__group-des">{{user.email}}</p>
                         </div>
 
                         <i class="fa-solid fa-angle-right"></i>
+
+                        <div class="form-change">
+                            <div class="form__heading">Thay đổi Email:</div>
+                            <div class="form__body">
+                                <input type="text" class="form__body-input" name="email">
+                                <button class="form__body-submit">Lưu</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="line"></div>
 
                     <!-- Form phone number -->
                     <div class="form__group">
-                        <div>
+                        <div class="form__group-box" style="margin-bottom: 0px;">
                             <label class="form__group-heading">Số điện thoại</label>
-                            <p class="form__group-des">0123456789</p>
+                            <p class="form__group-des">{{user.profile.phoneNumber}}</p>
                         </div>
 
                         <i class="fa-solid fa-angle-right"></i>
+
+                        <div class="form-change">
+                            <div class="form__heading">Thay đổi Số điện thoại:</div>
+                            <div class="form__body">
+                                <input type="text" class="form__body-input" name="phone-number">
+                                <button class="form__body-submit">Lưu</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,7 +162,7 @@
                 <div class="wrapper__body">   
                     <!-- Form change password -->
                     <div class="form__group">
-                        <div>
+                        <div class="form__group-box" style="margin-bottom: 0px;">
                             <label class="form__group-heading">Thay đổi mật khẩu</label>
                             <p class="form__group-des">Tạo một mật khẩu mới bảo mật hơn.</p>
                         </div>
@@ -141,7 +173,7 @@
 
                     <!-- Form forgot password -->
                     <div class="form__group">
-                        <div>
+                        <div class="form__group-box" style="margin-bottom: 0px;">
                             <label class="form__group-heading">Quên mật khẩu</label>
                             <p class="form__group-des">Nhập email đã đăng ký để lấy lại mật khẩu</p>
                         </div>
@@ -163,7 +195,7 @@
                 <div class="wrapper__body">
                     <!-- Form payment method -->
                     <div class="form__group">
-                        <div>
+                        <div class="form__group-box" style="margin-bottom: 0px;">
                             <label class="form__group-heading">Thêm phương thức thanh toán</label>
                             <p class="form__group-des">Thêm, sửa phương thức thanh toán mặc định của bạn.</p>
                         </div>
@@ -174,9 +206,9 @@
 
                     <!-- Form shipping address -->
                     <div class="form__group">
-                        <div>
+                        <div class="form__group-box" style="margin-bottom: 0px;">
                             <label class="form__group-heading">Thay đổi địa chỉ giao hàng</label>
-                            <p class="form__group-des">Thêm, chỉnh sửa thông tin địa chỉ giao hàng của bạn.</p>
+                            <p class="form__group-des">{{user.profile.address}}</p>
                         </div>
 
                         <i class="fa-solid fa-angle-right"></i>
@@ -243,6 +275,6 @@
         </div>
     </div>
 
-    <script src="{% static 'app/js/profile.js' %}"></script>
+    <script src="{% static 'app/js/account.js' %}"></script>
 </body>
 </html>

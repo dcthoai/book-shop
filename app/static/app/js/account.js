@@ -1,6 +1,4 @@
 
-
-
 var buttonControls = document.querySelectorAll('.personal .controls .nav__item');
 var items = document.querySelectorAll('.personal .details .wrapper');
 
@@ -49,3 +47,37 @@ formAvatarSubmit.onclick = function(){
         personalAvatar.src = formAvatarDemo.src;
     }
 };
+
+var formsGroup = document.querySelectorAll('.personal .wrapper__body .form__group');
+var formsGroupBox = document.querySelectorAll('.personal .wrapper__body .form__group-box');
+var formsChange = document.querySelectorAll('.personal .wrapper__body .form-change');
+
+formsGroup.forEach(function(item, index){
+    formsGroupBox[index].onclick = function(){
+        if(formsGroupBox[index].disabled == true)
+            return;
+
+        formsGroupBox[index].disabled = true;
+        setTimeout(function(){
+            formsGroupBox[index].disabled = false;
+        }, 320);
+
+        var isOpenFormChange = (formsGroupBox[index].style.marginBottom !== '0px');
+
+        if(isOpenFormChange){
+            isOpenFormChange = false;
+            formsChange[index].style.animation = 'close 0.3s ease forwards';
+            formsGroupBox[index].style.marginBottom = '0px';
+            formsGroup[index].querySelector('i').style.transform = 'translateY(-50%)';
+            setTimeout(function(){
+                formsChange[index].style.display = 'none';
+            }, 300);
+        } else {
+            isOpenFormChange = true;
+            formsGroup[index].querySelector('i').style.transform = 'translateY(-50%) rotate(90deg)';
+            formsChange[index].style.display = 'block';
+            formsChange[index].style.animation = 'open 0.3s ease forwards';
+            formsGroupBox[index].style.marginBottom = formsChange[index].offsetHeight + 'px';
+        }
+    }
+});

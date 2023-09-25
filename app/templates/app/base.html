@@ -1,6 +1,6 @@
 {% comment %} File base for the website {% endcomment %}
 {% load static %}
-<!-- hieu -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="{% static 'app/css/cart.css' %}"/>
     <link rel="stylesheet" href="{% static 'app/css/payment.css' %}"/>
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}"/>
-    <link rel="stylesheet" href="{% static 'app/css/search.css' %}"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
@@ -42,42 +41,6 @@
             return cookieValue;
         }
         const csrftoken = getCookie('csrftoken');
-    </script>
-
-    <script>
-
-        $(document).ready(function(){
-
-            function Search(query) {
-
-                if(query != '')
-
-                    window.location.href = '/search/' + query;
-
-            }
-
-            $('#search-input').keypress(function(event){
-
-                if(event.which == 13) {
-
-                    var data = $('#search-input').val();
-
-                    Search(data);
-
-                }
-
-            });
-
-            $('#search-button').click(function(event){
-
-                var data = $('#search-input').val();
-
-                    Search(data);
-
-            });
-
-        });
-
     </script>
 
 </head>
@@ -137,7 +100,7 @@
                                 <button type="button" class="change-avatar"><i class="fa-solid fa-camera"></i></button>
                             </div>
                             <div class="user__header-info">
-                                <div class="fullname">{{request.user.username}}</div>
+                                <div class="fullname">{{request.user.profile.fullname}}</div>
                                 <div class="username">@{{request.user.username}}</div>
                             </div>
                         </div>
@@ -188,6 +151,7 @@
     <script>
         var staticURL = '{% static "" %}';
     </script>
+    <script src="{% static 'app/js/search.js' %}"></script>
     <script src="{% static 'app/js/cart.js' %}"></script>
     <script src="{% static 'app/js/app.js' %}"></script>
     <script src="{% static 'app/js/validator.js' %}"></script>
