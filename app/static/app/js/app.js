@@ -1,8 +1,6 @@
 
 const formSignUpHtml = `
     <form action="" method="POST" id="form-1">
-        <h3 class="form-heading">Đăng ký</h3>
-
         <div class="form-group form-username">
             <label for="username" class="form-label">Tên đăng nhập</label>
             <input id="username" name="username" type="text" placeholder="VD: My name" class="form-control">
@@ -28,17 +26,11 @@ const formSignUpHtml = `
         </div>
 
         <button class="form-submit">Đăng ký</button>
-        <div class="form-trans">
-            <h4 class="form-trans__heading">Bạn đã có tài khoản?</h4>
-            <h4 class="form-trans__link" onclick="transFormSign()">Đăng nhập</h4>
-        </div>
     </form>
 `;
 
 const formSignInHtml = `
     <form action="" method="POST" id="form-1">
-        <h3 class="form-heading">Đăng nhập</h3>
-
         <div class="form-group form-name-account">
             <label for="name-account" class="form-label">Tài khoản</label>
             <input id="name-account" name="name-account" type="text" placeholder="Nhập username hoặc email của bạn" class="form-control">
@@ -52,10 +44,6 @@ const formSignInHtml = `
         </div>
 
         <button class="form-submit">Đăng nhập</button>
-        <div class="form-trans">
-            <h4 class="form-trans__heading">Bạn chưa có tài khoản?</h4>
-            <h4 class="form-trans__link" onclick="transFormSign()">Đăng ký</h4>
-        </div>
     </form>
 `;
 
@@ -70,8 +58,8 @@ signBtn.onclick = function(){
     if(isLoggedIn == false){
         isSignIn = true;
         formMain.style.display = 'block';
-        formMain.querySelector('.form__layer').innerHTML = formSignUpHtml;
-        validateSignUp();
+        formMain.querySelector('.form__layer').innerHTML = formSignInHtml;
+        validateSignIn();
     }
 }
 
@@ -79,17 +67,23 @@ formCloseBtn.onclick = function(){
     formMain.style.display = 'none';
 }
 
-function transFormSign(){
-    if(isSignIn){
-        formMain.querySelector('.form__layer').innerHTML = formSignInHtml;
-        validateSignIn();
-        isSignIn = false;
-    }else{
-        formMain.querySelector('.form__layer').innerHTML = formSignUpHtml;
-        validateSignUp();
-        isSignIn = true;
-    }
-}
+var formTrans = formMain.querySelectorAll('.form__nav-btn');
+
+formTrans[0].addEventListener('click', function(){
+    formMain.querySelector('.form__layer').innerHTML = formSignInHtml;
+    formTrans[0].classList.add('active');
+    formTrans[1].classList.remove('active');
+    validateSignIn();
+    isSignIn = true;
+});
+
+formTrans[1].addEventListener('click', function(){
+    formMain.querySelector('.form__layer').innerHTML = formSignUpHtml;
+    formTrans[1].classList.add('active');
+    formTrans[0].classList.remove('active');
+    validateSignUp();
+    isSignIn = false;
+});
 
 var validateSignUp = function(){
     Validator({
