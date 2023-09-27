@@ -87,7 +87,7 @@ body{
   height: 100%;
   border-radius: 18px;
   border: none;
-  text-indent: 16px;
+  text-indent: 24px;
   flex: 1;
 }
 
@@ -720,22 +720,77 @@ body{
   padding-bottom: 24px;
 }
 
+.content .content__header{
+  width: 100%;
+  height: 48px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content .content__heading{
+  flex: 1;
+  height: 32px;
+  line-height: 32px;
+  text-align: left;
+  font-size: 24px;
+  font-weight: 300;
+  color: #747474;
+}
+
+.content .content__header .content__filter{
+  display: flex;
+  height: 30px;
+}
+
+.content .content__header .content__filter h4{
+  text-align: left;
+  font-size: 20px;
+  font-weight: 300;
+  color: #313131;
+  line-height: 30px;
+}
+
+.content .content__header .content__filter-input{
+  width: 200px;
+  height: 100%;
+  margin: 0 12px;
+}
+
+.content .content__header .filter-category{
+  width: 100%;
+  height: 100%;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  text-indent: 6px;
+  font-family: 'Mooli', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.content .content__header .content__filter-btn{
+  width: 90px;
+  height: 30px;
+  background-color: #fa0000;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.content .content__header .content__filter-btn:hover{
+  cursor: pointer;
+  opacity: 0.8;
+}
+
 .content .wrapper{
   padding: 0 16px;
   max-width: 100%;
   display: flex;
   flex-wrap: wrap;
 }
-
-.content .content__heading{
-  text-align: left;
-  font-size: 24px;
-  font-weight: 300;
-  color: #747474;
-  margin: 32px;
-  margin-left: 48px;
-}
-
 .content .book{
   width: 160px;
   min-width: calc(16.66667% - 16px);

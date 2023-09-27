@@ -32,22 +32,29 @@
 
     {% comment %} Most searched product suggestions {% endcomment %}
     <div class="content">
-        <h2 class="content__heading">Tìm kiếm hàng đầu</h2>
+        <div class="content__header">
+            <h2 class="content__heading">Nổi bật</h2>
+
+            <div class="content__filter">
+                <h4>Danh mục</h4>
+                <div class="content__filter-input">
+                    <select class="filter-category" name="category">
+                        <option value="category0">Nổi bật</option>
+                        <option value="category1">Sách văn học</option>
+                        <option value="category2">Sách kinh tế</option>
+                        <option value="category3">Sách thiếu nhi</option>
+                        <option value="category4">Sách giáo khoa</option>
+                        <option value="category5">Sách ngoại ngữ</option>
+                        <option value="category6">Tâm lý - kĩ năng sống</option>
+                        <option value="category7">Tiểu sử - hồi ký</option>
+                    </select>
+                </div>
+                <button class="content__filter-btn" type="button" id="filter-btn">Tìm kiếm</button>
+            </div>
+        </div>
 
         <div class="wrapper grid">
-            {% for product in products %}
-                <div class="book">
-                    <a href="{% url 'book' product.slugName %}" class="book__link">
-                        <div class="book__img" style="background-image: url({{product.imageURL}});"></div>
-                        <div class="book__info">
-                            <h4 class="info__name">{{product.name}}</h4>
-                            <h4 class="info__price"><del>{{product.cost}}đ</del>  {{product.price}}đ</h4>
-                        </div>
-                    </a>
-
-                    <button type="button" data-product="{{product.id}}" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
-                </div>
-            {% endfor %}
+            {% comment %} List product {% endcomment %}
         </div>
 
         <div class="content__more">
@@ -55,6 +62,7 @@
         </div>
     </div>
 
+    <script src="{% static 'app/js/cart.js' %}"></script>
     <script src="{% static 'app/js/home.js' %}"></script>
 
 {% endblock content%}
