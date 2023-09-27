@@ -66,40 +66,86 @@ var isLoggedIn = false;
 var isSignIn;
 var signBtn = document.getElementById('sign-btn');
 var formMain = document.getElementById('form-main');
+var formLayer = formMain.querySelector('.form__layer');
 var formCloseBtn = formMain.querySelector('.form__close-btn');
+var formNav = formMain.querySelector('.form__nav');
+var formTrans = formMain.querySelectorAll('.form__nav-btn');
 var userBtn = document.getElementById('user-btn');
+var formUser = document.getElementById('user-form');
 
+// Open form sign in/up when user do not logged in
 signBtn.onclick = function(){
     if(isLoggedIn == false){
         isSignIn = true;
         formMain.style.display = 'block';
-        formMain.querySelector('.form__layer').innerHTML = formSignInHtml;
+        formLayer.innerHTML = formSignInHtml;
         validateSignIn();
     }
 }
 
+// Close form sign in/up
 formCloseBtn.onclick = function(){
     formMain.style.display = 'none';
 }
 
-var formTrans = formMain.querySelectorAll('.form__nav-btn');
-
-formTrans[0].addEventListener('click', function(){
-    formMain.querySelector('.form__layer').innerHTML = formSignInHtml;
+// Function switch to form Sign In
+function viewSignIn(){
+    formNav.style.display = 'block';
+    formLayer.style.marginTop = '0px';
+    formLayer.innerHTML = formSignInHtml;
     formTrans[0].classList.add('active');
     formTrans[1].classList.remove('active');
     validateSignIn();
     isSignIn = true;
-});
+}
 
-formTrans[1].addEventListener('click', function(){
-    formMain.querySelector('.form__layer').innerHTML = formSignUpHtml;
+// Function switch to form Sign Up
+function viewSignUp(){
+    formNav.style.display = 'block';
+    formLayer.style.marginTop = '0px';
+    formLayer.innerHTML = formSignUpHtml;
     formTrans[1].classList.add('active');
     formTrans[0].classList.remove('active');
     validateSignUp();
     isSignIn = false;
+}
+
+function loginSuccess(){
+    formMain.style.display = 'none';
+    signBtn.style.display = 'none';
+    userBtn.style.display = 'block';
+    localStorage.setItem('isLoggedIn', 'true');
+    setTimeout(function(){
+        location.reload();
+        alert('Đăng nhập thành công.')
+    }, 500);
+}
+
+function loginFailed(){
+    alert("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin tài khoản.");
+}
+
+function signUpSuccess(){
+    alert("Đăng ký thành công.");
+    viewSignIn();
+    validateSignIn();
+}
+
+function signUpFailed(){
+    alert('Đăng ký thất bại. Mã xác thực sai hoặc hết thời gian hiệu lực, vui lòng thử lại.');
+}
+
+// Switch to form Sign In
+formTrans[0].addEventListener('click', function(){
+    viewSignIn();
 });
 
+// Switch to form Sign Up
+formTrans[1].addEventListener('click', function(){
+    viewSignUp();
+});
+
+// Check the standard data format for the form Sign Up
 var validateSignUp = function(){
     Validator({
         form: '#form-1',
@@ -117,29 +163,35 @@ var validateSignUp = function(){
             }, 'Mật khẩu nhập lại chưa chính xác.')
         ],
         onSubmit: function(data){
-            verify(data);
+            fetch('/register/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success){
+                    alert('Yêu cầu đăng ký tài khoản của bạn đã được gửi đi, vui lòng đợi giây lát');
+                    verify();
+                } else {
+                    alert('Gửi yêu cầu thất bại, vui lòng thử lại.');
+                }
+            })
+            .catch((error) => {
+                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+                console.error('Error:', error);
+            });
         }
     });
 }
 
-function verify(data){
-    formMain.querySelector('.form__layer').innerHTML = formVerifyHtml;
-    formMain.querySelector('.form__layer').style.marginTop = '60px';
-    formMain.querySelector('.form__nav').style.display = 'none';
-
-    fetch('/register/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {        
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+// Verify account registration code
+function verify(){
+    formLayer.innerHTML = formVerifyHtml;
+    formLayer.style.marginTop = '60px';
+    formNav.style.display = 'none';
 
     var submitVerify = formMain.querySelector('.form__verify .form__verify-submit');
     var cancelVerify = formMain.querySelector('.form__verify .form__verify-cancel');
@@ -158,30 +210,25 @@ function verify(data){
         })
         .then(reponse => reponse.json())
         .then(data => {
-            isSignIn = true;
-            formMain.querySelector('.form__nav').style.display = 'block';
-            formMain.querySelector('.form__layer').style.marginTop = '0px';
-            formMain.querySelector('.form__layer').innerHTML = formSignInHtml;
-            formTrans[0].classList.add('active');
-            formTrans[1].classList.remove('active');
-            validateSignIn();
+            if(data.success){
+                signUpSuccess();
+            } else {
+                signUpFailed();
+            }
         })
         .catch((error) => {
+            alert('Có lỗi xảy ra, vui lòng thử lại sau.');
             console.error('Error:', error);
         })
     });
 
     cancelVerify.addEventListener('click', function(){
-        isSignIn = false;
-        formMain.querySelector('.form__nav').style.display = 'block';
-        formMain.querySelector('.form__layer').style.marginTop = '0px';
-        formMain.querySelector('.form__layer').innerHTML = formSignUpHtml;
-        formTrans[1].classList.add('active');
-        formTrans[0].classList.remove('active');
+        viewSignUp();
         validateSignUp();
     });
 }
 
+// Check the standard data format for the form Sign In
 var validateSignIn = function(){
     Validator({
         form: '#form-1',
@@ -203,86 +250,21 @@ var validateSignIn = function(){
             })
             .then(response => response.json())
             .then(data => {
-                if (data.message === 'User logged in successfully') {
+                if (data.success) {
                     loginSuccess();
+                    validateSignIn();
                 }else{
-                    alert("Email hoặc mật khẩu chưa đúng.");
+                    loginFailed();
                 }
             })
             .catch((error) => {
+                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
                 console.error('Error:', error);
             });
         }
     });
 }
 
-var moreBook = document.querySelector("#more-book-btn");
-
-if(moreBook){
-    moreBook.onclick = function(){
-        var content = document.querySelector(".content .wrapper");
-
-        for(var i=0; i<10; ++i){
-            content.insertAdjacentHTML('beforeend', `
-                <div class="book">
-                    <a href="" class="book__link">
-                        <div class="book__img" style="background-image: url(${staticURL}app/images/shin.jpg);"></div>
-                        <div class="book__info">
-                            <h4 class="info__name">Mua sách đê các bạn ơi. Giảm giá 50%</h4>
-                            <h4 class="info__price">9.000đ</h4>
-                        </div>
-                    </a>
-
-                    <button data-product="" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
-                </div>
-            `);
-        }
-    }
-}
-
-function loginSuccess(){
-    formMain.style.display = 'none';
-    signBtn.style.display = 'none';
-    userBtn.style.display = 'block';
-    localStorage.setItem('isLoggedIn', 'true');
-    setTimeout(function() {
-        location.reload();
-    }, 1000);
-}
-
-window.addEventListener = ('load', function() {
-    var isLoggedIn = localStorage.getItem('isLoggedIn');
-    if (isLoggedIn === 'true') {
-        formMain.style.display = 'none';
-        signBtn.style.display = 'none';
-        userBtn.style.display = 'block';
-        userBtn.onclick = function(event){
-            event.stopPropagation();
-            getFormUser();
-        }
-    }else{
-        signBtn.style.display = 'block';
-        isLoggedIn = false
-        localStorage.setItem('isLoggedIn', 'false');
-    }
-});
-
-function loginFailed(){
-    alert("Đăng nhập thất bại.");
-    location.reload();
-}
-
-function signUpSuccess(){
-    alert("Đăng ký thành công.");
-    location.reload();
-}
-
-function signUpFailed() {
-    alert("Đăng ký thất bại.");
-    location.reload();
-}
-
-var formUser = document.getElementById('user-form');
 function getFormUser(){
     if(formUser.style.display == 'block'){
         formUser.style.display = 'none';
@@ -309,13 +291,30 @@ function getFormUser(){
     }
 }
 
-window.onclick = function(event){
+window.addEventListener = ('load', function() {
+    var isLoggedIn = localStorage.getItem('isLoggedIn');
+    if (isLoggedIn === 'true') {
+        formMain.style.display = 'none';
+        signBtn.style.display = 'none';
+        userBtn.style.display = 'block';
+        userBtn.onclick = function(event){
+            event.stopPropagation();
+            getFormUser();
+        }
+    }else{
+        signBtn.style.display = 'block';
+        isLoggedIn = false
+        localStorage.setItem('isLoggedIn', 'false');
+    }
+});
+
+window.addEventListener('click', function(event){
     if(formUser.style.display == 'block'){
         if(event.target != formUser && event.target != userBtn) {
             formUser.style.display = 'none';
         }
     }
-}
+});
 
 window.addEventListener('load', function(){
     var content = document.querySelector('.content__product .product-info .info__decription .info__decription-content');
@@ -345,3 +344,28 @@ window.addEventListener('load', function(){
         }
     });
 });
+
+
+var moreBook = document.querySelector("#more-book-btn");
+
+if(moreBook){
+    moreBook.onclick = function(){
+        var content = document.querySelector(".content .wrapper");
+
+        for(var i=0; i<10; ++i){
+            content.insertAdjacentHTML('beforeend', `
+                <div class="book">
+                    <a href="" class="book__link">
+                        <div class="book__img" style="background-image: url(${staticURL}app/images/shin.jpg);"></div>
+                        <div class="book__info">
+                            <h4 class="info__name">Mua sách đê các bạn ơi. Giảm giá 50%</h4>
+                            <h4 class="info__price">9.000đ</h4>
+                        </div>
+                    </a>
+
+                    <button data-product="" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
+                </div>
+            `);
+        }
+    }
+}

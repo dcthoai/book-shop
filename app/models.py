@@ -13,11 +13,11 @@ class Profile(models.Model):
 
     @property
     def avatarURL(self):
-        url = 'static/app/images/avatar-icon.png'
+        url = '/static/app/images/avatar-icon.png'
         try:
             url = self.avatar.url
         except:
-            url = 'static/app/images/avatar-icon.png'
+            url = '/static/app/images/avatar-icon.png'
         return url
 
 class Product(models.Model):

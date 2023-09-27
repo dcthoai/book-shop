@@ -51,7 +51,7 @@ def register(request):
         request.session['verify_code'] = verifyCode
         request.session['code_time'] = datetime.datetime.now().timestamp()
 
-        return JsonResponse({'message': 'Verification code sent, please check your email. The code will expire in 3 minutes.'}, status=200)
+        return JsonResponse({'success': 'Verification code sent, please check your email. The code will expire in 3 minutes.'}, status=200)
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
@@ -80,7 +80,7 @@ def verify(request):
             del request.session['verify_code']
             del request.session['code_time']
 
-            return JsonResponse({'message': 'User created successfully'}, status=201)
+            return JsonResponse({'success': 'User created successfully'}, status=201)
         else:
             return JsonResponse({'error': 'Invalid verification code'}, status=400)
     else:
@@ -103,7 +103,7 @@ def signIn(request):
 
         if user.check_password(password):
             login(request, user)
-            return JsonResponse({'message': 'User logged in successfully'}, status=200)
+            return JsonResponse({'success': 'User logged in successfully'}, status=200)
         else:
             return JsonResponse({'error': 'Invalid username/email or password'}, status=400)
     else:
