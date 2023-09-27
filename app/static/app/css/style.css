@@ -551,6 +551,70 @@ body{
   background-color: #1ae0cc;
 }
 
+.form-main .form__layer .form__verify{
+  width: 100%;
+}
+
+.form-main .form__layer .form__verify-heading{
+  width: 100%;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2d2d2d;
+  line-height: 26px;
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.form-main .form__layer .form__verify-noti{
+  font-family: 'Mooli', sans-serif;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 300;
+  color: #5b5b5b;
+  line-height: 22px;
+  text-align: left;
+}
+
+.form-main .form__layer .form__verify-input{
+  width: calc(100% - 64px);
+  height: 40px;
+  margin: 32px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 18px;
+  text-indent: 12px;
+}
+
+.form-main .form__layer .form__verify-wrapper{
+  width: 100%;
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-main .form__layer .form__verify-cancel{
+  width: calc(50% - 8px);
+  height: 40px;
+  background-color: #ff0000;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.form-main .form__layer .form__verify-submit{
+  width: calc(50% - 8px);
+  background-color: #1ae0cc;
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
 /* Slider */
 
 .slider{

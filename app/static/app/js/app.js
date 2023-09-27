@@ -47,6 +47,21 @@ const formSignInHtml = `
     </form>
 `;
 
+const formVerifyHtml = `
+    <form action="" method="POST" class="form__verify">
+        <h4 class="form__verify-heading">Nhập mã xác thực được gửi tới email của bạn</h4>
+        <p class="form__verify-noti">Nếu bạn không thấy email xác nhận trong hòm thư của mình, 
+            hãy thử kiểm tra mục thư spam hoặc kiểm tra lại tên email đã nhập đúng chưa và thử lại.
+        </p>
+
+        <input type="text" name="verify_code" class="form__verify-input" placeholder="Nhập mã xác nhận gồm 6 chữ số">
+        <div class="form__verify-wrapper">
+            <button type="button" class="form__verify-cancel">Quay lại</button>
+            <button type="button" class="form__verify-submit">Xác nhận</button>
+        </div>
+    </form>
+`;
+
 var isLoggedIn = false;
 var isSignIn;
 var signBtn = document.getElementById('sign-btn');
@@ -102,23 +117,68 @@ var validateSignUp = function(){
             }, 'Mật khẩu nhập lại chưa chính xác.')
         ],
         onSubmit: function(data){
-            // Call API
-            fetch('/register/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-            .then(response => response.json())
-            .then(data => {
-                isSignIn = true;
-                transFormSign();
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+            verify(data);
         }
+    });
+}
+
+function verify(data){
+    formMain.querySelector('.form__layer').innerHTML = formVerifyHtml;
+    formMain.querySelector('.form__layer').style.marginTop = '60px';
+    formMain.querySelector('.form__nav').style.display = 'none';
+
+    fetch('/register/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {        
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+
+    var submitVerify = formMain.querySelector('.form__verify .form__verify-submit');
+    var cancelVerify = formMain.querySelector('.form__verify .form__verify-cancel');
+
+    submitVerify.addEventListener('click', function(){
+        var dataVerify = {};
+        var inputElement = document.querySelector('#form-main input[name="verify_code"]');
+        dataVerify[inputElement.name] = inputElement.value;
+
+        fetch('/verify/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataVerify),
+        })
+        .then(reponse => reponse.json())
+        .then(data => {
+            isSignIn = true;
+            formMain.querySelector('.form__nav').style.display = 'block';
+            formMain.querySelector('.form__layer').style.marginTop = '0px';
+            formMain.querySelector('.form__layer').innerHTML = formSignInHtml;
+            formTrans[0].classList.add('active');
+            formTrans[1].classList.remove('active');
+            validateSignIn();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        })
+    });
+
+    cancelVerify.addEventListener('click', function(){
+        isSignIn = false;
+        formMain.querySelector('.form__nav').style.display = 'block';
+        formMain.querySelector('.form__layer').style.marginTop = '0px';
+        formMain.querySelector('.form__layer').innerHTML = formSignUpHtml;
+        formTrans[1].classList.add('active');
+        formTrans[0].classList.remove('active');
+        validateSignUp();
     });
 }
 
