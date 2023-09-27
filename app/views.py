@@ -4,16 +4,17 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt # disable django's verifier (Cross-Site Request Forgery Exempt)
-from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome, Profile
-import json
 from django.db.models.signals import post_save
+from django.forms.models import model_to_dict
 from django.dispatch import receiver
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome, Profile
 import unidecode
 import smtplib
 import random
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 import datetime
+import json
 
 EXPIRATION_TIME = 3 * 60  # 3 minutes
 
@@ -216,3 +217,16 @@ def account(request):
         user = None
     context = {'user': user}
     return render(request, 'app/account.html', context)
+
+# API get list product for homepage
+def productsApi(request):
+    start = int(request.GET.get('start', 0))
+    products = Product.objects.all()[start:start+18]
+
+    product_list = []
+    for product in products:
+        product_dict = model_to_dict(product, exclude=["image"])  # remove image field
+        product_dict['imageURL'] = product.imageURL  # add URL image
+        product_list.append(product_dict)
+
+    return JsonResponse(product_list, safe=False)

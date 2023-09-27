@@ -1,4 +1,5 @@
 
+// Hide and show detailed product information
 var content = document.querySelector('.content__product .product-info .info__decription .info__decription-content');
 var btn = document.getElementById('toggleDesBook');
 
@@ -30,6 +31,7 @@ if(isTextTooLong){
     content.innerHTML = fullText;
 }
 
+// Animation slider for suggest products
 var bookSuggest = document.querySelector('.suggest .suggest__content');
 var suggestWrapper = document.querySelector('.suggest .suggest__content .wrapper');
 const prevSuggest = document.getElementById('prev-suggest');
@@ -82,3 +84,4 @@ nextSuggest.addEventListener('mouseleave', function(){
     nextSuggest.style.color = '#000';
 })
 
+addCartEventListeners();

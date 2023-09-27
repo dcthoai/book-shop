@@ -95,3 +95,42 @@ document.addEventListener('DOMContentLoaded', function(){
 
     startSlider();
 });
+
+// Load product
+var start = 0;
+var content = document.querySelector('.content .wrapper');
+var moreBook = document.getElementById('more-book-btn');
+
+function fetchProducts() {
+    fetch(`/api/products?start=${start}`)
+        .then(response => response.json())
+        .then(products => {
+            if (products.length === 0){
+                return;
+            }
+            let productHTML = products.map(product => `
+                <div class="book">
+                    <a href="/book/${product.slugName}" class="book__link">
+                        <div class="book__img" style="background-image: url(${product.imageURL});"></div>
+                        <div class="book__info">
+                            <h4 class="info__name">${product.name}</h4>
+                            <h4 class="info__price"><del>${product.cost}đ</del>  ${product.price}đ</h4>
+                        </div>
+                    </a>
+
+                    <button type="button" data-product="${product.id}" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
+                </div>
+            `).join('');
+
+            content.innerHTML += productHTML;
+
+            addCartEventListeners();
+            start += 18;
+        });
+}
+
+fetchProducts();
+
+moreBook.onclick = function(){
+    fetchProducts();
+}

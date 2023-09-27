@@ -344,28 +344,3 @@ window.addEventListener('load', function(){
         }
     });
 });
-
-
-var moreBook = document.querySelector("#more-book-btn");
-
-if(moreBook){
-    moreBook.onclick = function(){
-        var content = document.querySelector(".content .wrapper");
-
-        for(var i=0; i<10; ++i){
-            content.insertAdjacentHTML('beforeend', `
-                <div class="book">
-                    <a href="" class="book__link">
-                        <div class="book__img" style="background-image: url(${staticURL}app/images/shin.jpg);"></div>
-                        <div class="book__info">
-                            <h4 class="info__name">Mua sách đê các bạn ơi. Giảm giá 50%</h4>
-                            <h4 class="info__price">9.000đ</h4>
-                        </div>
-                    </a>
-
-                    <button data-product="" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
-                </div>
-            `);
-        }
-    }
-}
