@@ -30,6 +30,23 @@ class Product(models.Model):
     description = models.CharField(default='Người bán chưa cung cấp thông tin mô tả sản phẩm.', max_length=3000, null=True, blank=True)
     slugName = models.SlugField(unique=True, null=True, blank=True)
     
+    CATEGORY_CHOICES = [
+        ('category0', 'Nổi bật'),
+        ('category1', 'Sách văn học'),
+        ('category2', 'Sách kinh tế'),
+        ('category3', 'Sách thiếu nhi'),
+        ('category4', 'Sách giáo khoa'),
+        ('category5', 'Sách ngoại ngữ'),
+        ('category6', 'Tâm lý - kĩ năng sống'),
+        ('category7', 'Tiểu sử - hồi ký'),
+    ]
+
+    category = models.CharField(
+        max_length=30,
+        choices=CATEGORY_CHOICES,
+        default='category0',
+    )
+    
     def save(self, *args, **kwargs):
         if self.name:
             self.slugName = unidecode.unidecode(self.name)
@@ -94,4 +111,4 @@ class ShippingAddress(models.Model):
 
 class SliderHome(models.Model):
     image = models.ImageField(upload_to='sliders', null=True, blank=True)
-    url = models.CharField(default='', max_length=200 ,null=True, blank=True)
+    url = models.CharField(default='/', max_length=200 ,null=True, blank=True)

@@ -32,7 +32,26 @@
 
     {% comment %} Most searched product suggestions {% endcomment %}
     <div class="content">
-        <h2 class="content__heading">Nổi bật</h2>
+        <div class="content__header">
+            <h2 class="content__heading">Nổi bật</h2>
+
+            <div class="content__filter">
+                <h4>Danh mục</h4>
+                <div class="content__filter-input">
+                    <select class="filter-category" name="category">
+                        <option value="category0">Nổi bật</option>
+                        <option value="category1">Sách văn học</option>
+                        <option value="category2">Sách kinh tế</option>
+                        <option value="category3">Sách thiếu nhi</option>
+                        <option value="category4">Sách giáo khoa</option>
+                        <option value="category5">Sách ngoại ngữ</option>
+                        <option value="category6">Tâm lý - kĩ năng sống</option>
+                        <option value="category7">Tiểu sử - hồi ký</option>
+                    </select>
+                </div>
+                <button class="content__filter-btn" type="button" id="filter-btn">Tìm kiếm</button>
+            </div>
+        </div>
 
         <div class="wrapper grid">
             {% comment %} List product {% endcomment %}
