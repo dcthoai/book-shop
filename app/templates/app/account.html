@@ -97,7 +97,7 @@
                             <div class="form__heading">Thay đổi họ tên:</div>
                             <div class="form__body">
                                 <input type="text" class="form__body-input" name="fullname">
-                                <button type="button" id="change-fullname" class="form__body-submit">Lưu</button>
+                                <button type="button" class="form__body-submit">Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                             <div class="form__heading">Thay đổi tên đăng nhập:</div>
                             <div class="form__body">
                                 <input type="text" class="form__body-input" name="username">
-                                <button type="button" id="change-username" class="form__body-submit">Lưu</button>
+                                <button type="button" class="form__body-submit">Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                             <div class="form__heading">Thay đổi Email:</div>
                             <div class="form__body">
                                 <input type="text" class="form__body-input" name="email">
-                                <button type="button" id="change-email" class="form__body-submit">Lưu</button>
+                                <button type="button" class="form__body-submit">Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                             <div class="form__heading">Thay đổi Số điện thoại:</div>
                             <div class="form__body">
                                 <input type="text" class="form__body-input" name="phone-number">
-                                <button type="button" id="change-phone-number" class="form__body-submit">Lưu</button>
+                                <button type="button" class="form__body-submit">Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -180,11 +180,12 @@
 
                         <i class="fa-solid fa-angle-right"></i>
 
-                        <div class="form-change">
-                            <div class="form__heading">Thay đổi Số điện thoại:</div>
+                        <div class="form-change form-change-password">
+                            <div class="form__heading">Thay đổi mật khẩu:</div>
                             <div class="form__body">
-                                <input type="text" class="form__body-input" name="phone-number">
-                                <button type="button" id="change-phone-number" class="form__body-submit">Lưu</button>
+                                <input type="text" class="form__body-input" name="password" placeholder="Nhập mật khẩu tài khoản">
+                                <input type="text" class="form__body-input" name="new-password" placeholder="Nhập mật khẩu mới">
+                                <button type="button" class="form__body-submit">Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -200,13 +201,13 @@
                         <i class="fa-solid fa-angle-right"></i>
 
                         <div class="form-change">
-                            <div class="form__heading">Thay đổi Số điện thoại:</div>
+                            <div class="form__heading">Lấy lại mật khẩu:</div>
                             <div class="form__body">
-                                <input type="text" class="form__body-input" name="phone-number">
-                                <button type="button" id="change-phone-number" class="form__body-submit">Lưu</button>
+                                <input type="text" class="form__body-input" name="forgot-pasword" placeholder="Nhập email của tài khoản.">
+                                <button type="button" class="form__body-submit">Lưu</button>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
 
@@ -220,25 +221,6 @@
                 </div>
 
                 <div class="wrapper__body">
-                    <!-- Form payment method -->
-                    <div class="form__group">
-                        <div class="form__group-box" style="margin-bottom: 0px;">
-                            <label class="form__group-heading">Thêm phương thức thanh toán</label>
-                            <p class="form__group-des">Thêm, sửa phương thức thanh toán mặc định của bạn.</p>
-                        </div>
-
-                        <i class="fa-solid fa-angle-right"></i>
-
-                        <div class="form-change">
-                            <div class="form__heading">Thay đổi Số điện thoại:</div>
-                            <div class="form__body">
-                                <input type="text" class="form__body-input" name="phone-number">
-                                <button type="button" id="change-phone-number" class="form__body-submit">Lưu</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-
                     <!-- Form shipping address -->
                     <div class="form__group">
                         <div class="form__group-box" style="margin-bottom: 0px;">
@@ -249,10 +231,10 @@
                         <i class="fa-solid fa-angle-right"></i>
 
                         <div class="form-change">
-                            <div class="form__heading">Thay đổi Số điện thoại:</div>
+                            <div class="form__heading">Thay đổi địa chỉ giao hàng:</div>
                             <div class="form__body">
-                                <input type="text" class="form__body-input" name="phone-number">
-                                <button type="button" id="change-phone-number" class="form__body-submit">Lưu</button>
+                                <input type="text" class="form__body-input" name="new-address">
+                                <button type="button" class="form__body-submit">Lưu</button>
                             </div>
                         </div>
                     </div>

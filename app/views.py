@@ -16,6 +16,10 @@ import smtplib
 import random
 import datetime
 import json
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.core.files import File
 
 EXPIRATION_TIME = 3 * 60  # 3 minutes
 
@@ -25,10 +29,10 @@ EXPIRATION_TIME = 3 * 60  # 3 minutes
 def register(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-
-        # Create a random code
-        verifyCode = ''.join(random.choices('0123456789', k=6))
-
+        if User.objects.filter(username=data['username']).exists():
+            return JsonResponse({'error': 'Username đã tồn tại, vui lòng sử dụng một tên khác.'})
+        
+        verifyCode = ''.join(random.choices('0123456789', k=6)) # Create a random code
         senderEmail = 'dcthoai1023@gmail.com'
         senderPassword = 'nyitsxfirfuskyat'
         receiverEmail = data['email']
@@ -44,7 +48,6 @@ def register(request):
         session = smtplib.SMTP('smtp.gmail.com', 587)  # Used gmail with port 587
         session.starttls()
         session.login(senderEmail, senderPassword)
-
         session.sendmail(senderEmail, receiverEmail, message.as_string())
         session.quit()
 
@@ -53,9 +56,9 @@ def register(request):
         request.session['verify_code'] = verifyCode
         request.session['code_time'] = datetime.datetime.now().timestamp()
 
-        return JsonResponse({'success': 'Verification code sent, please check your email. The code will expire in 3 minutes.'}, status=200)
+        return JsonResponse({'success': 'Mã xác thực đã được gửi, vui lòng kiểm tra email. Mã này có hiệu lực trong vòng 3 phút.'}, status=200)
     else:
-        return JsonResponse({'error': 'Invalid request'}, status=400)
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
 
 @csrf_exempt
 def verify(request):
@@ -67,7 +70,7 @@ def verify(request):
                 del request.session['user_data']
                 del request.session['verify_code']
                 del request.session['code_time']
-                return JsonResponse({'error': 'Verification code expired'}, status=400)
+                return JsonResponse({'error': 'Mã xác nhận này đã hết hạn.'}, status=400)
 
             user_data = request.session['user_data']
             user = User.objects.create_user(
@@ -82,11 +85,11 @@ def verify(request):
             del request.session['verify_code']
             del request.session['code_time']
 
-            return JsonResponse({'success': 'User created successfully'}, status=201)
+            return JsonResponse({'success': 'Tạo tài khoản thành công.'}, status=201)
         else:
-            return JsonResponse({'error': 'Invalid verification code'}, status=400)
+            return JsonResponse({'error': 'Mã xác nhận không hợp lệ.'}, status=400)
     else:
-        return JsonResponse({'error': 'Invalid request'}, status=400)
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
 
 @csrf_exempt
 def signIn(request):
@@ -101,20 +104,20 @@ def signIn(request):
             else:
                 user = User.objects.get(username=account)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'Invalid username/email or password'}, status=400)
+            return JsonResponse({'error': 'Tên tài khoản này không tồn tại.'}, status=400)
 
         if user.check_password(password):
             login(request, user)
-            return JsonResponse({'success': 'User logged in successfully'}, status=200)
+            return JsonResponse({'success': 'Đăng nhập thành công.'}, status=200)
         else:
-            return JsonResponse({'error': 'Invalid username/email or password'}, status=400)
+            return JsonResponse({'error': 'Mật khẩu sai.'}, status=400)
     else:
-        return JsonResponse({'error': 'Invalid request'}, status=400)
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
 
 @csrf_exempt
 def signOut(request):
     logout(request)
-    return JsonResponse({'message': 'User logged out successfully'}, status=200)
+    return JsonResponse({'success': 'Đăng xuất thành công.'}, status=200)
 
 # Load Home page
 def home(request):
@@ -238,24 +241,30 @@ def updateAccount(request):
         data = json.loads(request.body)
         try:
             user = User.objects.get(id=data['userId'])
+
             if 'username' in data:
+                if User.objects.filter(username=data['username']).exists():
+                    return JsonResponse({'error': 'Username đã tồn tại, vui lòng sử dụng một tên khác.'})
+
                 setattr(user, 'username', data['username'])
                 user.save()
-                return JsonResponse({'status': 'success'})
+                return JsonResponse({'success': 'Username đã được cập nhật.'})
+
             elif 'fullname' in data:
                 setattr(user.profile, 'fullname', data['fullname'])
                 user.profile.save()
-                return JsonResponse({'status': 'success'})
+                return JsonResponse({'success': 'Tên của bạn đã được cập nhật.'})
+
             elif 'phone-number' in data:
                 if len(data['phone-number']) == 10 and data['phone-number'].isdigit():
                     setattr(user.profile, 'phoneNumber', data['phone-number'])
                     user.profile.save()
-                    return JsonResponse({'status': 'success'})
+                    return JsonResponse({'success': 'Số điện thoại đã được cập nhật.'})
                 else:
-                    return JsonResponse({'status': 'failed', 'error': 'Số điện thoại chưa đúng định dạng 10 chữ số.'})
+                    return JsonResponse({'error': 'Số điện thoại chưa đúng định dạng (chỉ gồm 10 kí tự số).'})
+
             elif 'email' in data:
                 verifyCode = ''.join(random.choices('0123456789', k=6))
-
                 senderEmail = 'dcthoai1023@gmail.com'
                 senderPassword = 'nyitsxfirfuskyat'
                 receiverEmail = data['email']
@@ -279,13 +288,13 @@ def updateAccount(request):
                 request.session['verify_code'] = verifyCode
                 request.session['code_time'] = datetime.datetime.now().timestamp()
 
-                return JsonResponse({'status': 'success'}, status=200)
+                return JsonResponse({'success': 'Mã xác thực đã được gửi đi, vui lòng kiểm tra email. Mã này có hiệu lực trong vòng 3 phút.'}, status=200)
             else:
-                return JsonResponse({'status': 'failed', 'error': 'Invalid data'})
+                return JsonResponse({'error': 'Dữ liệu không hợp lệ.'})
         except User.DoesNotExist:
-            return JsonResponse({'status': 'failed', 'error': 'User does not exist'})
+            return JsonResponse({'error': 'Tài khoản không tồn tại.'})
     else:
-        return JsonResponse({'status': 'failed', 'error': 'Invalid request method'})
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'})
 
 @csrf_exempt
 def getIdUser(request):
@@ -293,9 +302,9 @@ def getIdUser(request):
         if request.user.is_authenticated:
             return JsonResponse({'id': request.user.id})
         else:
-            return JsonResponse({'failed': 'User is not logged in'})
+            return JsonResponse({'error': 'Chưa có tài khoản nào đăng nhập.'})
     else:
-        return JsonResponse({'status': 'failed', 'error': 'Invalid request method'})
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'})
 
 @csrf_exempt
 def verifyChangeEmail(request):
@@ -307,7 +316,7 @@ def verifyChangeEmail(request):
                 del request.session['email']
                 del request.session['verify_code']
                 del request.session['code_time']
-                return JsonResponse({'error': 'Verification code expired'}, status=400)
+                return JsonResponse({'error': 'Mã xác thực hết hiệu lực.'}, status=400)
 
             userEmail = request.session['user_email']
             user = User.objects.get(id=data['userId'])
@@ -319,8 +328,23 @@ def verifyChangeEmail(request):
             del request.session['verify_code']
             del request.session['code_time']
 
-            return JsonResponse({'success': 'User created successfully'}, status=201)
+            return JsonResponse({'success': 'Email đã được cập nhật thành công.'}, status=201)
         else:
-            return JsonResponse({'error': 'Invalid verification code'}, status=400)
+            return JsonResponse({'error': 'Mã xác thực không hợp lệ.'}, status=400)
     else:
-        return JsonResponse({'error': 'Invalid request'}, status=400)
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
+
+@csrf_exempt
+@api_view(['POST'])
+def updateAvatar(request):
+    if request.method == 'POST':
+        if 'avatar' in request.FILES:
+            file = request.FILES['avatar']
+            user = request.user
+            user.profile.avatar.save(file.name, File(file), save=True)
+
+            return Response({'success': 'Avatar đã được cập nhật.'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Không tìm thấy file.'}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)

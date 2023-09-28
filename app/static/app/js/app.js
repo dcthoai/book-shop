@@ -116,29 +116,29 @@ function viewSignUp(){
     isSignIn = false;
 }
 
-function loginSuccess(){
+function loginSuccess(message){
     formMain.style.display = 'none';
     signBtn.style.display = 'none';
     userBtn.style.display = 'block';
     localStorage.setItem('isLoggedIn', 'true');
     setTimeout(function(){
         location.reload();
-        alert('Đăng nhập thành công.')
+        alert(message);
     }, 500);
 }
 
-function loginFailed(){
-    alert("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin tài khoản.");
+function loginFailed(message){
+    alert(message);
 }
 
-function signUpSuccess(){
-    alert("Đăng ký thành công.");
+function signUpSuccess(message){
+    alert(message);
     viewSignIn();
     validateSignIn();
 }
 
-function signUpFailed(){
-    alert('Đăng ký thất bại. Mã xác thực sai hoặc hết thời gian hiệu lực, vui lòng thử lại.');
+function signUpFailed(message){
+    alert(message);
 }
 
 // Switch to form Sign In
@@ -183,17 +183,17 @@ var validateSignUp = function(){
             .then(data => {
                 loaddingElement.style.display = 'none';
                 if(data.success){
-                    alert('Yêu cầu đăng ký tài khoản của bạn đã được gửi đi, vui lòng đợi giây lát');
-                    signBtn.click();
+                    alert(data.success);
                     verify();
                 } else {
-                    alert('Gửi yêu cầu thất bại, vui lòng thử lại.');
+                    signBtn.click();
+                    formTrans[1].click();
+                    alert(data.error);
                 }
             })
             .catch((error) => {
                 loaddingElement.style.display = 'none';
-                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
-                console.error('Error:', error);
+                alert(error);
             });
         }
     });
@@ -201,6 +201,7 @@ var validateSignUp = function(){
 
 // Verify account registration code
 function verify(){
+    signBtn.click();
     formLayer.innerHTML = formVerifyHtml;
     formLayer.style.marginTop = '60px';
     formNav.style.display = 'none';
@@ -225,15 +226,14 @@ function verify(){
         .then(data => {
             loaddingElement.style.display = 'none';
             if(data.success){
-                signUpSuccess();
+                signUpSuccess(data.success);
             } else {
-                signUpFailed();
+                signUpFailed(data.error);
             }
         })
         .catch((error) => {
             loaddingElement.style.display = 'none';
-            alert('Có lỗi xảy ra, vui lòng thử lại sau.');
-            console.error('Error:', error);
+            alert(error);
         })
     });
 
@@ -269,16 +269,15 @@ var validateSignIn = function(){
             .then(data => {
                 loaddingElement.style.display = 'none';
                 if (data.success) {
-                    loginSuccess();
+                    loginSuccess(data.success);
                     validateSignIn();
                 }else{
-                    loginFailed();
+                    loginFailed(data.error);
                 }
             })
             .catch((error) => {
                 loaddingElement.style.display = 'none';
-                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
-                console.error('Error:', error);
+                alert(error);
             });
         }
     });
@@ -290,6 +289,7 @@ function getFormUser(){
     }else{
         formUser.style.display = 'block';    
         var logoutBtn = formUser.querySelector('.user__logout-btn');
+
         logoutBtn.onclick = function(){
             loaddingElement.style.display = 'block';
 
@@ -310,7 +310,7 @@ function getFormUser(){
             })
             .catch((error) => {
                 loaddingElement.style.display = 'none';
-                console.error('Error:', error);
+                alert(error);
             });
         }
     }
@@ -322,8 +322,7 @@ window.addEventListener('load', function(){
         formMain.style.display = 'none';
         signBtn.style.display = 'none';
         userBtn.style.display = 'block';
-        userBtn.onclick = function(event){
-            event.stopPropagation();
+        userBtn.onclick = function(){
             getFormUser();
         }
     }else{

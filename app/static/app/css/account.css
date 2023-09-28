@@ -222,6 +222,24 @@ body{
     background-color: #f6fff4;
 }
 
+.personal .form-change.form-change-password .form__body{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 0;
+}
+
+.personal .form-change.form-change-password .form__body-input{
+    width: calc(100% - 120px);
+    margin-bottom: 16px;
+}
+
+.personal .form-change.form-change-password .form__body-submit{
+    position: absolute;
+    right: 48px;
+    bottom: 16px;
+}
+
 @keyframes open{
     from{
         transform: translateY(0);
@@ -440,9 +458,10 @@ body{
 .personal .form-main{
     position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 100;
-    width: 100vw;
-    height: 100vh;
     padding-top: 42px;
     background-color: #6666665c;
     display: none;
@@ -562,7 +581,7 @@ body{
     right: 0;
     bottom: 0;
     z-index: 101;
-    background-color: #acacac70;
+    background-color: #d9feff5e;
 }
 
 .loadding .loadding-content{
@@ -573,11 +592,11 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: transparent;
-    border: 4px solid #1ae0cc;
-    border-top: 2px solid transparent;
-    border-bottom: 2px solid transparent;
+    border: 4px solid #ff0000;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
     border-radius: 100%;
-    animation: loadding 0.6s ease forwards infinite;
+    animation: loadding 0.5s ease-in-out forwards infinite;
 }
 
 @keyframes loadding{
