@@ -4,11 +4,19 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt # disable django's verifier (Cross-Site Request Forgery Exempt)
-from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome, Profile
-import json
 from django.db.models.signals import post_save
+from django.forms.models import model_to_dict
 from django.dispatch import receiver
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome, Profile
 import unidecode
+import smtplib
+import random
+import datetime
+import json
+
+EXPIRATION_TIME = 3 * 60  # 3 minutes
 
 # Create your views here.
 # Handle send and receive new user account registration information
@@ -16,13 +24,66 @@ import unidecode
 def register(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        user = User.objects.create_user(
-            username=data['username'],
-            email=data['email'],
-            password=data['password']
-        )
-        user.save()
-        return JsonResponse({'message': 'User created successfully'}, status=201)
+
+        # Create a random code
+        verifyCode = ''.join(random.choices('0123456789', k=6))
+
+        senderEmail = 'dcthoai1023@gmail.com'
+        senderPassword = 'nyitsxfirfuskyat'
+        receiverEmail = data['email']
+
+        message = MIMEMultipart()
+        message['From'] = senderEmail
+        message['To'] = receiverEmail
+        message['Subject'] = 'Mã xác thực tài khoản của bạn'
+
+        content = f'Nhập mã này để hoàn tất đăng ký tài khoản của bạn: {verifyCode}. Mã này có hiệu lực trong vòng 3 phút.'
+        message.attach(MIMEText(content, 'plain'))
+
+        session = smtplib.SMTP('smtp.gmail.com', 587)  # Used gmail with port 587
+        session.starttls()
+        session.login(senderEmail, senderPassword)
+
+        session.sendmail(senderEmail, receiverEmail, message.as_string())
+        session.quit()
+
+        # Save the user data and verification code in session
+        request.session['user_data'] = data
+        request.session['verify_code'] = verifyCode
+        request.session['code_time'] = datetime.datetime.now().timestamp()
+
+        return JsonResponse({'success': 'Verification code sent, please check your email. The code will expire in 3 minutes.'}, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+
+@csrf_exempt
+def verify(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        if 'verify_code' in request.session and data['verify_code'] == request.session['verify_code']:
+            # Check if the code has expired
+            if datetime.datetime.now().timestamp() - request.session['code_time'] > EXPIRATION_TIME:
+                del request.session['user_data']
+                del request.session['verify_code']
+                del request.session['code_time']
+                return JsonResponse({'error': 'Verification code expired'}, status=400)
+
+            user_data = request.session['user_data']
+            user = User.objects.create_user(
+                username=user_data['username'],
+                email=user_data['email'],
+                password=user_data['password']
+            )
+            user.save()
+
+            # Delete the user data and verification code from session
+            del request.session['user_data']
+            del request.session['verify_code']
+            del request.session['code_time']
+
+            return JsonResponse({'success': 'User created successfully'}, status=201)
+        else:
+            return JsonResponse({'error': 'Invalid verification code'}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
@@ -43,7 +104,7 @@ def signIn(request):
 
         if user.check_password(password):
             login(request, user)
-            return JsonResponse({'message': 'User logged in successfully'}, status=200)
+            return JsonResponse({'success': 'User logged in successfully'}, status=200)
         else:
             return JsonResponse({'error': 'Invalid username/email or password'}, status=400)
     else:
@@ -156,3 +217,16 @@ def account(request):
         user = None
     context = {'user': user}
     return render(request, 'app/account.html', context)
+
+# API get list product for homepage
+def productsApi(request):
+    start = int(request.GET.get('start', 0))
+    products = Product.objects.all()[start:start+18]
+
+    product_list = []
+    for product in products:
+        product_dict = model_to_dict(product, exclude=["image"])  # remove image field
+        product_dict['imageURL'] = product.imageURL  # add URL image
+        product_list.append(product_dict)
+
+    return JsonResponse(product_list, safe=False)

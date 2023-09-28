@@ -69,7 +69,7 @@
     <div class="suggest">
         <h4 class="heading">Gợi ý</h4>
 
-        <button type="button" class="suggest__prev"><i class="fa-solid fa-angle-left"></i></button>
+        <button id="prev-suggest" type="button" class="suggest__prev"><i class="fa-solid fa-angle-left"></i></button>
 
         <div class="suggest__content">
             <div class="wrapper">
@@ -83,42 +83,11 @@
             </div>
         </div>
 
-        <button type="button" class="suggest__next"><i class="fa-solid fa-angle-right"></i></button>
+        <button id="next-suggest" type="button" class="suggest__next"><i class="fa-solid fa-angle-right"></i></button>
     </div>
 
-    <script>
-        var content = document.querySelector('.content__product .product-info .info__decription .info__decription-content');
-        var btn = document.getElementById('toggleDesBook');
-
-        var fullText = content.innerHTML;
-        var shortText = '';
-        var isTextTooLong = false;
-
-        if(fullText.length > 350){
-            isTextTooLong = true;
-            shortText = fullText.substring(0, 350) + "...";
-            content.innerHTML = shortText;
-            btn.innerHTML = 'Xem thêm';
-            btn.style.display = 'inline';
-        }
-
-        if(isTextTooLong){
-            btn.addEventListener('click', function(){
-                if(btn.innerHTML === 'Xem thêm'){
-                    content.innerHTML = fullText;
-                    btn.innerHTML = 'Thu gọn';
-                }else{
-                    content.innerHTML = shortText;
-                    btn.innerHTML = 'Xem thêm';
-                }
-            });
-        }else{
-            btn.innerHTML = '';
-            btn.style.display = 'none';
-            content.innerHTML = fullText;
-        }
-        
-    </script>
+    <script src="{% static 'app/js/cart.js' %}"></script>
+    <script src="{% static 'app/js/book.js' %}"></script>
 
 {% endblock content_book %}
 

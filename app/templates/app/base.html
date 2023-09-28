@@ -87,7 +87,7 @@
                 </div>
                     
                 <div class="nav__user">
-                    <button type="button" id="sign-btn" class="sign-btn">Sign Up</button>
+                    <button type="button" id="sign-btn" class="sign-btn">Sign In</button>
                     <button type="button" id="user-btn" class="user-btn">
                         <div class="nav__user-avatar" style="background-image: url({{request.user.profile.avatarURL}})"></div>
                     </button>
@@ -124,8 +124,13 @@
                 <i class="fa-solid fa-xmark"></i>
             </div>
 
+            <div class="form__nav">
+                <button type="button" class="form__nav-btn active">Đăng nhập</button>
+                <button type="button" class="form__nav-btn">Đăng ký</button>
+            </div>
+
             <div class="form__layer">
-         
+                
             </div>
         </div>
     </div>
@@ -152,7 +157,6 @@
         var staticURL = '{% static "" %}';
     </script>
     <script src="{% static 'app/js/search.js' %}"></script>
-    <script src="{% static 'app/js/cart.js' %}"></script>
     <script src="{% static 'app/js/app.js' %}"></script>
     <script src="{% static 'app/js/validator.js' %}"></script>
 </body>

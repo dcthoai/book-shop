@@ -85,7 +85,6 @@ const Validator = function(options){
                     formElement.submit();
                 }
             }
-
         }
     }
 };
@@ -95,7 +94,7 @@ Validator.isRequired = function(selector, message){
     return {
         selector: selector,
         test: function(value){
-            return value.trim() ? undefined : message || 'Trường này là bắt buộc!';
+            return value.trim() ? undefined : message || 'Trường này là bắt buộc';
         }
     }
 }
@@ -106,7 +105,7 @@ Validator.isEmail = function(selector, message){
         selector: selector,
         test: function(value){
             var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-            return re.test(value) ? undefined : message ||  'Vui lòng nhập trường này!';
+            return re.test(value) ? undefined : message ||  'Vui lòng nhập trường này';
         }
     }
 }

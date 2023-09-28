@@ -70,7 +70,10 @@
             <button type="button" class="payment__link-btn">Thanh toán</button>
         </a>
     </div>
-   
+    
+    <script src="{% static 'app/js/cart.js' %}"></script>
+    <script> addCartEventListeners(); </script>
+
 {% endblock content_cart %}
 
 {% block footer %}

@@ -1,8 +1,6 @@
 
 const formSignUpHtml = `
     <form action="" method="POST" id="form-1">
-        <h3 class="form-heading">Đăng ký</h3>
-
         <div class="form-group form-username">
             <label for="username" class="form-label">Tên đăng nhập</label>
             <input id="username" name="username" type="text" placeholder="VD: My name" class="form-control">
@@ -28,17 +26,11 @@ const formSignUpHtml = `
         </div>
 
         <button class="form-submit">Đăng ký</button>
-        <div class="form-trans">
-            <h4 class="form-trans__heading">Bạn đã có tài khoản?</h4>
-            <h4 class="form-trans__link" onclick="transFormSign()">Đăng nhập</h4>
-        </div>
     </form>
 `;
 
 const formSignInHtml = `
     <form action="" method="POST" id="form-1">
-        <h3 class="form-heading">Đăng nhập</h3>
-
         <div class="form-group form-name-account">
             <label for="name-account" class="form-label">Tài khoản</label>
             <input id="name-account" name="name-account" type="text" placeholder="Nhập username hoặc email của bạn" class="form-control">
@@ -52,9 +44,20 @@ const formSignInHtml = `
         </div>
 
         <button class="form-submit">Đăng nhập</button>
-        <div class="form-trans">
-            <h4 class="form-trans__heading">Bạn chưa có tài khoản?</h4>
-            <h4 class="form-trans__link" onclick="transFormSign()">Đăng ký</h4>
+    </form>
+`;
+
+const formVerifyHtml = `
+    <form action="" method="POST" class="form__verify">
+        <h4 class="form__verify-heading">Nhập mã xác thực được gửi tới email của bạn</h4>
+        <p class="form__verify-noti">Nếu bạn không thấy email xác nhận trong hòm thư của mình, 
+            hãy thử kiểm tra mục thư spam hoặc kiểm tra lại tên email đã nhập đúng chưa và thử lại.
+        </p>
+
+        <input type="text" name="verify_code" class="form__verify-input" placeholder="Nhập mã xác nhận gồm 6 chữ số">
+        <div class="form__verify-wrapper">
+            <button type="button" class="form__verify-cancel">Quay lại</button>
+            <button type="button" class="form__verify-submit">Xác nhận</button>
         </div>
     </form>
 `;
@@ -63,34 +66,86 @@ var isLoggedIn = false;
 var isSignIn;
 var signBtn = document.getElementById('sign-btn');
 var formMain = document.getElementById('form-main');
+var formLayer = formMain.querySelector('.form__layer');
 var formCloseBtn = formMain.querySelector('.form__close-btn');
+var formNav = formMain.querySelector('.form__nav');
+var formTrans = formMain.querySelectorAll('.form__nav-btn');
 var userBtn = document.getElementById('user-btn');
+var formUser = document.getElementById('user-form');
 
+// Open form sign in/up when user do not logged in
 signBtn.onclick = function(){
     if(isLoggedIn == false){
         isSignIn = true;
         formMain.style.display = 'block';
-        formMain.querySelector('.form__layer').innerHTML = formSignUpHtml;
-        validateSignUp();
+        formLayer.innerHTML = formSignInHtml;
+        validateSignIn();
     }
 }
 
+// Close form sign in/up
 formCloseBtn.onclick = function(){
     formMain.style.display = 'none';
 }
 
-function transFormSign(){
-    if(isSignIn){
-        formMain.querySelector('.form__layer').innerHTML = formSignInHtml;
-        validateSignIn();
-        isSignIn = false;
-    }else{
-        formMain.querySelector('.form__layer').innerHTML = formSignUpHtml;
-        validateSignUp();
-        isSignIn = true;
-    }
+// Function switch to form Sign In
+function viewSignIn(){
+    formNav.style.display = 'block';
+    formLayer.style.marginTop = '0px';
+    formLayer.innerHTML = formSignInHtml;
+    formTrans[0].classList.add('active');
+    formTrans[1].classList.remove('active');
+    validateSignIn();
+    isSignIn = true;
 }
 
+// Function switch to form Sign Up
+function viewSignUp(){
+    formNav.style.display = 'block';
+    formLayer.style.marginTop = '0px';
+    formLayer.innerHTML = formSignUpHtml;
+    formTrans[1].classList.add('active');
+    formTrans[0].classList.remove('active');
+    validateSignUp();
+    isSignIn = false;
+}
+
+function loginSuccess(){
+    formMain.style.display = 'none';
+    signBtn.style.display = 'none';
+    userBtn.style.display = 'block';
+    localStorage.setItem('isLoggedIn', 'true');
+    setTimeout(function(){
+        location.reload();
+        alert('Đăng nhập thành công.')
+    }, 500);
+}
+
+function loginFailed(){
+    alert("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin tài khoản.");
+}
+
+function signUpSuccess(){
+    alert("Đăng ký thành công.");
+    viewSignIn();
+    validateSignIn();
+}
+
+function signUpFailed(){
+    alert('Đăng ký thất bại. Mã xác thực sai hoặc hết thời gian hiệu lực, vui lòng thử lại.');
+}
+
+// Switch to form Sign In
+formTrans[0].addEventListener('click', function(){
+    viewSignIn();
+});
+
+// Switch to form Sign Up
+formTrans[1].addEventListener('click', function(){
+    viewSignUp();
+});
+
+// Check the standard data format for the form Sign Up
 var validateSignUp = function(){
     Validator({
         form: '#form-1',
@@ -108,7 +163,6 @@ var validateSignUp = function(){
             }, 'Mật khẩu nhập lại chưa chính xác.')
         ],
         onSubmit: function(data){
-            // Call API
             fetch('/register/', {
                 method: 'POST',
                 headers: {
@@ -118,16 +172,63 @@ var validateSignUp = function(){
             })
             .then(response => response.json())
             .then(data => {
-                isSignIn = true;
-                transFormSign();
+                if(data.success){
+                    alert('Yêu cầu đăng ký tài khoản của bạn đã được gửi đi, vui lòng đợi giây lát');
+                    verify();
+                } else {
+                    alert('Gửi yêu cầu thất bại, vui lòng thử lại.');
+                }
             })
             .catch((error) => {
+                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
                 console.error('Error:', error);
             });
         }
     });
 }
 
+// Verify account registration code
+function verify(){
+    formLayer.innerHTML = formVerifyHtml;
+    formLayer.style.marginTop = '60px';
+    formNav.style.display = 'none';
+
+    var submitVerify = formMain.querySelector('.form__verify .form__verify-submit');
+    var cancelVerify = formMain.querySelector('.form__verify .form__verify-cancel');
+
+    submitVerify.addEventListener('click', function(){
+        var dataVerify = {};
+        var inputElement = document.querySelector('#form-main input[name="verify_code"]');
+        dataVerify[inputElement.name] = inputElement.value;
+
+        fetch('/verify/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataVerify),
+        })
+        .then(reponse => reponse.json())
+        .then(data => {
+            if(data.success){
+                signUpSuccess();
+            } else {
+                signUpFailed();
+            }
+        })
+        .catch((error) => {
+            alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+            console.error('Error:', error);
+        })
+    });
+
+    cancelVerify.addEventListener('click', function(){
+        viewSignUp();
+        validateSignUp();
+    });
+}
+
+// Check the standard data format for the form Sign In
 var validateSignIn = function(){
     Validator({
         form: '#form-1',
@@ -149,86 +250,21 @@ var validateSignIn = function(){
             })
             .then(response => response.json())
             .then(data => {
-                if (data.message === 'User logged in successfully') {
+                if (data.success) {
                     loginSuccess();
+                    validateSignIn();
                 }else{
-                    alert("Email hoặc mật khẩu chưa đúng.");
+                    loginFailed();
                 }
             })
             .catch((error) => {
+                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
                 console.error('Error:', error);
             });
         }
     });
 }
 
-var moreBook = document.querySelector("#more-book-btn");
-
-if(moreBook){
-    moreBook.onclick = function(){
-        var content = document.querySelector(".content .wrapper");
-
-        for(var i=0; i<10; ++i){
-            content.insertAdjacentHTML('beforeend', `
-                <div class="book">
-                    <a href="" class="book__link">
-                        <div class="book__img" style="background-image: url(${staticURL}app/images/shin.jpg);"></div>
-                        <div class="book__info">
-                            <h4 class="info__name">Mua sách đê các bạn ơi. Giảm giá 50%</h4>
-                            <h4 class="info__price">9.000đ</h4>
-                        </div>
-                    </a>
-
-                    <button data-product="" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
-                </div>
-            `);
-        }
-    }
-}
-
-function loginSuccess(){
-    formMain.style.display = 'none';
-    signBtn.style.display = 'none';
-    userBtn.style.display = 'block';
-    localStorage.setItem('isLoggedIn', 'true');
-    setTimeout(function() {
-        location.reload();
-    }, 1000);
-}
-
-window.addEventListener = ('load', function() {
-    var isLoggedIn = localStorage.getItem('isLoggedIn');
-    if (isLoggedIn === 'true') {
-        formMain.style.display = 'none';
-        signBtn.style.display = 'none';
-        userBtn.style.display = 'block';
-        userBtn.onclick = function(event){
-            event.stopPropagation();
-            getFormUser();
-        }
-    }else{
-        signBtn.style.display = 'block';
-        isLoggedIn = false
-        localStorage.setItem('isLoggedIn', 'false');
-    }
-});
-
-function loginFailed(){
-    alert("Đăng nhập thất bại.");
-    location.reload();
-}
-
-function signUpSuccess(){
-    alert("Đăng ký thành công.");
-    location.reload();
-}
-
-function signUpFailed() {
-    alert("Đăng ký thất bại.");
-    location.reload();
-}
-
-var formUser = document.getElementById('user-form');
 function getFormUser(){
     if(formUser.style.display == 'block'){
         formUser.style.display = 'none';
@@ -255,13 +291,30 @@ function getFormUser(){
     }
 }
 
-window.onclick = function(event){
+window.addEventListener = ('load', function() {
+    var isLoggedIn = localStorage.getItem('isLoggedIn');
+    if (isLoggedIn === 'true') {
+        formMain.style.display = 'none';
+        signBtn.style.display = 'none';
+        userBtn.style.display = 'block';
+        userBtn.onclick = function(event){
+            event.stopPropagation();
+            getFormUser();
+        }
+    }else{
+        signBtn.style.display = 'block';
+        isLoggedIn = false
+        localStorage.setItem('isLoggedIn', 'false');
+    }
+});
+
+window.addEventListener('click', function(event){
     if(formUser.style.display == 'block'){
         if(event.target != formUser && event.target != userBtn) {
             formUser.style.display = 'none';
         }
     }
-}
+});
 
 window.addEventListener('load', function(){
     var content = document.querySelector('.content__product .product-info .info__decription .info__decription-content');
