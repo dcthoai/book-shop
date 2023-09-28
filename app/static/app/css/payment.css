@@ -161,6 +161,7 @@
 .payment .payment__method li input{
     width: 20px;
     height: 20px;
+    cursor: pointer;
 }
 
 .payment .payment__method li .des{

@@ -85,3 +85,32 @@ nextSuggest.addEventListener('mouseleave', function(){
 })
 
 addCartEventListeners();
+
+window.addEventListener('load', function(){
+    var content = document.querySelector('.content__product .product-info .info__decription .info__decription-content');
+    var toggle = document.getElementById('toggleDesBook');
+
+    var fullText = content.innerHTML;
+    var shortText = fullText;
+
+    if (fullText.length > 200) {
+        shortText = fullText.substr(0, 200) + '...';
+        toggle.style.display = 'block';
+        tongle.innerHTML = 'Xem thêm';
+    } else {
+        tongle.innerHTML = '';
+        toggle.style.display = 'none';
+    }
+
+    content.innerHTML = shortText;
+
+    toggle.addEventListener('click', function() {
+        if (content.innerHTML === shortText) {
+            content.innerHTML = fullText;
+            this.innerHTML = 'Thu gọn';
+        } else {
+            content.innerHTML = shortText;
+            this.innerHTML = 'Xem thêm';
+        }
+    });
+});

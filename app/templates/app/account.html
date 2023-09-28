@@ -14,6 +14,17 @@
 </head>
 <body>
     <div class="personal">
+        <!-- Form verify change email -->
+        <div class="form-main">
+            <div class="form">
+                <div class="form__close-btn">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <div class="form__layer">
+                    
+                </div>
+            </div>
+        </div>
         <!-- Form change avatar personal -->
         <div class="container">
             <form action="" method="POST"  class="form-avatar">
@@ -63,7 +74,7 @@
 
         <div class="details">
             <!-- Personal infomations -->
-            <div class="wrapper active">
+            <div class="wrapper personal-info active">
                 <div class="wrapper__header">
                     <div class="wrapper__header-heading">Thông tin cá nhân</div>
                     <div class="wrapper__header-des">
@@ -86,7 +97,7 @@
                             <div class="form__heading">Thay đổi họ tên:</div>
                             <div class="form__body">
                                 <input type="text" class="form__body-input" name="fullname">
-                                <button class="form__body-submit">Lưu</button>
+                                <button type="button" id="change-fullname" class="form__body-submit">Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -105,7 +116,7 @@
                             <div class="form__heading">Thay đổi tên đăng nhập:</div>
                             <div class="form__body">
                                 <input type="text" class="form__body-input" name="username">
-                                <button class="form__body-submit">Lưu</button>
+                                <button type="button" id="change-username" class="form__body-submit">Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -124,7 +135,7 @@
                             <div class="form__heading">Thay đổi Email:</div>
                             <div class="form__body">
                                 <input type="text" class="form__body-input" name="email">
-                                <button class="form__body-submit">Lưu</button>
+                                <button type="button" id="change-email" class="form__body-submit">Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -143,7 +154,7 @@
                             <div class="form__heading">Thay đổi Số điện thoại:</div>
                             <div class="form__body">
                                 <input type="text" class="form__body-input" name="phone-number">
-                                <button class="form__body-submit">Lưu</button>
+                                <button type="button" id="change-phone-number" class="form__body-submit">Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -151,7 +162,7 @@
             </div>
 
             <!-- Passwords and security -->
-            <div class="wrapper">
+            <div class="wrapper personal-security">
                 <div class="wrapper__header">
                     <div class="wrapper__header-heading">Mật khẩu và Bảo mật</div>
                     <div class="wrapper__header-des">
@@ -168,6 +179,14 @@
                         </div>
 
                         <i class="fa-solid fa-angle-right"></i>
+
+                        <div class="form-change">
+                            <div class="form__heading">Thay đổi Số điện thoại:</div>
+                            <div class="form__body">
+                                <input type="text" class="form__body-input" name="phone-number">
+                                <button type="button" id="change-phone-number" class="form__body-submit">Lưu</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="line"></div>
 
@@ -179,12 +198,20 @@
                         </div>
 
                         <i class="fa-solid fa-angle-right"></i>
+
+                        <div class="form-change">
+                            <div class="form__heading">Thay đổi Số điện thoại:</div>
+                            <div class="form__body">
+                                <input type="text" class="form__body-input" name="phone-number">
+                                <button type="button" id="change-phone-number" class="form__body-submit">Lưu</button>
+                            </div>
+                        </div>
                     </div>  
                 </div>
             </div>
 
             <!-- Payment -->
-            <div class="wrapper">
+            <div class="wrapper personal-payment">
                 <div class="wrapper__header">
                     <div class="wrapper__header-heading">Thanh toán</div>
                     <div class="wrapper__header-des">
@@ -201,6 +228,14 @@
                         </div>
 
                         <i class="fa-solid fa-angle-right"></i>
+
+                        <div class="form-change">
+                            <div class="form__heading">Thay đổi Số điện thoại:</div>
+                            <div class="form__body">
+                                <input type="text" class="form__body-input" name="phone-number">
+                                <button type="button" id="change-phone-number" class="form__body-submit">Lưu</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="line"></div>
 
@@ -212,6 +247,14 @@
                         </div>
 
                         <i class="fa-solid fa-angle-right"></i>
+
+                        <div class="form-change">
+                            <div class="form__heading">Thay đổi Số điện thoại:</div>
+                            <div class="form__body">
+                                <input type="text" class="form__body-input" name="phone-number">
+                                <button type="button" id="change-phone-number" class="form__body-submit">Lưu</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -273,6 +316,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="loadding">
+        <div class="loadding-content"></div>
     </div>
 
     <script src="{% static 'app/js/account.js' %}"></script>

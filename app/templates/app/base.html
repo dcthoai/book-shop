@@ -16,10 +16,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="shortcut icon" href="{% static 'app/images/favicon.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'app/css/reset.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/css/base.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/css/home.css' %}"/>
     <link rel="stylesheet" href="{% static 'app/css/book.css' %}"/>
     <link rel="stylesheet" href="{% static 'app/css/cart.css' %}"/>
     <link rel="stylesheet" href="{% static 'app/css/payment.css' %}"/>
-    <link rel="stylesheet" href="{% static 'app/css/style.css' %}"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
@@ -97,7 +98,6 @@
                             <h4>Tài khoản</h4>
                             <div class="user__header-avatar">
                                 <img src="{{request.user.profile.avatarURL}}" style="width: 100%; height: 100%; border-radius: 100%;" alt="Avatar">
-                                <button type="button" class="change-avatar"><i class="fa-solid fa-camera"></i></button>
                             </div>
                             <div class="user__header-info">
                                 <div class="fullname">{{request.user.profile.fullname}}</div>
@@ -133,6 +133,10 @@
                 
             </div>
         </div>
+    </div>
+
+    <div class="loadding">
+        <div class="loadding-content"></div>
     </div>
 
     {% comment %} Content {% endcomment %}

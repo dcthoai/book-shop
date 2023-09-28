@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt # disable django's verifier
 from django.db.models.signals import post_save
 from django.forms.models import model_to_dict
 from django.dispatch import receiver
+from django.core.exceptions import ObjectDoesNotExist
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome, Profile
@@ -113,7 +114,6 @@ def signIn(request):
 @csrf_exempt
 def signOut(request):
     logout(request)
-    # return redirect('home')
     return JsonResponse({'message': 'User logged out successfully'}, status=200)
 
 # Load Home page
@@ -230,3 +230,97 @@ def productsApi(request):
         product_list.append(product_dict)
 
     return JsonResponse(product_list, safe=False)
+
+# API to update info account
+@csrf_exempt
+def updateAccount(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            user = User.objects.get(id=data['userId'])
+            if 'username' in data:
+                setattr(user, 'username', data['username'])
+                user.save()
+                return JsonResponse({'status': 'success'})
+            elif 'fullname' in data:
+                setattr(user.profile, 'fullname', data['fullname'])
+                user.profile.save()
+                return JsonResponse({'status': 'success'})
+            elif 'phone-number' in data:
+                if len(data['phone-number']) == 10 and data['phone-number'].isdigit():
+                    setattr(user.profile, 'phoneNumber', data['phone-number'])
+                    user.profile.save()
+                    return JsonResponse({'status': 'success'})
+                else:
+                    return JsonResponse({'status': 'failed', 'error': 'Số điện thoại chưa đúng định dạng 10 chữ số.'})
+            elif 'email' in data:
+                verifyCode = ''.join(random.choices('0123456789', k=6))
+
+                senderEmail = 'dcthoai1023@gmail.com'
+                senderPassword = 'nyitsxfirfuskyat'
+                receiverEmail = data['email']
+
+                message = MIMEMultipart()
+                message['From'] = senderEmail
+                message['To'] = receiverEmail
+                message['Subject'] = 'Mã xác thực tài khoản của bạn'
+
+                content = f'Nhập mã này để hoàn tất quá trình thay đổi email cho tài khoản của bạn: {verifyCode}. Mã này có hiệu lực trong vòng 3 phút.'
+                message.attach(MIMEText(content, 'plain'))
+
+                session = smtplib.SMTP('smtp.gmail.com', 587)  # Used gmail with port 587
+                session.starttls()
+                session.login(senderEmail, senderPassword)
+                session.sendmail(senderEmail, receiverEmail, message.as_string())
+                session.quit()
+
+                # Save the user data and verification code in session
+                request.session['user_email'] = data['email']
+                request.session['verify_code'] = verifyCode
+                request.session['code_time'] = datetime.datetime.now().timestamp()
+
+                return JsonResponse({'status': 'success'}, status=200)
+            else:
+                return JsonResponse({'status': 'failed', 'error': 'Invalid data'})
+        except User.DoesNotExist:
+            return JsonResponse({'status': 'failed', 'error': 'User does not exist'})
+    else:
+        return JsonResponse({'status': 'failed', 'error': 'Invalid request method'})
+
+@csrf_exempt
+def getIdUser(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            return JsonResponse({'id': request.user.id})
+        else:
+            return JsonResponse({'failed': 'User is not logged in'})
+    else:
+        return JsonResponse({'status': 'failed', 'error': 'Invalid request method'})
+
+@csrf_exempt
+def verifyChangeEmail(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        if 'verify_code' in request.session and data['verify_code'] == request.session['verify_code']:
+            # Check if the code has expired
+            if datetime.datetime.now().timestamp() - request.session['code_time'] > EXPIRATION_TIME:
+                del request.session['email']
+                del request.session['verify_code']
+                del request.session['code_time']
+                return JsonResponse({'error': 'Verification code expired'}, status=400)
+
+            userEmail = request.session['user_email']
+            user = User.objects.get(id=data['userId'])
+            user.email = userEmail
+            user.save()
+
+            # Delete the user data and verification code from session
+            del request.session['user_email']
+            del request.session['verify_code']
+            del request.session['code_time']
+
+            return JsonResponse({'success': 'User created successfully'}, status=201)
+        else:
+            return JsonResponse({'error': 'Invalid verification code'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
