@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.hashers import check_password
 from django.views.decorators.csrf import csrf_exempt # disable django's verifier (Cross-Site Request Forgery Exempt)
 from django.db.models.signals import post_save
 from django.forms.models import model_to_dict
@@ -348,3 +349,21 @@ def updateAvatar(request):
             return Response({'error': 'Không tìm thấy file.'}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
+
+@csrf_exempt
+def changePassword(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user = User.objects.get(id=data['userId'])
+
+        if check_password(data['password'], user.password):
+            if(data['new-password'] == data['password']):
+                return JsonResponse({'error': 'Mật khẩu này trùng với mật khẩu cũ, vui lòng sử dụng mật khẩu khác.'})
+            else:
+                user.set_password(data['new-password'])
+                user.save()
+                return JsonResponse({'success': 'Thay đổi mật khẩu thành công.'})
+        else:
+            return JsonResponse({'error': 'Mật khẩu cũ không đúng, vui lòng nhập lại.'})
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'})

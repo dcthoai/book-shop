@@ -120,6 +120,9 @@ function closeFormChange(item){
     formChange.style.animation = 'close 0.3s ease forwards';
     formGroupBox.style.marginBottom = '0px';
     setTimeout(function(){
+        formChange.querySelectorAll('input').forEach(function(item){
+            item.value = '';
+        })
         formChange.style.display = 'none';
     }, 300);
 }
@@ -184,7 +187,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 // function update data for account
-var formsChange = document.querySelectorAll('.personal .details .wrapper.active .form-change');
+var formsChange = document.querySelectorAll('.personal .details .details__info .form-change');
 var formMain = document.querySelector('.personal .form-main')
 var formLayer = formMain.querySelector('.form__layer');
 const formVerifyEmail = `
@@ -213,7 +216,7 @@ formsChange.forEach(function(formChange){
         if (data.trim() !== ''){
             loaddingElement.style.display = 'block';
 
-            fetch(`/api/update-account/`, {
+            fetch('/api/update-account/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -300,4 +303,108 @@ function verifyChangeEmail(){
         formMain.style.display = 'none';
         formLayer.innerHTML = '';
     })
+}
+
+// Change Password
+var formChangePassword = document.querySelector('.personal .details .form-change-password');
+var formGroupBoxPassword = formChangePassword.parentElement.querySelector('.form__group-box');
+var formChangePasswordInput = formChangePassword.querySelectorAll('input');
+var submitPassword = formChangePassword.querySelector('.form__body-submit');
+var isOpen = false;
+
+function validate(item, message = 'Trường này là bắt buộc'){
+    let value = item.value.trim();
+    if(value === '' || value.length < 8){
+        if(value.length < 8){
+            item.previousElementSibling.innerHTML = message;
+        }
+        item.classList.add('invalid');
+        item.previousElementSibling.style.display = 'block';
+        openFormChange(formChangePassword.parentNode);
+        return true;
+    } else {
+        item.classList.remove('invalid');
+        item.previousElementSibling.innerHTML = 'Trường này là bắt buộc';
+        item.previousElementSibling.style.display = 'none';
+        return false;
+    }
+}
+
+formGroupBoxPassword.addEventListener('click', function(){
+    isOpen = !isOpen;
+    if(!isOpen){
+        formChangePasswordInput.forEach(function(item){
+            item.classList.remove('invalid');
+            item.previousElementSibling.innerHTML = 'Trường này là bắt buộc';
+            item.previousElementSibling.style.display = 'none';
+        });
+    }
+})
+
+formChangePasswordInput.forEach(function(item){
+    item.onblur = function(){
+        validate(item);
+    }
+
+    item.oninput = function(){
+        validate(item, 'Vui lòng nhập tói thiểu 8 kí tự.');
+    }
+});
+
+submitPassword.addEventListener('click', function(){
+    let isValid = false;
+    formChangePasswordInput.forEach(function(item){
+        isValid = validate(item);
+    });
+
+    if(!isValid){
+        loaddingElement.style.display = 'block';
+        let dataPassword = {userId: userId};
+
+        formChangePasswordInput.forEach(function(item){
+            dataPassword[item.name] = item.value.trim();
+        });
+
+        console.log(dataPassword);
+
+        fetch('/api/change-password/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataPassword)
+        })
+        .then(response => response.json())
+        .then(data => {
+            loaddingElement.style.display = 'none';
+
+            if(data.success){
+                alert('Mật khẩu của bạn đã được thay đổi, vui lòng đăng nhập lại.');
+                loggedOut();
+            }else{
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            loaddingElement.style.display = 'none';
+            alert(error);
+        })
+    }
+});
+
+function loggedOut(){
+    fetch('/logout/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        localStorage.setItem('isLoggedIn', 'false');
+        window.location.href = '/';
+    })
+    .catch((error) => {
+        alert(error);
+    });
 }
