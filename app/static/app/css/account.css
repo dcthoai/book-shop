@@ -222,23 +222,27 @@ body{
     background-color: #f6fff4;
 }
 
-.personal .form-change.form-change-password .form__body{
+.personal .form-change.form-change-password .form__body,
+.personal .form-change.form-forgot-password .form__body{
     display: flex;
     flex-direction: column;
     align-items: start;
     margin-bottom: 0;
 }
 
-.personal .form-change.form-change-password .form__body-input{
+.personal .form-change.form-change-password .form__body-input,
+.personal .form-change.form-forgot-password .form__body-input{
     width: calc(100% - 120px);
     margin-bottom: 16px;
 }
 
-.personal .form-change.form-change-password .form__body-input.invalid{
+.personal .form-change.form-change-password .form__body-input.invalid,
+.personal .form-change.form-forgot-password .form__body-input.invalid{
     border: 1px solid #ff0000;
 }
 
-.personal .form-change.form-change-password .error-message{
+.personal .form-change.form-change-password .error-message,
+.personal .form-change.form-forgot-password .error-message{
     display: none;
     margin: 12px 0;
     margin-top: 0;
@@ -247,7 +251,8 @@ body{
     color: #ff0000;
 }
 
-.personal .form-change.form-change-password .form__body-submit{
+.personal .form-change.form-change-password .form__body-submit,
+.personal .form-change.form-forgot-password .form__body-submit{
     position: absolute;
     right: 48px;
     bottom: 16px;

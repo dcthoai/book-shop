@@ -17,10 +17,12 @@ import smtplib
 import random
 import datetime
 import json
+import os
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.files import File
+from django.conf import settings
 
 EXPIRATION_TIME = 3 * 60  # 3 minutes
 
@@ -342,6 +344,13 @@ def updateAvatar(request):
         if 'avatar' in request.FILES:
             file = request.FILES['avatar']
             user = request.user
+
+            oldAvatarPath = user.profile.avatar.path if user.profile.avatar else None   # Get old path file user avatar
+            
+            # Delete old file user avatar when new avatar is update
+            if oldAvatarPath and os.path.isfile(oldAvatarPath):
+                os.remove(oldAvatarPath)
+
             user.profile.avatar.save(file.name, File(file), save=True)
 
             return Response({'success': 'Avatar đã được cập nhật.'}, status=status.HTTP_200_OK)
