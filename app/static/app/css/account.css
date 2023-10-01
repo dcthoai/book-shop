@@ -5,6 +5,10 @@
     box-sizing: border-box;
 }
 
+html{
+    scroll-behavior: smooth;
+}
+
 body{
     background-color: #ffffff;
     position: relative;
@@ -550,7 +554,17 @@ body{
     line-height: 22px;
     text-align: left;
 }
-  
+
+.personal .form-main .form__layer .error-message{
+    display: none;
+    margin-top: 48px;
+    font-family: 'Mooli', sans-serif;
+    font-size: 16px;
+    color: #ff0000;
+    text-align: left;
+    padding-left: 32px;
+}
+
 .personal .form-main .form__layer .form__verify-input{
     width: calc(100% - 64px);
     height: 40px;
@@ -560,6 +574,11 @@ body{
     border-radius: 8px;
     font-size: 18px;
     text-indent: 12px;
+}
+
+.personal .form-main .form__layer .form__verify-input.invalid{
+    margin-top: 12px;
+    border: 1px solid #ff0000;
 }
 
 .personal .form-main .form__layer .form__verify-submit{

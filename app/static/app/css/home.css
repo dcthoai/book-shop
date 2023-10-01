@@ -9,6 +9,7 @@
 html{
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
+    scroll-behavior: smooth;
 }
   
 body{
@@ -68,13 +69,16 @@ body{
     transform: translateY(-50%);
     width: 50px;
     height: 80px;
-    font-size: 32px;
-    font-weight: 600;
     border: none;
     background-color: transparent;
     cursor: pointer;
     opacity: 0;
     transition: opacity 0.3s ease;
+}
+
+.slider .slider__content button i{
+    font-size: 36px;
+    color: #e0e0e0;
 }
   
 .slider .slider__content:hover button{
@@ -85,7 +89,7 @@ body{
     left: 0;
     padding-right: 12px;
 }
-  
+
 .slider .slider__content .next-slide{
     right: 0;
     padding-left: 12px;

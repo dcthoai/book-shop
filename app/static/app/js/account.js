@@ -257,6 +257,14 @@ const formVerifyEmail = `
         </div>
     </form>
 `;
+const formRecoverPasswordHTML = `
+    <form action="" method="POST" class="form__verify">
+        <h4 class="form__verify-heading">Tạo mật khẩu mới cho tài khoản của bạn.</h4>
+        <span class="error-message"></span>
+        <input type="password" class="form__verify-input" placeholder="Mật khẩu tối thiểu 8 kí tự">
+        <button type="button" class="form__verify-submit">Xác nhận</button>
+    </form>
+`;
 
 formsChange.forEach(function(formChange){
     var inputElement = formChange.querySelector('.form__body-input');
@@ -367,19 +375,20 @@ var isOpen = false;
 
 function validate(item, message = 'Trường này là bắt buộc'){
     let value = item.value.trim();
-    if(value === '' || value.length < 8){
-        if(value.length < 8){
+    if(value.length >= 8){
+        item.classList.remove('invalid');
+        item.previousElementSibling.innerHTML = message;
+        item.previousElementSibling.style.display = 'none';
+        return false;
+    }else{
+        item.previousElementSibling.innerHTML = 'Trường này là bắt buộc.';
+        if(value !== ''){
             item.previousElementSibling.innerHTML = message;
         }
         item.classList.add('invalid');
         item.previousElementSibling.style.display = 'block';
         openFormChange(formChangePassword.parentNode);
         return true;
-    } else {
-        item.classList.remove('invalid');
-        item.previousElementSibling.innerHTML = 'Trường này là bắt buộc';
-        item.previousElementSibling.style.display = 'none';
-        return false;
     }
 }
 
@@ -396,18 +405,18 @@ formGroupBoxPassword.addEventListener('click', function(){
 
 formChangePasswordInput.forEach(function(item){
     item.onblur = function(){
-        validate(item);
+        validate(item, 'Vui lòng nhập tối thiểu 8 kí tự.');
     }
 
     item.oninput = function(){
-        validate(item, 'Vui lòng nhập tói thiểu 8 kí tự.');
+        validate(item, 'Vui lòng nhập tối thiểu 8 kí tự.');
     }
 });
 
 submitPassword.addEventListener('click', function(){
     let isValid = false;
     formChangePasswordInput.forEach(function(item){
-        isValid = validate(item);
+        isValid = validate(item, 'Vui lòng nhập tối thiểu 8 kí tự.');
     });
 
     if(!isValid){
@@ -458,4 +467,188 @@ function loggedOut(){
     .catch((error) => {
         alert(error);
     });
+}
+
+var formRecoverPassword = document.querySelector('.personal .details .form-forgot-password');
+var emailRecover = formRecoverPassword.querySelector('input[name="email-recover"]');
+var submitEmailRecover = formRecoverPassword.querySelector('.form__body-submit');
+
+function checkEmail(email, message = 'Trường này là bắt buộc.'){
+    let re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    
+    if(re.test(email)){
+        emailRecover.classList.remove('invalid');
+        emailRecover.previousElementSibling.style.display = 'none';
+        formRecoverPassword.querySelector('span').innerHTML = '';
+        openFormChange(formRecoverPassword.parentNode);
+        return true;
+    }else{
+        formRecoverPassword.querySelector('span').innerHTML = 'Trường này là bắt buộc.';
+        if(email !== ''){
+            formRecoverPassword.querySelector('span').innerHTML = message;
+        }
+        emailRecover.classList.add('invalid');
+        emailRecover.previousElementSibling.style.display = 'block';
+        openFormChange(formRecoverPassword.parentNode);
+        return false;
+    }
+}
+
+emailRecover.onblur = function(){
+    checkEmail(this.value.trim(), 'Vui lòng nhập email đã đăng ký tài khoản này.');
+}
+
+emailRecover.oninput = function(){
+    checkEmail(this.value.trim(), 'Vui lòng nhập email đã đăng ký tài khoản này.');
+}
+
+submitEmailRecover.addEventListener('click', function(){
+    let emailAddress = emailRecover.value.trim();
+    
+    if(checkEmail(emailAddress, 'Vui lòng nhập email đã đăng ký tài khoản này.')){
+        loaddingElement.style.display = 'block';
+
+        fetch('/api/recover-password/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId,
+                email_recover: emailAddress
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            loaddingElement.style.display = 'none';
+
+            if(data.success){
+                verifyCodeRecover();
+            }else{
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            loaddingElement.style.display = 'none';
+            alert(error);
+        })
+    }
+})
+
+function verifyCodeRecover(){
+    formMain.style.display = 'block';
+    formLayer.innerHTML = formVerifyEmail;
+    var formCodeRecover = formLayer.querySelector('.form__verify-input');
+    var formSubmit = formLayer.querySelector('.form__verify-submit');
+    var formCancel = formLayer.querySelector('.form__verify-cancel');
+    var formClose = formMain.querySelector('.form__close-btn');
+
+    formClose.addEventListener('click', function(){
+        formMain.style.display = 'none';
+    })
+
+    formSubmit.addEventListener('click', function(){
+        loaddingElement.style.display = 'block';
+        let codeRecover = formCodeRecover.value
+
+        fetch('/api/verify-recover-password/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                verify_code: codeRecover,
+                userId: userId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            loaddingElement.style.display = 'none';
+
+            if(data.success){
+                createNewPassword();
+            }else{
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            loaddingElement.style.display = 'none';
+            alert(error);
+        })
+    })
+
+    formCancel.addEventListener('click', function(){
+        formMain.style.display = 'none';
+        formLayer.innerHTML = '';
+    })
+}
+
+function createNewPassword(){
+    formLayer.innerHTML = formRecoverPasswordHTML;
+    var formSubmit = formLayer.querySelector('.form__verify-submit');
+    var formCreateNewPassword = formLayer.querySelector('.form__verify-input');
+    var formClose = formMain.querySelector('.form__close-btn');
+
+    formClose.addEventListener('click', function(){
+        formLayer.innerHTML = '';
+        formMain.style.display = 'none';
+    })
+
+    formCreateNewPassword.onblur = function(){
+        validateNewPassword(this, 'Vui lòng nhập tối thiểu 8 kí tự.');
+    }
+
+    formCreateNewPassword.oninput = function(){
+        validateNewPassword(this, 'Vui lòng nhập tối thiểu 8 kí tự.');
+    }
+
+    formSubmit.addEventListener('click', function(){
+        if(!validateNewPassword(formCreateNewPassword, 'Vui lòng nhập tối thiểu 8 kí tự.')){
+            loaddingElement.style.display = 'block';
+
+            fetch('/api/recover-success/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    new_password: formCreateNewPassword.value.trim(),
+                    userId: userId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                loaddingElement.style.display = 'none';
+        
+                if(data.success){
+                    alert(data.success)
+                    loggedOut();
+                }else{
+                    alert(data.error);
+                }
+            })
+            .catch(error => {
+                loaddingElement.style.display = 'none';
+                alert(error);
+            })
+        }
+    });
+}
+
+function validateNewPassword(item, message = 'Trường này là bắt buộc'){
+    let value = item.value.trim();
+    if(value.length >= 8){
+        item.classList.remove('invalid');
+        item.previousElementSibling.innerHTML = message;
+        item.previousElementSibling.style.display = 'none';
+        return false;
+    }else{
+        item.previousElementSibling.innerHTML = 'Trường này là bắt buộc.';
+        if(value !== ''){
+            item.previousElementSibling.innerHTML = message;
+        }
+        item.classList.add('invalid');
+        item.previousElementSibling.style.display = 'block';
+        return true;
+    }
 }

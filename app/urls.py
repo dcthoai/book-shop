@@ -21,4 +21,7 @@ urlpatterns = [
     path('api/verify-change-email/', views.verifyChangeEmail, name='verify-change-email'),
     path('api/update-avatar/', views.updateAvatar, name='update-avatar'),
     path('api/change-password/', views.changePassword, name='change-password'),
+    path('api/recover-password/', views.recoverPassword, name='recover-password'),
+    path('api/verify-recover-password/', views.verifyRecoverPassword, name='verify-recover-password'),
+    path('api/recover-success/', views.recoverSuccess, name='recover-success'),
 ]

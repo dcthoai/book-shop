@@ -1,4 +1,6 @@
-
+html{
+    scroll-behavior: smooth;
+}
 
 .content__cart{
     width: 960px;

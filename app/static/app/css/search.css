@@ -1,3 +1,6 @@
+html{
+    scroll-behavior: smooth;
+}
 
 .content.search_content{
     width: 1200px;
