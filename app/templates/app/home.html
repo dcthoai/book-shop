@@ -62,55 +62,6 @@
         </div>
     </div>
 
-    <script>
-
-        function fetchProductsByCategory(category) {
-            fetch(`/filter-category?category=${category}`)
-                .then(response => response.json())
-                .then(products => {
-                    if (products.length === 0){
-                        return;
-                    }
-                    let productHTML = products.map(product => `
-                        <div class="book">
-                            <a href="/book/${product.slugName}" class="book__link">
-                                <div class="book__img" style="background-image: url(${product.imageURL});"></div>
-                                <div class="book__info">
-                                    <h4 class="info__name">${product.name}</h4>
-                                    <h4 class="info__price"><del>${product.cost}đ</del>  ${product.price}đ</h4>
-                                </div>
-                            </a>
-
-                            <button type="button" data-product="${product.id}" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
-                        </div>
-                    `).join('');
-
-                    content.innerHTML = '';
-
-                    $('#more-book-btn').hide();
-
-                    content.innerHTML += productHTML;
-
-                    addCartEventListeners();
-                });
-        }
-
-        $(document).on('click', '#filter-btn', function(e){
-            e.preventDefault();
-            var select = $('.filter-category option:checked');
-            if(select.val() == 'category0') {
-                window.location.href = '{% url "home" %}';
-            }
-            else {
-                category = select.val();
-                $('.content__heading').text(select.text());
-                fetchProductsByCategory(category);
-            }
-        });
-
-
-    </script>
-
     <script src="{% static 'app/js/cart.js' %}"></script>
     <script src="{% static 'app/js/home.js' %}"></script>
 
