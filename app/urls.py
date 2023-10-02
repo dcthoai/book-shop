@@ -15,5 +15,13 @@ urlpatterns = [
     path('payment/', views.payment, name='payment'),
     path('update-item/', views.updateItem, name='update-item'),
     path('search/<str:query>/', views.search, name='search'),
-    path('api/products', views.productsApi, name='products-api')
+    path('api/products/', views.productsApi, name='products-api'),
+    path('api/update-account/', views.updateAccount, name='update-account'),
+    path('api/user-id/', views.getIdUser, name='user-id'),
+    path('api/verify-change-email/', views.verifyChangeEmail, name='verify-change-email'),
+    path('api/update-avatar/', views.updateAvatar, name='update-avatar'),
+    path('api/change-password/', views.changePassword, name='change-password'),
+    path('api/recover-password/', views.recoverPassword, name='recover-password'),
+    path('api/verify-recover-password/', views.verifyRecoverPassword, name='verify-recover-password'),
+    path('api/recover-success/', views.recoverSuccess, name='recover-success'),
 ]

@@ -62,6 +62,11 @@ const formVerifyHtml = `
     </form>
 `;
 
+const loaddingAnimation = `
+    <div class="loadding">
+        <div class="loadding-content"></div>
+    </div>
+`;
 var isLoggedIn = false;
 var isSignIn;
 var signBtn = document.getElementById('sign-btn');
@@ -72,6 +77,7 @@ var formNav = formMain.querySelector('.form__nav');
 var formTrans = formMain.querySelectorAll('.form__nav-btn');
 var userBtn = document.getElementById('user-btn');
 var formUser = document.getElementById('user-form');
+var loaddingElement = document.querySelector('.loadding');
 
 // Open form sign in/up when user do not logged in
 signBtn.onclick = function(){
@@ -110,29 +116,29 @@ function viewSignUp(){
     isSignIn = false;
 }
 
-function loginSuccess(){
+function loginSuccess(message){
     formMain.style.display = 'none';
     signBtn.style.display = 'none';
     userBtn.style.display = 'block';
     localStorage.setItem('isLoggedIn', 'true');
     setTimeout(function(){
         location.reload();
-        alert('Đăng nhập thành công.')
+        alert(message);
     }, 500);
 }
 
-function loginFailed(){
-    alert("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin tài khoản.");
+function loginFailed(message){
+    alert(message);
 }
 
-function signUpSuccess(){
-    alert("Đăng ký thành công.");
+function signUpSuccess(message){
+    alert(message);
     viewSignIn();
     validateSignIn();
 }
 
-function signUpFailed(){
-    alert('Đăng ký thất bại. Mã xác thực sai hoặc hết thời gian hiệu lực, vui lòng thử lại.');
+function signUpFailed(message){
+    alert(message);
 }
 
 // Switch to form Sign In
@@ -163,6 +169,9 @@ var validateSignUp = function(){
             }, 'Mật khẩu nhập lại chưa chính xác.')
         ],
         onSubmit: function(data){
+            loaddingElement.style.display = 'block';
+            formCloseBtn.click();
+
             fetch('/register/', {
                 method: 'POST',
                 headers: {
@@ -172,16 +181,19 @@ var validateSignUp = function(){
             })
             .then(response => response.json())
             .then(data => {
+                loaddingElement.style.display = 'none';
                 if(data.success){
-                    alert('Yêu cầu đăng ký tài khoản của bạn đã được gửi đi, vui lòng đợi giây lát');
+                    alert(data.success);
                     verify();
                 } else {
-                    alert('Gửi yêu cầu thất bại, vui lòng thử lại.');
+                    signBtn.click();
+                    formTrans[1].click();
+                    alert(data.error);
                 }
             })
             .catch((error) => {
-                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
-                console.error('Error:', error);
+                loaddingElement.style.display = 'none';
+                alert(error);
             });
         }
     });
@@ -189,6 +201,7 @@ var validateSignUp = function(){
 
 // Verify account registration code
 function verify(){
+    signBtn.click();
     formLayer.innerHTML = formVerifyHtml;
     formLayer.style.marginTop = '60px';
     formNav.style.display = 'none';
@@ -200,6 +213,7 @@ function verify(){
         var dataVerify = {};
         var inputElement = document.querySelector('#form-main input[name="verify_code"]');
         dataVerify[inputElement.name] = inputElement.value;
+        loaddingElement.style.display = 'block';
 
         fetch('/verify/', {
             method: 'POST',
@@ -210,15 +224,16 @@ function verify(){
         })
         .then(reponse => reponse.json())
         .then(data => {
+            loaddingElement.style.display = 'none';
             if(data.success){
-                signUpSuccess();
+                signUpSuccess(data.success);
             } else {
-                signUpFailed();
+                signUpFailed(data.error);
             }
         })
         .catch((error) => {
-            alert('Có lỗi xảy ra, vui lòng thử lại sau.');
-            console.error('Error:', error);
+            loaddingElement.style.display = 'none';
+            alert(error);
         })
     });
 
@@ -240,6 +255,8 @@ var validateSignIn = function(){
             Validator.minLength('#password', 'Vui lòng nhập mật khẩu đủ 8 kí tự trở lên'),
         ],
         onSubmit: function(data){
+            loaddingElement.style.display = 'block';
+            formCloseBtn.click();
             // Call API
             fetch('/login/', {
                 method: 'POST',
@@ -250,16 +267,17 @@ var validateSignIn = function(){
             })
             .then(response => response.json())
             .then(data => {
+                loaddingElement.style.display = 'none';
                 if (data.success) {
-                    loginSuccess();
+                    loginSuccess(data.success);
                     validateSignIn();
                 }else{
-                    loginFailed();
+                    loginFailed(data.error);
                 }
             })
             .catch((error) => {
-                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
-                console.error('Error:', error);
+                loaddingElement.style.display = 'none';
+                alert(error);
             });
         }
     });
@@ -271,7 +289,10 @@ function getFormUser(){
     }else{
         formUser.style.display = 'block';    
         var logoutBtn = formUser.querySelector('.user__logout-btn');
+
         logoutBtn.onclick = function(){
+            loaddingElement.style.display = 'block';
+
             fetch('/logout/', {
                 method: 'POST',
                 headers: {
@@ -282,23 +303,26 @@ function getFormUser(){
             .then(data => {
                 isLoggedIn = false;
                 localStorage.setItem('isLoggedIn', 'false');
-                location.reload();
+                setTimeout(function(){
+                    loaddingElement.style.display = 'none';
+                    location.reload();
+                }, 200);
             })
             .catch((error) => {
-                console.error('Error:', error);
+                loaddingElement.style.display = 'none';
+                alert(error);
             });
         }
     }
 }
 
-window.addEventListener = ('load', function() {
+window.addEventListener('load', function(){
     var isLoggedIn = localStorage.getItem('isLoggedIn');
     if (isLoggedIn === 'true') {
         formMain.style.display = 'none';
         signBtn.style.display = 'none';
         userBtn.style.display = 'block';
-        userBtn.onclick = function(event){
-            event.stopPropagation();
+        userBtn.onclick = function(){
             getFormUser();
         }
     }else{
@@ -308,39 +332,12 @@ window.addEventListener = ('load', function() {
     }
 });
 
-window.addEventListener('click', function(event){
-    if(formUser.style.display == 'block'){
-        if(event.target != formUser && event.target != userBtn) {
-            formUser.style.display = 'none';
-        }
-    }
+window.addEventListener('mousedown', function(event){
+    if (!formUser.contains(event.target) && !userBtn.contains(event.target)){
+        formUser.style.display = 'none';
+    }    
 });
 
-window.addEventListener('load', function(){
-    var content = document.querySelector('.content__product .product-info .info__decription .info__decription-content');
-    var toggle = document.getElementById('toggleDesBook');
-
-    var fullText = content.innerHTML;
-    var shortText = fullText;
-
-    if (fullText.length > 200) {
-        shortText = fullText.substr(0, 200) + '...';
-        toggle.style.display = 'block';
-        tongle.innerHTML = 'Xem thêm';
-    } else {
-        tongle.innerHTML = '';
-        toggle.style.display = 'none';
-    }
-
-    content.innerHTML = shortText;
-
-    toggle.addEventListener('click', function() {
-        if (content.innerHTML === shortText) {
-            content.innerHTML = fullText;
-            this.innerHTML = 'Thu gọn';
-        } else {
-            content.innerHTML = shortText;
-            this.innerHTML = 'Xem thêm';
-        }
-    });
+window.addEventListener('beforeunload', function(){
+    formUser.style.display = 'none';
 });
