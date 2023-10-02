@@ -12,6 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome, Profile
+from random import sample
 import unidecode
 import smtplib
 import random
@@ -23,6 +24,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.files import File
 from django.conf import settings
+
 
 EXPIRATION_TIME = 3 * 60  # 3 minutes
 
@@ -147,7 +149,26 @@ def cart(request):
         order = {'get_cart_items':0, 'get_cart_total':0}
     context = {'items':items, 'order':order}
     return render(request, 'app/cart.html', context)
-
+def get_recommendations(product, products, num_recommendations=4):
+   
+    # Xác định logic chọn sản phẩm gợi ý ở đây, ví dụ: các sản phẩm cùng thể loại.
+    related_products = [p for p in products if p.category == product.category]
+    
+    # Lựa chọn ngẫu nhiên một số sản phẩm gợi ý từ danh sách sản phẩm liên quan.
+    recommended_products = sample(related_products, min(num_recommendations, len(related_products)))
+    
+    return recommended_products
+def my_view(request):
+    # Lấy danh sách sản phẩm gợi ý từ bất kỳ nguồn dữ liệu nào, ví dụ: từ hàm get_recommendations
+    recommended_products = get_recommendations()  # Thay thế bằng cách lấy sản phẩm gợi ý thực tế
+    
+    # Đặt danh sách sản phẩm gợi ý vào context
+    context = {
+        'recommended_products': recommended_products,
+    }
+    
+    
+    return render(request, 'home.html', context)
 # Load info product page
 def book(request, slugName):
     if request.user.is_authenticated:
