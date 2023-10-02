@@ -3,6 +3,7 @@ html{
     font-size: 16px;
     line-height: 1;
     font-family: Arial, Helvetica, sans-serif;
+    scroll-behavior: smooth;
 }
 
 .content__product{
