@@ -24,4 +24,5 @@ urlpatterns = [
     path('api/recover-password/', views.recoverPassword, name='recover-password'),
     path('api/verify-recover-password/', views.verifyRecoverPassword, name='verify-recover-password'),
     path('api/recover-success/', views.recoverSuccess, name='recover-success'),
+    path('filter-category/', views.filter_category, name='filter-category'),
 ]
