@@ -24,11 +24,8 @@ urlpatterns = [
     path('api/recover-password/', views.recoverPassword, name='recover-password'),
     path('api/verify-recover-password/', views.verifyRecoverPassword, name='verify-recover-password'),
     path('api/recover-success/', views.recoverSuccess, name='recover-success'),
-<<<<<<< HEAD
     path('filter-category/', views.filter_category, name='filter-category'),
-=======
     path('api/recover/', views.recover, name='recover'),
     path('api/recover-account/', views.recoverAccount, name='recover-account'),
     path('api/password/create/', views.createNewPassword, name='create-new-password'),
->>>>>>> f3a849b6d3012243f6ae443fbde13ebfae2beaf3
 ]

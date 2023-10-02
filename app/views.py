@@ -466,7 +466,6 @@ def recoverSuccess(request):
         return JsonResponse({'success': 'Khôi phục tài khoản thành công, vui lòng đăng nhập lại.'})
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
-<<<<<<< HEAD
     
 
 def filter_category(request):
@@ -480,7 +479,6 @@ def filter_category(request):
         product_list.append(product_dict)
 
     return JsonResponse(product_list, safe=False)
-=======
 
 @csrf_exempt
 def recover(request):
@@ -548,4 +546,3 @@ def createNewPassword(request):
         return JsonResponse({'success': 'Khôi phục tài khoản thành công, vui lòng đăng nhập lại.'})
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
->>>>>>> f3a849b6d3012243f6ae443fbde13ebfae2beaf3
