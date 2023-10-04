@@ -218,6 +218,18 @@ def search(request, query):
     context = {'result' : result, 'size' : size, 'order' : order ,'products' : products}
     return render(request, 'app/search.html', context)
 
+def filter_category(request):
+    category = request.GET.get('category')
+    products = Product.objects.filter(category=category)
+    product_list = []
+
+    for product in products:
+        product_dict = model_to_dict(product, exclude=["image"])
+        product_dict['imageURL'] = product.imageURL
+        product_list.append(product_dict)
+
+    return JsonResponse(product_list, safe=False)
+
 def account(request):
     if request.user.is_authenticated:
         user = request.user

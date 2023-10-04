@@ -134,3 +134,46 @@ fetchProducts();
 moreBook.onclick = function(){
     fetchProducts();
 }
+
+// Get list products by category
+function fetchProductsByCategory(category) {
+    fetch(`/filter-category?category=${category}`)
+        .then(response => response.json())
+        .then(products => {
+            if (products.length === 0){
+                content.innerHTML = '';
+                return;
+            }
+            let productHTML = products.map(product => `
+                <div class="book">
+                    <a href="/book/${product.slugName}" class="book__link">
+                        <div class="book__img" style="background-image: url(${product.imageURL});"></div>
+                        <div class="book__info">
+                            <h4 class="info__name">${product.name}</h4>
+                            <h4 class="info__price"><del>${product.cost}đ</del>  ${product.price}đ</h4>
+                        </div>
+                    </a>
+                    <button type="button" data-product="${product.id}" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
+                </div>
+            `).join('');
+
+            content.innerHTML = '';
+            content.innerHTML += productHTML;
+            addCartEventListeners();
+        });
+}
+
+var filter = document.getElementById('filter-btn');
+
+filter.onclick = function() {
+    var select = document.querySelector('.filter-category option:checked');
+
+    if(select.value == 'category0') {
+        window.location.href = '/';
+    }else{
+        category = select.value;
+        document.getElementById('more-book-btn').style.display = 'none';
+        document.querySelector('.content__heading').textContent = select.textContent;
+        fetchProductsByCategory(category);
+    }
+}
