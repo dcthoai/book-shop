@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="EANqwosnloOwASlgvg8k5QPXQkmyCccZW4nt1IGidp4"/>
     {% block home_title %}{% endblock home_title %}
     {% block search_title %}{% endblock search_title %}
     {% block book_title %}{% endblock book_title %}
@@ -63,7 +64,7 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
-                
+
                 <div class="nav__notify">
                     <div class="nav__notify-icon"><i class="fa-regular fa-bell"></i></div>
                     <div class="wrapper">
@@ -86,7 +87,7 @@
                         </div>
                     </a>
                 </div>
-                    
+
                 <div class="nav__user">
                     <button type="button" id="sign-btn" class="sign-btn">Sign In</button>
                     <button type="button" id="user-btn" class="user-btn">
@@ -104,7 +105,7 @@
                                 <div class="username">@{{request.user.username}}</div>
                             </div>
                         </div>
-            
+
                         <div class="user__body">
                             <div class="wrapper">
                                 <a href="{% url "account" %}" class="wrapper__link">Thông tin tài khoản</a>
@@ -130,7 +131,7 @@
             </div>
 
             <div class="form__layer">
-                
+
             </div>
         </div>
     </div>
