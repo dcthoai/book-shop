@@ -459,6 +459,19 @@ def recoverSuccess(request):
         return JsonResponse({'success': 'Khôi phục tài khoản thành công, vui lòng đăng nhập lại.'})
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
+    
+
+def filter_category(request):
+    category = request.GET.get('category')
+    products = Product.objects.filter(category=category)
+    product_list = []
+    
+    for product in products:
+        product_dict = model_to_dict(product, exclude=["image"])
+        product_dict['imageURL'] = product.imageURL
+        product_list.append(product_dict)
+
+    return JsonResponse(product_list, safe=False)
 
 @csrf_exempt
 def recover(request):
