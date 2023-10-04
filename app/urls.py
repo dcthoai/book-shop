@@ -15,6 +15,7 @@ urlpatterns = [
     path('payment/', views.payment, name='payment'),
     path('update-item/', views.updateItem, name='update-item'),
     path('search/<str:query>/', views.search, name='search'),
+    path('filter-category/', views.filter_category, name='filter-category'),
     path('api/products/', views.productsApi, name='products-api'),
     path('api/update-account/', views.updateAccount, name='update-account'),
     path('api/user-id/', views.getIdUser, name='user-id'),
@@ -24,4 +25,7 @@ urlpatterns = [
     path('api/recover-password/', views.recoverPassword, name='recover-password'),
     path('api/verify-recover-password/', views.verifyRecoverPassword, name='verify-recover-password'),
     path('api/recover-success/', views.recoverSuccess, name='recover-success'),
+    path('api/recover/', views.recover, name='recover'),
+    path('api/recover-account/', views.recoverAccount, name='recover-account'),
+    path('api/password/create/', views.createNewPassword, name='create-new-password'),
 ]

@@ -12,6 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome, Profile
+from random import sample
 import unidecode
 import smtplib
 import random
@@ -23,6 +24,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.files import File
 from django.conf import settings
+
 
 EXPIRATION_TIME = 3 * 60  # 3 minutes
 
@@ -216,6 +218,18 @@ def search(request, query):
     context = {'result' : result, 'size' : size, 'order' : order ,'products' : products}
     return render(request, 'app/search.html', context)
 
+def filter_category(request):
+    category = request.GET.get('category')
+    products = Product.objects.filter(category=category)
+    product_list = []
+
+    for product in products:
+        product_dict = model_to_dict(product, exclude=["image"])
+        product_dict['imageURL'] = product.imageURL
+        product_list.append(product_dict)
+
+    return JsonResponse(product_list, safe=False)
+
 def account(request):
     if request.user.is_authenticated:
         user = request.user
@@ -392,7 +406,7 @@ def recoverPassword(request):
             message = MIMEMultipart()
             message['From'] = senderEmail
             message['To'] = receiverEmail
-            message['Subject'] = 'Khôi phục tài khoản.'
+            message['Subject'] = 'Khôi phục tài khoản'
 
             content = f'Nhập mã này để khôi phục tài khoản của bạn: {verifyCode}. Mã này có hiệu lực trong vòng 3 phút.'
             message.attach(MIMEText(content, 'plain'))
@@ -439,6 +453,73 @@ def recoverSuccess(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         user = User.objects.get(id=data['userId'])
+        user.set_password(data['new_password'])
+        user.save()
+
+        return JsonResponse({'success': 'Khôi phục tài khoản thành công, vui lòng đăng nhập lại.'})
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
+
+@csrf_exempt
+def recover(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            user = User.objects.get(email=data['email'])
+
+            verifyCode = ''.join(random.choices('0123456789', k=6))
+            senderEmail = 'dcthoai1023@gmail.com'
+            senderPassword = 'nyitsxfirfuskyat'
+            receiverEmail = data['email']
+
+            message = MIMEMultipart()
+            message['From'] = senderEmail
+            message['To'] = receiverEmail
+            message['Subject'] = 'Khôi phục tài khoản'
+
+            content = f'Nhập mã này để khôi phục tài khoản của bạn: {verifyCode}. Mã này có hiệu lực trong vòng 3 phút.'
+            message.attach(MIMEText(content, 'plain'))
+
+            session = smtplib.SMTP('smtp.gmail.com', 587)  # Used gmail with port 587
+            session.starttls()
+            session.login(senderEmail, senderPassword)
+            session.sendmail(senderEmail, receiverEmail, message.as_string())
+            session.quit()
+
+            # Save the user data and verification code in session
+            request.session['verify_code'] = verifyCode
+            request.session['code_time'] = datetime.datetime.now().timestamp()
+
+            return JsonResponse({'success': 'Mã khôi phục đã được gửi đi, vui lòng kiểm tra email của bạn.'})
+        except:
+            return JsonResponse({'error': 'Email không khớp với bất kì tài khoản nào.'})
+
+@csrf_exempt
+def recoverAccount(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        if 'verify_code' in request.session and data['verify_code'] == request.session['verify_code']:
+            # Check if the code has expired
+            if datetime.datetime.now().timestamp() - request.session['code_time'] > EXPIRATION_TIME:
+                del request.session['verify_code']
+                del request.session['code_time']
+                return JsonResponse({'error': 'Mã khôi phục đã hết hiệu lực.'}, status=400)
+
+            # Delete the user data and verification code from session
+            del request.session['verify_code']
+            del request.session['code_time']
+
+            return JsonResponse({'success': 'Đã khôi phục tài khoản thành công.'}, status=201)
+        else:
+            return JsonResponse({'error': 'Mã khôi phục sai.'}, status=400)
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
+
+@csrf_exempt
+def createNewPassword(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user = User.objects.get(email=data['email'])
         user.set_password(data['new_password'])
         user.save()
 
