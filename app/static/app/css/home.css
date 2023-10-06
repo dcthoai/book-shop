@@ -50,14 +50,14 @@ body{
   
 .slider .slider__more-img{
     border-radius: 4px;
-    height: 186px;
+    aspect-ratio: 2/1;
     background-size: cover;
     background-repeat: no-repeat;
 }
   
 .slider .slider__content{
     border-radius: 4px;
-    width: 760px;
+    width: 100%;
     overflow: hidden;
     position: relative;
 }
@@ -103,15 +103,13 @@ body{
 }
   
 .slider .wrapper{
-    width: 760px;
     display: flex;
 }
   
-.slider .slider_link-item{
+.slider .slider__link-item{
     margin: 0;
     padding: 0;
-    width: 760px;
-    height: 380px;
+    aspect-ratio: 2/1;
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -178,7 +176,7 @@ body{
 }
   
 .content .content__header .content__filter-btn{
-    width: 90px;
+    width: 100px;
     height: 30px;
     background-color: #fa0000;
     border: none;
@@ -201,8 +199,7 @@ body{
 }
 
 .content .book{
-    width: 160px;
-    min-width: calc(16.66667% - 16px);
+    width: calc(16.66667% - 16px);
     margin: 12px 8px;
     background-color: #fff;
     border: 1px solid #27b6a7;
@@ -258,7 +255,7 @@ body{
   
 .content .book .book__img{
     width: 100%;
-    height: 230px;
+    aspect-ratio: 9/14;
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -306,12 +303,13 @@ body{
 }
   
 .content .content__more{
-    width: 50%;
-    margin: 32px auto;
+    width: 100%;
+    margin: 32px 0;
 }
   
 .content .content__more .content__more-btn{
     font-size: 20px;
+    margin: 0 auto;
     width: 240px;
     height: 40px;
     background-color: #1ac7b6;

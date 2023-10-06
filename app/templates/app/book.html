@@ -20,7 +20,7 @@
                         <div class="info__decription">
                             <span>Giới thiệu: </span>
                             <div style="display: inline;">
-                                <p style="display: inline;" class="info__decription-content">{{product.description}}</p>
+                                <p style="display: inline;" id="product-content-des" class="info__decription-content">{{product.description}}</p>
                                 <button id="toggleDesBook" type="button"></button>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
     <div class="suggest">
         <h4 class="heading">Gợi ý</h4>
 
-        <button id="prev-suggest" type="button" class="suggest__prev"><i class="fa-solid fa-angle-left"></i></button>
+        <button id="prev-suggest" type="button" class="suggest__prev pc tablet"><i class="fa-solid fa-angle-left"></i></button>
 
         <div class="suggest__content">
             <div class="wrapper">
@@ -83,7 +83,7 @@
             </div>
         </div>
 
-        <button id="next-suggest" type="button" class="suggest__next"><i class="fa-solid fa-angle-right"></i></button>
+        <button id="next-suggest" type="button" class="suggest__next pc tablet"><i class="fa-solid fa-angle-right"></i></button>
     </div>
 
     <script src="{% static 'app/js/cart.js' %}"></script>

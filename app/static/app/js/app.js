@@ -512,27 +512,7 @@ function getFormUser(){
         var logoutBtn = formUser.querySelector('.user__logout-btn');
 
         logoutBtn.onclick = function(){
-            loaddingElement.style.display = 'block';
-
-            fetch('/logout/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                isLoggedIn = false;
-                localStorage.setItem('isLoggedIn', 'false');
-                setTimeout(function(){
-                    loaddingElement.style.display = 'none';
-                    location.reload();
-                }, 200);
-            })
-            .catch((error) => {
-                loaddingElement.style.display = 'none';
-                alert(error);
-            });
+            loggedOut();
         }
     }
 }
@@ -564,6 +544,8 @@ window.addEventListener('beforeunload', function(){
 });
 
 function loggedOut(){
+    loaddingElement.style.display = 'block';
+
     fetch('/logout/', {
         method: 'POST',
         headers: {
@@ -572,10 +554,13 @@ function loggedOut(){
     })
     .then(response => response.json())
     .then(data => {
+        loaddingElement.style.display = 'none';
+        isLoggedIn = false;
         localStorage.setItem('isLoggedIn', 'false');
         window.location.href = '/';
     })
     .catch((error) => {
+        loaddingElement.style.display = 'none';
         alert(error);
     });
 }

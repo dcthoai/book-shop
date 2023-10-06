@@ -22,8 +22,10 @@
     <link rel="stylesheet" href="{% static 'app/css/book.css' %}"/>
     <link rel="stylesheet" href="{% static 'app/css/cart.css' %}"/>
     <link rel="stylesheet" href="{% static 'app/css/payment.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/css/responsive.css' %}"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 
     <script type="text/javascript">
         var user = '{{request.user}}';
@@ -53,19 +55,19 @@
             <div class="nav grid">
                 <div class="nav__logo">
                     <a href="{% url 'home' %}" class="logo-link">
-                        <img class="logo-link__icon" src="{% static 'app/images/book-logo.png' %}" alt="">
+                        <img class="logo-link__icon pc" src="{% static 'app/images/book-logo.png' %}" alt="">
                         <h2 class="logo-link__heading">ABC Book</h2>
                     </a>
                 </div>
 
                 <div class="nav__search">
-                    <input id="search-input" class="seacrh__input" type="text" placeholder="Hôm nay bạn muốn đọc gì?">
+                    <input id="search-input" class="search__input tablet pc" type="text" placeholder="Hôm nay bạn muốn đọc gì?">
                     <button id="search-button" type="button" class="search__btn">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
 
-                <div class="nav__notify">
+                <div class="nav__notify pc tablet">
                     <div class="nav__notify-icon"><i class="fa-regular fa-bell"></i></div>
                     <div class="wrapper">
                         <div>
@@ -74,12 +76,12 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="nav__support">
+            
+                <div class="nav__support pc tablet">
                     <a href="" class="nav__support-link">Hỗ trợ</a>
                 </div>
-
-                <div class="nav__cart">
+            
+                <div class="nav__cart pc tablet">
                     <a href="{% url "cart" %}" class="nav__cart-link">
                         <div>
                             <i class="fa-solid fa-cart-shopping"></i>
@@ -87,13 +89,13 @@
                         </div>
                     </a>
                 </div>
-
+            
                 <div class="nav__user">
                     <button type="button" id="sign-btn" class="sign-btn">Sign In</button>
                     <button type="button" id="user-btn" class="user-btn">
                         <div class="nav__user-avatar" style="background-image: url({{request.user.profile.avatarURL}})"></div>
                     </button>
-
+            
                     <div id="user-form" class="user">
                         <div class="user__header">
                             <h4>Tài khoản</h4>
@@ -105,11 +107,14 @@
                                 <div class="username">@{{request.user.username}}</div>
                             </div>
                         </div>
-
+            
                         <div class="user__body">
                             <div class="wrapper">
                                 <a href="{% url "account" %}" class="wrapper__link">Thông tin tài khoản</a>
                                 <a href="" class="wrapper__link">Đơn hàng</a>
+                                <a href="" class="wrapper__link mobile tablet">Thông báo</a>
+                                <a href="" class="wrapper__link mobile tablet">Hỗ trợ</a>
+                                <a href="/cart/" class="wrapper__link mobile tablet">Giỏ hàng</a>
                             </div>
                             <button type="button" class="user__logout-btn">Đăng xuất</button>
                         </div>
@@ -164,5 +169,6 @@
     <script src="{% static 'app/js/search.js' %}"></script>
     <script src="{% static 'app/js/app.js' %}"></script>
     <script src="{% static 'app/js/validator.js' %}"></script>
+    <script src="{% static 'app/js/res.js' %}"></script>
 </body>
 </html>

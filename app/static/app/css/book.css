@@ -11,19 +11,36 @@ html{
     max-width: 100%;
     margin: 32px auto;
     margin-top: 100px;
-    padding: 24px;
-    padding-bottom: 42px;
+    padding: 48px;
     border-radius: 4px;
     background-color: #fff;
     display: flex;
     justify-content: space-between;
 }
 
+/* Product image */
+.content__product .product-img{
+    align-self: flex-start;
+    width: 33%;
+    min-width: 200px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #ffadad;
+    box-shadow: 0 0 5px 1px #ff000030;
+}
+
+.content__product .product-img .img{
+    width: 100%;
+    aspect-ratio: 9/14;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .content__product .product__heading h2{
     font-size: 26px;
     font-weight: 300;
-    margin: 32px 0;
-    margin-top: 18px;
+    margin-top: 0;
+    margin-bottom: 32px;
     text-align: left;
 }
 
@@ -49,36 +66,19 @@ html{
     cursor: pointer;
 }
 
-.content__product .product-img{
-    width: 360px;
-    height: 560px;
-    margin: 18px 24px;
-    margin-bottom: 0;
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid #ffadad;
-    box-shadow: 0 0 5px 1px #ff000030;
-}
-
-.content__product .product-img .img{
-    width: 360px;
-    height: 560px;
-    background-size: cover;
-    background-repeat: no-repeat;
+/* Product controls */
+.content__product .product__control{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 48px;
 }
 
 .content__product .wrapper{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.content__product .product__control{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0 40px;
 }
 
 .content__product .product-info{
@@ -152,15 +152,17 @@ html{
     display: flex;
     margin: 0 auto;
     margin-top: 24px;
-    width: 420px;
+    width: 100%;
 }
 
 .content__product .buy .buy-now{
     width: 50%;
+    max-width: 200px;
 }
 
 .content__product .buy .shop-cart{
     width: 50%;
+    max-width: 200px;
     margin-left: 12px;
 }
 
