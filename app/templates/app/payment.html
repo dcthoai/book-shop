@@ -5,25 +5,25 @@
 {% block payment_title %}<title>Thanh toán</title>{% endblock payment_title %}
 
 {% block payment_content %}
-    <div class="payment">
+    <div class="payment" id="payment">
         <div class="payment__header">
             <span>Đơn hàng của bạn</span>
         </div>
 
         <div class="payment__info">
-            <div class="wrapper">
-                <span>Họ tên</span>
-                <input type="text" class="info__input" placeholder="Nhập họ tên người nhận">
+                <div class="wrapper">
+                    <span>Họ và tên</span>
+                    <input type="text" class="info__input info__name" placeholder="Nhập họ tên người nhận">
+                </div>  
+                <div class="wrapper">
+                    <span>Số điện thoại</span>
+                    <input type="text" class="info__input info__phone-number" placeholder="Nhập số điện thoại người nhận">
+                </div>
+                <div class="wrapper">
+                    <span>Địa chỉ</span>
+                    <input type="text" class="info__input info__address" placeholder="Nhập địa chỉ người nhận">
+                </div>
             </div>
-            <div class="wrapper">
-                <span>Số điện thoại</span>
-                <input type="text" class="info__input" placeholder="Nhập số điện thoại người nhận">
-            </div>
-            <div class="wrapper">
-                <span>Địa chỉ</span>
-                <input type="text" class="info__input" placeholder="Nhập địa chỉ người nhận">
-            </div>
-        </div>
 
         <div class="space"></div>
 
@@ -33,7 +33,7 @@
             </div>
             <ul>
                 <li>
-                    <input type="radio" name="payment-method">
+                    <input type="radio" name="payment-method" value="zalo-pay" >
                     <div class="des">
                         <div class="des__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="24" viewBox="0 0 40 24">
@@ -62,7 +62,7 @@
                     </div>
                 </li>
                 <li>
-                    <input type="radio" name="payment-method">
+                    <input type="radio" name="payment-method" value="momo-pay">
                     <div class="des">
                         <div class="des__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="24" viewBox="0 0 40 24">
@@ -79,7 +79,7 @@
                     </div>
                 </li>
                 <li>
-                    <input type="radio" name="payment-method">
+                    <input type="radio" name="payment-method" value="banking">
                     <div class="des">
                         <div class="des__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="24" viewBox="0 0 40 24">
@@ -97,7 +97,7 @@
                     </div>
                 </li>
                 <li>
-                    <input type="radio" name="payment-method">
+                    <input type="radio" name="payment-method" value="direct-pay">
                     <div class="des">
                         <div class="des__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="37.912" height="24" viewBox="0 0 37.912 24">
@@ -136,7 +136,7 @@
                         </div>
                         <div class="product__info-decription">
                             <div class="heading"><a href="">{{item.product.name}}</a></div>
-                            <div class="price">{{item.product.price}}đ <del>79.000đ</del></div>
+                            <div class="price">{{item.product.price}}đ <del>{{item.product.cost}}đ</del></div>
                         </div>
                     </div>
                     
@@ -164,9 +164,33 @@
                 </div>
 
                 <div class="payment__controls-confirm">
-                    <button type="button">Xác nhận thanh toán</button>
+                    <button type="button" id="confirm-payment-btn">Xác nhận thanh toán</button>
                 </div> 
             </div>
         </div>
     </div>
+    <div id="payment__confirm" class="payment__confirm">
+        <div class="payment__windown">
+            <div class="payment__windown-close-btn">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <h3 class="payment__windown-title">Thanh toán</h3>
+            <img src="" alt="" class="payment__windown-img">
+            <button class="payment__windown-btn payment__windown-btn--cancel">Hủy</button>
+            <button class="payment__windown-btn payment__windown-btn--accept">Đã thanh toán</button>
+        </div>
+    </div>
+    <div class="payment-complete" id="payment-complete">
+        <h3 class="payment-complete__header">Thanh toán thành công</h3>
+        <div class="payment-complete__box">
+            <div class="payment-complete__box-info">Tên người nhận: <span id="nameInfo"></span> </div>
+            <div class="payment-complete__box-info">Số điện thoại: <span id="phoneNumberInfo"></span> </div>
+            <div class="payment-complete__box-info">Địa chỉ người nhận: <span id="addressInfo"></span> </div>
+            <div class="payment-complete__box-mess">Đơn hàng sẽ được gửi đến bạn trong vài ngày tới, bạn vui lòng để ý điện thoại của bạn nhé !!!</div>
+        </div>
+    
+
+        <button class="payment-complete__btn">Quay lại cửa hàng</button>
+    </div>
+
 {% endblock payment_content %}

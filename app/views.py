@@ -238,6 +238,26 @@ def account(request):
     context = {'user': user}
     return render(request, 'app/account.html', context)
 
+# Update payment
+def updatePayment(request):
+    data = json.loads(request.body)
+    name = data['name']
+    phoneNumber = data['phoneNumber']
+    address = data['address']
+    customer = request.user
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    shipping, created = ShippingAddress.objects.get_or_create(customer=customer,order=order)
+    shipping.name = name
+    shipping.phoneNumber = phoneNumber
+    shipping.address = address
+    order.complete = True
+    order.save()
+    shipping.save()
+
+    response_data = {'message': 'payment-complete'}
+    return JsonResponse(response_data, safe=False) 
+
+
 # API get list product for homepage
 def productsApi(request):
     start = int(request.GET.get('start', 0))

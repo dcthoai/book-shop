@@ -102,6 +102,7 @@ class OrderItem(models.Model):
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
+    name = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=250, null=True)
     phoneNumber = models.CharField(max_length=10, null=True)
     dateAdded = models.DateTimeField(auto_now_add=True)

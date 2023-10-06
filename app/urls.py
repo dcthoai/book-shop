@@ -14,6 +14,7 @@ urlpatterns = [
     path('book/<str:slugName>/', views.book, name='book'),
     path('payment/', views.payment, name='payment'),
     path('update-item/', views.updateItem, name='update-item'),
+    path('update-payment/', views.updatePayment, name='update-payment'),
     path('search/<str:query>/', views.search, name='search'),
     path('filter-category/', views.filter_category, name='filter-category'),
     path('api/products/', views.productsApi, name='products-api'),

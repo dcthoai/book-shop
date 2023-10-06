@@ -55,6 +55,11 @@ html{
     margin-left: 24px;
 }
 
+.content__cart .nav .select__all span{
+    font-weight: 700;
+    color: #ff0000;
+}
+
 .content__cart .nav .amount{
     position: absolute;
     right: 226px;
@@ -75,6 +80,7 @@ html{
     align-items: center;
     position: relative;
     padding: 24px 0;
+    margin-left: 32px;
 }
 
 .content__cart .product a{
