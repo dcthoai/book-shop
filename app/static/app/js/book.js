@@ -1,12 +1,12 @@
 
-// Hide and show detailed product information
+// Hide and show product description content
 var content = document.getElementById('product-content-des');
 var showDesBook = document.getElementById('toggleDesBook');
-
 var fullText = content.innerHTML;
 var shortText = '';
 var isTextTooLong = false;
 
+// Shorten product description content when it is too long
 if(fullText.length > 200){
     isTextTooLong = true;
     shortText = fullText.substring(0, 200) + "...";
@@ -15,6 +15,7 @@ if(fullText.length > 200){
     showDesBook.style.display = 'inline';
 }
 
+// Add event showmore or hide product description content when it is too long
 if(isTextTooLong){
     showDesBook.addEventListener('click', function(){
         if(showDesBook.innerHTML === 'Xem thêm'){
@@ -84,4 +85,5 @@ nextSuggest.addEventListener('mouseleave', function(){
     nextSuggest.style.color = '#000';
 })
 
+// Update amount product in shopcart
 addCartEventListeners();

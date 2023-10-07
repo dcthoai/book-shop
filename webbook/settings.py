@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-r9e-6i0f_9$f#ad1dzc1*m$6s@9$)1b8vx6&4_*_=x#g^chnx7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['dcthoai.pythonanywhere.com', '127.0.0.1', '03cf-27-71-37-253.ngrok-free.app']
+ALLOWED_HOSTS = ['dcthoai.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition

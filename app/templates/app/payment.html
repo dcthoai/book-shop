@@ -2,7 +2,10 @@
 {% extends 'app/base.html' %}
 {% load static %}
 
-{% block payment_title %}<title>Thanh toán</title>{% endblock payment_title %}
+{% block payment_title %}
+    <title>Thanh toán</title>
+    <link rel="stylesheet" href="{% static 'app/css/payment.css' %}"/>
+{% endblock payment_title %}
 
 {% block payment_content %}
     <div class="payment">
@@ -129,3 +132,5 @@
         </div>
     </div>
 {% endblock payment_content %}
+
+{% block footer %}{% endblock footer%}

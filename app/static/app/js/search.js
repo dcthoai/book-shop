@@ -39,3 +39,6 @@ $(document).ready(function(){
         buttonSearch.removeClass('click');
     });
 });
+
+// Update amount product in shopcart
+addCartEventListeners();
