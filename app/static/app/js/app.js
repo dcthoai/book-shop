@@ -225,7 +225,7 @@ var validateSignUp = function(){
                 loaddingElement.style.display = 'none';
                 if(data.success){
                     alert(data.success);
-                    verify();
+                    verify();   // POST request to send an email verify
                 } else {
                     signBtn.click();
                     formTrans[1].click();
@@ -249,6 +249,7 @@ function verify(){
     var submitVerify = formMain.querySelector('.form__verify .form__verify-submit');
     var cancelVerify = formMain.querySelector('.form__verify .form__verify-cancel');
 
+    // POST request verify_code
     submitVerify.addEventListener('click', function(){
         var dataVerify = {};
         var inputElement = document.querySelector('#form-main input[name="verify_code"]');
@@ -323,6 +324,7 @@ var validateSignIn = function(){
     });
 }
 
+// Function to recover password when user not logged in
 function forgotPassword(){
     formNav.style.display = 'none';
     formLayer.innerHTML = formRecover;
@@ -339,6 +341,7 @@ function forgotPassword(){
         checkEmail(this, this.value.trim(), 'Vui lòng nhập email đã đăng ký tài khoản này.');
     }
 
+    // POST request to send an email verify
     formSubmit.addEventListener('click', function(){
         loaddingElement.style.display = 'block';
 
@@ -357,7 +360,7 @@ function forgotPassword(){
                 loaddingElement.style.display = 'none';
     
                 if(data.success){
-                    recoverPassword(email.value.trim());
+                    recoverPassword(email.value.trim());    // Authenticated email recover
                 }else{
                     alert(data.error);
                 }
@@ -374,6 +377,7 @@ function forgotPassword(){
     })
 }
 
+// Validator email recover password
 function checkEmail(inputElement, email, message = 'Trường này là bắt buộc.'){
     let re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     
@@ -393,6 +397,7 @@ function checkEmail(inputElement, email, message = 'Trường này là bắt bu�
     }
 }
 
+// Send verify code to recover password
 function recoverPassword(email){
     formNav.style.display = 'none';
     formLayer.innerHTML = formForgotPasswordHTML;
@@ -418,7 +423,7 @@ function recoverPassword(email){
             loaddingElement.style.display = 'none';
 
             if(data.success){
-                createNewPassword(email);
+                createNewPassword(email);   // Create new password when verify code success
             }else{
                 alert(data.error);
             }
@@ -434,6 +439,7 @@ function recoverPassword(email){
     })
 }
 
+// Function create new password when recover success
 function createNewPassword(email){
     formLayer.innerHTML = formRecoverPasswordHTML;
     var formSubmit = formLayer.querySelector('.form__verify-submit');
@@ -453,6 +459,7 @@ function createNewPassword(email){
         validateNewPassword(this, 'Vui lòng nhập tối thiểu 8 kí tự.');
     }
 
+    // Validate new password and POST request to create new password
     formSubmit.addEventListener('click', function(){
         if(!validateNewPassword(formCreateNewPassword, 'Vui lòng nhập tối thiểu 8 kí tự.')){
             loaddingElement.style.display = 'block';
@@ -473,7 +480,7 @@ function createNewPassword(email){
         
                 if(data.success){
                     alert(data.success)
-                    loggedOut();
+                    loggedOut();        // Log out account when recover success 
                 }else{
                     alert(data.error);
                 }
@@ -486,6 +493,7 @@ function createNewPassword(email){
     });
 }
 
+// Validator new password
 function validateNewPassword(item, message = 'Trường này là bắt buộc'){
     let value = item.value.trim();
     if(value.length >= 8){
@@ -504,6 +512,7 @@ function validateNewPassword(item, message = 'Trường này là bắt buộc'){
     }
 }
 
+// Open/close form user when user logged in
 function getFormUser(){
     if(formUser.style.display == 'block'){
         formUser.style.display = 'none';
@@ -512,31 +521,12 @@ function getFormUser(){
         var logoutBtn = formUser.querySelector('.user__logout-btn');
 
         logoutBtn.onclick = function(){
-            loaddingElement.style.display = 'block';
-
-            fetch('/logout/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                isLoggedIn = false;
-                localStorage.setItem('isLoggedIn', 'false');
-                setTimeout(function(){
-                    loaddingElement.style.display = 'none';
-                    location.reload();
-                }, 200);
-            })
-            .catch((error) => {
-                loaddingElement.style.display = 'none';
-                alert(error);
-            });
+            loggedOut();
         }
     }
 }
 
+// Add event click to open/close form user when document is loaded
 window.addEventListener('load', function(){
     var isLoggedIn = localStorage.getItem('isLoggedIn');
     if (isLoggedIn === 'true') {
@@ -553,17 +543,22 @@ window.addEventListener('load', function(){
     }
 });
 
+// Add event close form user when click outside
 window.addEventListener('mousedown', function(event){
     if (!formUser.contains(event.target) && !userBtn.contains(event.target)){
         formUser.style.display = 'none';
     }    
 });
 
+// Add event close form user when user changes page
 window.addEventListener('beforeunload', function(){
     formUser.style.display = 'none';
 });
 
+// Logout account and move to home page
 function loggedOut(){
+    loaddingElement.style.display = 'block';
+
     fetch('/logout/', {
         method: 'POST',
         headers: {
@@ -572,10 +567,13 @@ function loggedOut(){
     })
     .then(response => response.json())
     .then(data => {
+        loaddingElement.style.display = 'none';
+        isLoggedIn = false;
         localStorage.setItem('isLoggedIn', 'false');
         window.location.href = '/';
     })
     .catch((error) => {
+        loaddingElement.style.display = 'none';
         alert(error);
     });
 }

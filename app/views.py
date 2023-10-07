@@ -233,9 +233,11 @@ def filter_category(request):
 def account(request):
     if request.user.is_authenticated:
         user = request.user
+        order, created = Order.objects.get_or_create(customer=user, complete=False)
     else:
         user = None
-    context = {'user': user}
+        order = {'get_cart_items':0, 'get_cart_total':0}
+    context = {'user': user, 'order': order}
     return render(request, 'app/account.html', context)
 
 # API get list product for homepage

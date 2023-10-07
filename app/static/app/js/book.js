@@ -1,33 +1,34 @@
 
-// Hide and show detailed product information
-var content = document.querySelector('.content__product .product-info .info__decription .info__decription-content');
-var btn = document.getElementById('toggleDesBook');
-
+// Hide and show product description content
+var content = document.getElementById('product-content-des');
+var showDesBook = document.getElementById('toggleDesBook');
 var fullText = content.innerHTML;
 var shortText = '';
 var isTextTooLong = false;
 
-if(fullText.length > 350){
+// Shorten product description content when it is too long
+if(fullText.length > 200){
     isTextTooLong = true;
-    shortText = fullText.substring(0, 350) + "...";
+    shortText = fullText.substring(0, 200) + "...";
     content.innerHTML = shortText;
-    btn.innerHTML = 'Xem thêm';
-    btn.style.display = 'inline';
+    showDesBook.innerHTML = 'Xem thêm';
+    showDesBook.style.display = 'inline';
 }
 
+// Add event showmore or hide product description content when it is too long
 if(isTextTooLong){
-    btn.addEventListener('click', function(){
-        if(btn.innerHTML === 'Xem thêm'){
+    showDesBook.addEventListener('click', function(){
+        if(showDesBook.innerHTML === 'Xem thêm'){
             content.innerHTML = fullText;
-            btn.innerHTML = 'Thu gọn';
+            showDesBook.innerHTML = 'Thu gọn';
         }else{
             content.innerHTML = shortText;
-            btn.innerHTML = 'Xem thêm';
+            showDesBook.innerHTML = 'Xem thêm';
         }
     });
 }else{
-    btn.innerHTML = '';
-    btn.style.display = 'none';
+    showDesBook.innerHTML = '';
+    showDesBook.style.display = 'none';
     content.innerHTML = fullText;
 }
 
@@ -84,33 +85,5 @@ nextSuggest.addEventListener('mouseleave', function(){
     nextSuggest.style.color = '#000';
 })
 
+// Update amount product in shopcart
 addCartEventListeners();
-
-window.addEventListener('load', function(){
-    var content = document.querySelector('.content__product .product-info .info__decription .info__decription-content');
-    var toggle = document.getElementById('toggleDesBook');
-
-    var fullText = content.innerHTML;
-    var shortText = fullText;
-
-    if (fullText.length > 200) {
-        shortText = fullText.substr(0, 200) + '...';
-        toggle.style.display = 'block';
-        tongle.innerHTML = 'Xem thêm';
-    } else {
-        tongle.innerHTML = '';
-        toggle.style.display = 'none';
-    }
-
-    content.innerHTML = shortText;
-
-    toggle.addEventListener('click', function() {
-        if (content.innerHTML === shortText) {
-            content.innerHTML = fullText;
-            this.innerHTML = 'Thu gọn';
-        } else {
-            content.innerHTML = shortText;
-            this.innerHTML = 'Xem thêm';
-        }
-    });
-});

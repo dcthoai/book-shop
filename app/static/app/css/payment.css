@@ -10,7 +10,7 @@ html{
 
 .payment{
     width: 960px;
-    max-width: 80%;
+    max-width: 100%;
     margin: 120px auto;
     margin-bottom: 240px;
     background-color: #fff;
@@ -29,6 +29,77 @@ html{
     font-size: 24px;
     font-weight: 300;
     line-height: 80px;
+}
+
+.payment .payment__info{
+    width: 100%;
+    padding: 32px 64px;
+}
+
+.payment .payment__info .wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.payment .payment__info span{
+    margin-top: 12px;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.payment .payment__info .info__input{
+    width: 100%;
+    height: 36px;
+    max-width: 480px;
+    margin: 12px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-indent: 12px;
+}
+
+.payment .payment__method{
+    width: 100%;
+    padding: 32px 64px;
+}
+
+.payment .payment__method .payment__method-heading{
+    font-size: 20px;
+    font-weight: 400;
+    margin: 16px 0;
+}
+
+.payment .payment__method .payment__method-choice{
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.payment .payment__method-choice input{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.payment .payment__method-choice .des{
+    width: 380px;
+    display: flex;
+    align-items: center;
+}
+
+.payment .payment__method-choice .des__icon{
+    width: 54px;
+    height: 30px;
+    margin: 12px;
+}
+
+.payment .payment__method-choice .des__icon img{
+    width: 100%;
+    height: 100%;
+}
+
+.payment .payment__method-choice .des__heading{
+    flex: 1;
+    line-height: 20px;
 }
 
 .payment .payment__content{
@@ -55,127 +126,64 @@ html{
     text-decoration: none;
 }
 
+.payment .payment__content .product__img{
+    max-width: 25%;
+    margin-right: 24px;
+}
+
+.payment .payment__content .product__img img{
+    width: 140px;
+    max-width: 100%;
+    aspect-ratio: 5/7;
+    border: 1px solid #ccc;
+}
+
 .payment .payment__content .product__info{
-    width: 60%;
-    display: flex;
-    flex: 1;
-}
-
-.payment .payment__content .product__info-img{
-    width: 100px;
-    height: 140px;
-    border: 1px solid #ccc;
-}
-
-.payment .payment__content .product__info-decription{
-    flex: 1;
-    padding: 12px 48px;
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
+    flex: 1;
 }
 
-.payment .payment__content .product__info-decription .heading{
+.payment .product__info .description{
+    margin: 16px 24px;
+}
+
+.payment .product__info .description__heading{
+    margin-bottom: 24px;
+}
+
+.payment .product__info .description__heading a{
     font-size: 20px;
+    line-height: 24px;
 }
 
-.payment .payment__content .product__info-decription .price{
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.payment .payment__content .product__info-decription del{
+.payment .product__info .description__price{
     font-size: 16px;
-    font-weight: 300;
-    line-height: 18px;
-    color: #777777;
-}
-
-.payment .payment__content .product__price{
-    width: 120px;
-    display: flex;
-    justify-content: space-between;
-    margin-right: 32px;
-}
-
-.payment .payment__content .product__price-quantity{
-    font-size: 18px;
     font-weight: 600;
 }
 
-.payment .payment__content .product__price-total{
-    font-size: 18px;
-    font-weight: 600;
-    color: #ff7300;
+.payment .product__info .description__price del{
+    font-size: 12px;
+    font-weight: 300;
+    color: #555;
 }
 
-.payment .payment__content .product .product__control{
-    display: flex;
+.payment .product__info .price{
     align-items: center;
-    justify-content: space-between;
-    flex: 1;
-}
-
-
-.payment .payment__info{
-    width: 100%;
-    padding: 32px 0;
-}
-
-.payment .payment__info .wrapper{
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
 }
 
-.payment .payment__info span{
-    margin-left: 64px;
-    margin-top: 12px;
+.payment .product__info .price__quantity{
     font-size: 20px;
     font-weight: 300;
-
 }
 
-.payment .payment__info .info__input{
-    width: 540px;
-    height: 32px;
-    max-width: 80%;
-    margin: 12px 64px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-indent: 12px;
-}
-
-.payment .payment__method{
-    width: 100%;
-    padding: 32px 64px;
-}
-
-.payment .payment__method .payment__method-heading{
+.payment .product__info .price__total{
     font-size: 20px;
-    font-weight: 400;
-    margin: 16px 0;
-}
-
-.payment .payment__method li{
-    list-style: none;
-    display: flex;
-    align-items: center;
-}
-
-.payment .payment__method li input{
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-}
-
-.payment .payment__method li .des{
-    width: 380px;
-    display: flex;
-    align-items: center;
-}
-
-.payment .payment__method li .des__icon{
-    margin: 12px 16px 8px;
+    font-weight: 600;
+    color: #ff0000;
+    margin-left: 32px;
 }
 
 .payment .payment__controls{
@@ -184,22 +192,21 @@ html{
     z-index: 1;
     left: 0;
     bottom: 0;
-    padding: 32px 0;
+    padding-bottom: 32px;
     background-color: #fff;
     border-top: 1px solid #ccc;
-    box-shadow: 0 -2px 5px 2px #bcbcbc;
+    box-shadow: 0 0 10px 2px #dadada;
     border-radius: 6px;
 }
 
 .payment .payment__controls .wrapper{
-    padding: 0 32px;
+    padding: 16px 32px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
 .payment .payment__controls-back{
-    width: 180px;
-    height: 48px;
     color: #ff0000;
     cursor: pointer;
 }
@@ -211,7 +218,13 @@ html{
     color: #ff0000;
 }
 
+.payment .payment__controls-back p{
+    display: inline;
+}
+
 .payment .payment__controls-price{
+    height: 48px;
+    line-height: 48px;
     font-size: 18px;
     font-weight: 600;
 }
@@ -225,8 +238,8 @@ html{
 .payment .payment__controls-confirm{
     float: right;
     margin-right: 32px;
-    width: 300px;
-    height: 48px;
+    width: 230px;
+    height: 36px;
     background-color: #ff0000;
     border: 1px solid #ff0000;
     border-radius: 6px;
