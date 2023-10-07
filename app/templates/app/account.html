@@ -1,18 +1,12 @@
-
+{% extends 'app/base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block account_title %}
     <title>Tài khoản</title>
-    <link rel="shortcut icon" href="{% static 'app/images/favicon.png' %}" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia|Mooli">
     <link rel="stylesheet" href="{% static 'app/css/account.css' %}">
-</head>
-<body>
+{% endblock account_title %}
+
+{% block account %}
     <div class="personal">
         <!-- Form verify change email -->
         <div class="form-main">
@@ -76,7 +70,10 @@
             <!-- Personal infomations -->
             <div class="wrapper details__info active">
                 <div class="wrapper__header">
-                    <div class="wrapper__header-heading">Thông tin cá nhân</div>
+                    <div class="wrapper__header-heading">
+                        <div class="wrapper-back mobile"><i class="fa-solid fa-angle-left"></i></div>
+                        Thông tin cá nhân
+                    </div>
                     <div class="wrapper__header-des">
                         <p>Chúng tôi sử dụng thông tin này để xác minh danh tính và bảo vệ tài khoản của bạn.</p>
                         <p>Vui lòng cung cấp đầy đủ thông tin để chúng tôi dễ dàng lấy lại tài khoản giúp bạn khi gặp sự cố.</p>
@@ -164,7 +161,10 @@
             <!-- Passwords and security -->
             <div class="wrapper">
                 <div class="wrapper__header">
-                    <div class="wrapper__header-heading">Mật khẩu và Bảo mật</div>
+                    <div class="wrapper__header-heading">
+                        <div class="wrapper-back mobile"><i class="fa-solid fa-angle-left"></i></div>
+                        Mật khẩu và Bảo mật
+                    </div>
                     <div class="wrapper__header-des">
                         <p>Quản lý mật khẩu, tùy chọn đăng nhập và khôi phục tài khoản.</p>
                     </div>
@@ -217,7 +217,10 @@
             <!-- Payment -->
             <div class="wrapper">
                 <div class="wrapper__header">
-                    <div class="wrapper__header-heading">Thanh toán</div>
+                    <div class="wrapper__header-heading">
+                        <div class="wrapper-back mobile"><i class="fa-solid fa-angle-left"></i></div>
+                        Thanh toán
+                    </div>
                     <div class="wrapper__header-des">
                         <p>Thiết lập phương thức thanh toán và cập nhật địa chỉ giao hàng của bạn tại đây.</p>
                     </div>
@@ -247,19 +250,16 @@
             <!-- Terms of Use -->
             <div class="wrapper terms">
                 <div class="wrapper__header">
-                    <div class="wrapper__header-heading">Điều khoản sử dụng</div>
+                    <div class="wrapper__header-heading">
+                        <div class="wrapper-back mobile"><i class="fa-solid fa-angle-left"></i></div>
+                        Điều khoản sử dụng
+                    </div>
                     <div class="wrapper__header-des" id="terms-of-use">
-                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="loadding">
-        <div class="loadding-content"></div>
-    </div>
-
     <script src="{% static 'app/js/account.js' %}"></script>
-</body>
-</html>
+{% endblock account %}

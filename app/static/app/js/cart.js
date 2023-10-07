@@ -1,5 +1,5 @@
 
-// add product to cart
+// Update product to cart
 function addCartEventListeners() {
     var addToCartBtns = document.querySelectorAll('.add-to-cart');
 
@@ -17,6 +17,7 @@ function addCartEventListeners() {
     });
 }
 
+// POST request to update product in cart
 function updateUserOrder(productId, action){
     var url = '/update-item/';
     fetch(url, {
@@ -37,3 +38,5 @@ function updateUserOrder(productId, action){
         location.reload();
     })
 }
+
+addCartEventListeners();

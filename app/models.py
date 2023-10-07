@@ -66,7 +66,7 @@ class Product(models.Model):
         try:
             url = self.image.url
         except:
-            url = 'static/app/images/avatar-icon.png'
+            url = 'static/app/images/icon-camera.png'
         return url
 
 class Order(models.Model):

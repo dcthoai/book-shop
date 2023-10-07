@@ -4,6 +4,7 @@
 {% block search_title %}
     <title>Search</title>
     <link rel="stylesheet" href="{% static 'app/css/search.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/css/home.css' %}"/>
 {% endblock search_title %}
  
 {% block search_item %}
@@ -41,32 +42,5 @@
             </div>
         {% endif %}
     </div>
-
-    <script src="{% static 'app/js/cart.js' %}"></script>
-    <script> addCartEventListeners(); </script>
+    
 {% endblock search_item %}
-
-{% block footer %}
-    <footer style="margin-top: 30px;" class="footer">
-        <div class="wrapper">
-            <h2 class="heading">CONTACT US</h2>
-            
-            <div class="contact">
-                <div class="contact__info">
-                    <ul style="list-style: none;">
-                        <li><i class="fa-solid fa-location-dot"></i>Chicago, US</li>
-                        <li><i class="fa fa-phone"></i>Phone: +00 151515</li>
-                        <li><i class="fa fa-envelope"></i>Email: mail@mail.com</li>
-                    </ul>
-                </div>
-
-                <div class="contact__form">
-                    <div class="form__input"><input type="text" placeholder="Name" ></div>
-                    <div class="form__input"><input type="text" placeholder="Email"></div>
-                    <div class="form__message"><input type="text" placeholder="Message"></div>
-                    <button type="button" class="form__send-btn">SEND</button>
-                </div>
-            </div>
-        </div>
-    </footer>
-{% endblock footer %}

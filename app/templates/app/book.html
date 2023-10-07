@@ -2,7 +2,10 @@
 {% extends 'app/base.html' %}
 {% load static %}
 
-{% block book_title %}<title>Book</title>{% endblock book_title %}
+{% block book_title %}
+    <title>Book</title>
+    <link rel="stylesheet" href="{% static 'app/css/book.css' %}"/>
+{% endblock book_title %}
 
 {% block content_book %}
 
@@ -20,7 +23,7 @@
                         <div class="info__decription">
                             <span>Giới thiệu: </span>
                             <div style="display: inline;">
-                                <p style="display: inline;" class="info__decription-content">{{product.description}}</p>
+                                <p style="display: inline;" id="product-content-des" class="info__decription-content">{{product.description}}</p>
                                 <button id="toggleDesBook" type="button"></button>
                             </div>
                         </div>
@@ -69,7 +72,7 @@
     <div class="suggest">
         <h4 class="heading">Gợi ý</h4>
 
-        <button id="prev-suggest" type="button" class="suggest__prev"><i class="fa-solid fa-angle-left"></i></button>
+        <button id="prev-suggest" type="button" class="suggest__prev pc tablet"><i class="fa-solid fa-angle-left"></i></button>
 
         <div class="suggest__content">
             <div class="wrapper">
@@ -83,35 +86,9 @@
             </div>
         </div>
 
-        <button id="next-suggest" type="button" class="suggest__next"><i class="fa-solid fa-angle-right"></i></button>
+        <button id="next-suggest" type="button" class="suggest__next pc tablet"><i class="fa-solid fa-angle-right"></i></button>
     </div>
 
-    <script src="{% static 'app/js/cart.js' %}"></script>
     <script src="{% static 'app/js/book.js' %}"></script>
 
 {% endblock content_book %}
-
-{% block footer %}
-    <footer class="footer">
-        <div class="wrapper">
-            <h2 class="heading">CONTACT US</h2>
-            
-            <div class="contact">
-                <div class="contact__info">
-                    <ul style="list-style: none;">
-                        <li><i class="fa-solid fa-location-dot"></i>Chicago, US</li>
-                        <li><i class="fa fa-phone"></i>Phone: +00 151515</li>
-                        <li><i class="fa fa-envelope"></i>Email: mail@mail.com</li>
-                    </ul>
-                </div>
-
-                <div class="contact__form">
-                    <div class="form__input"><input type="text" placeholder="Name" ></div>
-                    <div class="form__input"><input type="text" placeholder="Email"></div>
-                    <div class="form__message"><input type="text" placeholder="Message"></div>
-                    <button type="button" class="form__send-btn">SEND</button>
-                </div>
-            </div>
-        </div>
-    </footer>
-{% endblock footer %}
