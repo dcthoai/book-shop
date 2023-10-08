@@ -62,7 +62,6 @@ html{
     font-size: 18px;
 }
 
-<<<<<<< HEAD
 .content__cart .nav .select__all span{
     font-weight: 700;
     color: #ff0000;
@@ -76,10 +75,6 @@ html{
 .content__cart .nav .price{
     position: absolute;
     right: 86px;
-=======
-.content__cart .nav .nav__item:last-child{
-    margin: 0 64px 0 48px;
->>>>>>> main
 }
 
 .content__cart .list-product{

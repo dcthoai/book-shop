@@ -34,64 +34,40 @@
             <div class="payment__method-heading">
                 Chọn phương thức thanh toán của bạn:
             </div>
-<<<<<<< HEAD
-            <ul>
-                <li>
-                    <input type="radio" name="payment-method" value="zalo-pay" >
-=======
 
             <div>
                 <div class="payment__method-choice">
-                    <input type="radio" name="payment-method">
->>>>>>> main
+                    <input type="radio" name="payment-method" value="zalo-pay">
                     <div class="des">
                         <div class="des__icon">
                             <img src="{% static 'app/images/zalopay.jpg' %}" alt="ZaloPay">
                         </div>
                         <span class="des__heading">Ví ZaloPay</span>
                     </div>
-<<<<<<< HEAD
-                </li>
-                <li>
-                    <input type="radio" name="payment-method" value="momo-pay">
-=======
                 </div>
 
                 <div class="payment__method-choice">
-                    <input type="radio" name="payment-method">
->>>>>>> main
+                    <input type="radio" name="payment-method" value="momo-pay">
                     <div class="des">
                         <div class="des__icon">
                             <img src="{% static 'app/images/momopay.jpg' %}" alt="MomoPay">                    
                         </div>
                         <span class="des__heading">Ví Momo</span>
                     </div>
-<<<<<<< HEAD
-                </li>
-                <li>
-                    <input type="radio" name="payment-method" value="banking">
-=======
                 </div>
 
                 <div class="payment__method-choice">
-                    <input type="radio" name="payment-method">
->>>>>>> main
+                    <input type="radio" name="payment-method" value="banking">
                     <div class="des">
                         <div class="des__icon">
                             <img src="{% static 'app/images/atmpay.jpg' %}" alt="ATMPay">
                         </div>
                         <span class="des__heading">ATM/Internet Banking</span>
                     </div>
-<<<<<<< HEAD
-                </li>
-                <li>
-                    <input type="radio" name="payment-method" value="direct-pay">
-=======
                 </div>
 
                 <div class="payment__method-choice">
-                    <input type="radio" name="payment-method">
->>>>>>> main
+                    <input type="radio" name="payment-method" value="direct-pay">
                     <div class="des">
                         <div class="des__icon">
                             <img src="{% static 'app/images/cashpay.jpg' %}" alt="CashPay">
@@ -109,19 +85,8 @@
             <div class="list__product">
                 {% for item in items %}
                 <div class="product">
-<<<<<<< HEAD
-                    <div class="product__info">
-                        <div class="product__info-img">
-                            <a href=""><img style="width: 100%; height: 100%;" src="{{item.product.imageURL}}" alt=""></a>
-                        </div>
-                        <div class="product__info-decription">
-                            <div class="heading"><a href="">{{item.product.name}}</a></div>
-                            <div class="price">{{item.product.price}}đ <del>{{item.product.cost}}đ</del></div>
-                        </div>
-=======
                     <div class="product__img">
                         <a href="/book/{{item.product.slugName}}"><img src="{{item.product.imageURL}}" alt="image-product"></a>
->>>>>>> main
                     </div>
 
                     <div class="product__info">
@@ -129,7 +94,7 @@
                             <div class="description__heading"><a href="/book/{{item.product.slugName}}">{{item.product.name}}</a></div>
                             <div class="description__price">
                                 {{item.product.price}}đ 
-                                <del>79.000đ</del>
+                                <del>{{item.product.cost}}đ</del>
                                 <div style="float: right; font-size: 16px; color: #ff0000;" class="description__price mobile">x{{item.quantity}}</div>
                             </div>
                         </div>
@@ -161,7 +126,6 @@
                 </div>
 
                 <div class="payment__controls-confirm">
-<<<<<<< HEAD
                     <button type="button" id="confirm-payment-btn">Xác nhận thanh toán</button>
                 </div> 
             </div>
@@ -192,13 +156,3 @@
     </div>
 
 {% endblock payment_content %}
-=======
-                    <button type="button">Xác nhận thanh toán</button>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock payment_content %}
-
-{% block footer %}{% endblock footer%}
->>>>>>> main
