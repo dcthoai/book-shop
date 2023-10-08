@@ -528,3 +528,23 @@ def createNewPassword(request):
         return JsonResponse({'success': 'Khôi phục tài khoản thành công, vui lòng đăng nhập lại.'})
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
+
+def notifications(request):
+    if request.user.is_authenticated:
+        user = request.user
+        order, created = Order.objects.get_or_create(customer=user, complete=False)
+    else:
+        user = None
+        order = {'get_cart_items':0, 'get_cart_total':0}
+    context = {'order': order}
+    return render(request, 'app/notifications.html', context)
+
+def order(request):
+    if request.user.is_authenticated:
+        user = request.user
+        order, created = Order.objects.get_or_create(customer=user, complete=False)
+    else:
+        user = None
+        order = {'get_cart_items':0, 'get_cart_total':0}
+    context = {'order': order}
+    return render(request, 'app/order.html', context)

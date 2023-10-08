@@ -2,12 +2,12 @@
 {% extends 'app/base.html' %}
 {% load static %}
 
-{% block payment_title %}
+{% block title %}
     <title>Thanh toán</title>
     <link rel="stylesheet" href="{% static 'app/css/payment.css' %}"/>
-{% endblock payment_title %}
+{% endblock title %}
 
-{% block payment_content %}
+{% block content %}
     <div class="payment">
         <div class="payment__header">
             <span>Đơn hàng của bạn</span>
@@ -131,6 +131,6 @@
             </div>
         </div>
     </div>
-{% endblock payment_content %}
+{% endblock content %}
 
 {% block footer %}{% endblock footer%}

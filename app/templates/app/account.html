@@ -1,12 +1,12 @@
 {% extends 'app/base.html' %}
 {% load static %}
 
-{% block account_title %}
+{% block title %}
     <title>Tài khoản</title>
     <link rel="stylesheet" href="{% static 'app/css/account.css' %}">
-{% endblock account_title %}
+{% endblock title %}
 
-{% block account %}
+{% block content %}
     <div class="personal">
         <!-- Form verify change email -->
         <div class="form-main">
@@ -262,4 +262,4 @@
     </div>
 
     <script src="{% static 'app/js/account.js' %}"></script>
-{% endblock account %}
+{% endblock content %}
