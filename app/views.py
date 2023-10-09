@@ -562,10 +562,20 @@ def notifications(request):
 def order(request):
     if request.user.is_authenticated:
         user = request.user
-        order, created = Order.objects.get_or_create(customer=user, complete=True)
-        items = order.orderitem_set.all()
+        orders = Order.objects.filter(customer=user, complete=True)
+        list_item = []
+        list_shipping = []
+        if(orders.exists()):
+            count = len(orders)
+            for order in orders:
+                items = order.orderitem_set.all()
+                list_item.append(items)
+                shippings = order.shippingaddress_set.all()
+                list_shipping.append(shippings)
+            
     else:
         user = None
         order = {'get_cart_items':0, 'get_cart_total':0}
-    context = {'items':items, 'order': order}
+    combined_data = [(order, items, shippings) for order, items, shippings in zip(orders, list_item, list_shipping)]
+    context = {'count': count, 'combined_data': combined_data}
     return render(request, 'app/order.html', context)

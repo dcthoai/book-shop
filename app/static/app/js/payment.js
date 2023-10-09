@@ -31,11 +31,6 @@ function confirmPayment() {
     } else if (choseOption === null) {
         alert("Vui lòng chọn phương thức thanh toán!!!");
     } else {
-        console.log('Họ tên người nhận: ' + name);
-        console.log('Số điện thoại người nhận: ' + phoneNumber);
-        console.log('Địa chỉ người nhận: ' + address);
-        console.log('Phương thức thanh toán: ' + choseOption);
-        // Điều gì xảy ra sau khi người dùng bấm vào nút, bạn có thể viết ở đây.
 
         if(choseOption === "momo-pay"){
             srcImg.src = "/static/app/images/momo-qr-pay.png";
@@ -51,7 +46,7 @@ function confirmPayment() {
         }
         // xử lý trừng hợp thanh toán online bằng banking
         if(choseOption === "momo-pay" ||choseOption === "zalo-pay" || choseOption === "banking"){
-            paymentConfirm.style.display = 'block';
+            alert("Hiện tại thì phần thanh toán này chưa được cập nhật, bạn vui lòng chọn hình thức thanh toán khác nhé !");
             // confirm
             acceptBtn.onclick = function(){
                 updatePayment(name,phoneNumber,address);

@@ -10,7 +10,7 @@
 
 .order .order__heading{
     width: 100%;
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 600;
     text-align: center;
     padding: 24px 0;
@@ -19,6 +19,7 @@
 
 .order .order__content{
     min-height: 320px;
+    padding: 8px 40px 12px;
     width: 100%;
     position: relative;
 }
@@ -34,8 +35,33 @@
 
 
 /* new */
+/* user info */
+.order .order-details{
+    margin-top: 16px;
+    border-bottom: 2px solid #ccc;
+}
 
+.order .order-details .order-details-title{
+    font-size: 20px;
+}
 
+.order .order-details .order-details__list{
+    list-style: none;
+    margin: 16px 0;
+    margin-left: 48px;
+}
+
+.order .order-details .order-details__list-item{
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 36px;
+}
+
+.order .order-details .order-details__list-item span{
+    font-weight: 400;
+}
+
+/* product */
 .order .order__content .product{
     width: 100%;
     display: flex;
