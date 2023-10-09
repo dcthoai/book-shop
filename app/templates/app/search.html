@@ -1,13 +1,13 @@
 {% extends 'app/base.html' %}
 {% load static %}
 
-{% block search_title %}
+{% block title %}
     <title>Search</title>
     <link rel="stylesheet" href="{% static 'app/css/search.css' %}"/>
     <link rel="stylesheet" href="{% static 'app/css/home.css' %}"/>
-{% endblock search_title %}
+{% endblock title %}
  
-{% block search_item %}
+{% block content %}
     <div class="content search_content">
 
         {% if size %}
@@ -43,4 +43,4 @@
         {% endif %}
     </div>
     
-{% endblock search_item %}
+{% endblock content %}

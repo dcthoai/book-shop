@@ -29,4 +29,6 @@ urlpatterns = [
     path('api/recover/', views.recover, name='recover'),
     path('api/recover-account/', views.recoverAccount, name='recover-account'),
     path('api/password/create/', views.createNewPassword, name='create-new-password'),
+    path('notifications/', views.notifications, name='notifications'),
+    path('order/', views.order, name='order'),
 ]

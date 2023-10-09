@@ -180,7 +180,7 @@
     }
 
     .content__cart .product .product__img{
-        width: 100px;
+        width: 80px;
         max-width: 30%;
         align-self: flex-start;
     }
@@ -190,7 +190,7 @@
     }
 
     .content__cart .product .decription{
-        padding: 0 10px 0 28px;
+        padding: 0 10px 0 18px;
         margin-bottom: 12px;
     }
 
@@ -234,12 +234,17 @@
         height: 26px;
     }
 
-    .payment-controls{
+    .cart__payment{
         flex-direction: column;
         justify-content: center;
     }
 
-    .payment-controls .total__price{
+    .cart__payment .payment__link {
+        width: 160px;
+        height: 42px;
+    }
+
+    .cart__payment .total__price{
         margin-top: 24px;
     }
 }
@@ -260,12 +265,16 @@
     }
 
     .payment .payment__content{
-        margin: 24px;
+        margin: 24px 16px;
         padding-bottom: 16px;
     }
 
     .payment .payment__content .product{
         align-items: unset;
+    }
+
+    .payment .payment__content .product__img{
+        margin-right: 16px;
     }
 
     .payment .payment__content .product__info{
@@ -277,7 +286,7 @@
     }
 
     .payment .product__info .description{
-        margin: 0 12px;
+        margin: 0;
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -292,8 +301,13 @@
         font-size: 16px;
     }
 
+    .payment .product__info .description__price-amount{
+        float: left;
+        margin-right: 16px;
+    }
+
     .payment .payment__controls{
-        padding-bottom: 16px;
+        padding-bottom: 24px;
     }
 
     .payment .payment__controls .wrapper{

@@ -1,0 +1,17 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Đơn hàng</title>
+    <link rel="stylesheet" href="{% static 'app/css/order.css' %}"/>
+{% endblock title %}
+
+{% block content %}
+    <div class="order">
+        <h2 class="order__heading">Đơn hàng của bạn</h2>
+
+        <div class="order__content">
+            <span class="order__empty-message">Bạn chưa có đơn nào, đặt hàng ngay</span>
+        </div>
+    </div>
+{% endblock content %}

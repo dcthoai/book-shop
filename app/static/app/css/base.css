@@ -121,9 +121,19 @@ body{
     cursor: pointer;
     position: relative;
 }
+
+.header .nav .nav__notify-link{
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    height: 36px;
+    color: #4f4f4f;
+}
   
 .header .nav .nav__notify-icon i{
     font-size: 24px;
+    width: 100%;
+    line-height: 36px;
 }
 
 .header .nav__notify:hover i{
@@ -137,8 +147,8 @@ body{
   
 .header .nav__notify .wrapper{
     position: absolute;
-    top: 42px;
-    right: 14px;
+    top: 48px;
+    right: 16px;
     width: 340px;
     max-height: 420px;
     border-radius: 8px;
@@ -154,10 +164,12 @@ body{
     content: "";
     display: block;
     position: absolute;
-    top: -26px;
-    right: 12px;
-    border: 16px solid transparent;
-    border-bottom: 12px solid #fff;
+    top: -8px;
+    right: 16px;
+    width: 18px;
+    height: 18px;
+    transform: rotate(45deg);
+    background-color: #fff;
 }
   
 .header .nav__notify .wrapper__heading{
@@ -189,12 +201,12 @@ body{
 .header .nav .nav__support:hover .nav__support-link{
     color: #ff0000;
 }
-  
+
 .header .nav .nav__support-link{
     font-size: 18px;
     font-weight: 600;
     text-decoration: none;
-    color: #000;
+    color: #4f4f4f;
 }
   
   /* Nav cart */
@@ -205,7 +217,7 @@ body{
 }
   
 .header .nav .nav__cart .fa-cart-shopping{
-    color: #000;
+    color: #4f4f4f;
     font-size: 22px;
 }
   

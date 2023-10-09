@@ -2,12 +2,12 @@
 {% extends 'app/base.html' %}
 {% load static %}
 
-{% block cart_title %}
+{% block title %}
     <title>Giỏ hàng</title>
     <link rel="stylesheet" href="{% static 'app/css/cart.css' %}"/>
-{% endblock cart_title %}
+{% endblock title %}
 
-{% block content_cart %}
+{% block content %}
 
     <div class="content__cart">
         <div class="cart__header">
@@ -26,7 +26,6 @@
         <div class="list-product">
             {% for item in items %}
                 <div class="product">
-
                     <div class="wrapper">
                         <div class="product__img">
                             <a href="{% url 'book' item.product.slugName %}">
@@ -73,17 +72,18 @@
         </div>
     </div>
 
-    <div class="payment-controls">
+    <div class="cart__payment">
         <div class="total__price">
             <div class="total__price-heading">Tổng thanh toán:</div>
             <span>{{order.get_cart_total}}đ</span>
         </div>
 
-        <a href="{% url 'payment' %}" class="payment__link">
-            <button type="button" class="payment__link-btn">Thanh toán</button>
-        </a>
+        <button type="button" id="payment__link-btn">Thanh toán</button>    
     </div>
     
-    <script> addCartEventListeners(); </script>
+    <script> 
+        addCartEventListeners();
+        var cartItems = {{ order.get_cart_items }};
+    </script>
 
-{% endblock content_cart %}
+{% endblock content %}
