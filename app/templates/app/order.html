@@ -9,9 +9,37 @@
 {% block content %}
     <div class="order">
         <h2 class="order__heading">Đơn hàng của bạn</h2>
-
         <div class="order__content">
-            <span class="order__empty-message">Bạn chưa có đơn nào, đặt hàng ngay</span>
+            <h4>Xem lại sản phẩm của bạn:</h4>
+            <div class="list__product">
+                {% for item in items %}
+                <div class="product">
+                    <div class="product__img">
+                        <a href="/book/{{item.product.slugName}}"><img src="{{item.product.imageURL}}" alt="image-product"></a>
+                    </div>
+
+                    <div class="product__info">
+                        <div class="description">
+                            <div class="description__heading"><a href="/book/{{item.product.slugName}}">{{item.product.name}}</a></div>
+                            <div class="description__price">
+                                {{item.product.price}}đ 
+                                <del>{{item.product.cost}}đ</del>
+                                <div style="float: right; font-size: 16px; color: #ff0000;" class="description__price mobile">x{{item.quantity}}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="price">
+                            <div class="price__quantity">x{{item.quantity}}</div>
+                            <div class="price__total">{{item.get_total}}đ</div>
+                        </div>
+                    </div>
+                </div>  
+                {% endfor %}
+            </div>
         </div>
+
+        {% comment %} <div class="order__content">
+            <span class="order__empty-message">Bạn chưa có đơn nào, đặt hàng ngay</span>
+        </div> {% endcomment %}
     </div>
 {% endblock content %}

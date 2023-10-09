@@ -562,9 +562,10 @@ def notifications(request):
 def order(request):
     if request.user.is_authenticated:
         user = request.user
-        order, created = Order.objects.get_or_create(customer=user, complete=False)
+        order, created = Order.objects.get_or_create(customer=user, complete=True)
+        items = order.orderitem_set.all()
     else:
         user = None
         order = {'get_cart_items':0, 'get_cart_total':0}
-    context = {'order': order}
+    context = {'items':items, 'order': order}
     return render(request, 'app/order.html', context)
