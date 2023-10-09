@@ -197,6 +197,27 @@ def updateItem(request):
 
     return JsonResponse('added', safe=False)
 
+# Update payment
+def updatePayment(request):
+    data = json.loads(request.body)
+    name = data['name']
+    phoneNumber = data['phoneNumber']
+    address = data['address']
+    customer = request.user
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    shipping, created = ShippingAddress.objects.get_or_create(customer=customer,order=order)
+    shipping.name = name
+    shipping.phoneNumber = phoneNumber
+    shipping.address = address
+    order.complete = True
+    order.save()
+    shipping.save()
+
+    response_data = {'message': 'payment-complete'}
+    return JsonResponse(response_data, safe=False)
+
+
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -239,26 +260,6 @@ def account(request):
         order = {'get_cart_items':0, 'get_cart_total':0}
     context = {'user': user, 'order': order}
     return render(request, 'app/account.html', context)
-
-# Update payment
-def updatePayment(request):
-    data = json.loads(request.body)
-    name = data['name']
-    phoneNumber = data['phoneNumber']
-    address = data['address']
-    customer = request.user
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    shipping, created = ShippingAddress.objects.get_or_create(customer=customer,order=order)
-    shipping.name = name
-    shipping.phoneNumber = phoneNumber
-    shipping.address = address
-    order.complete = True
-    order.save()
-    shipping.save()
-
-    response_data = {'message': 'payment-complete'}
-    return JsonResponse(response_data, safe=False) 
-
 
 # API get list product for homepage
 def productsApi(request):
@@ -566,7 +567,6 @@ def order(request):
         list_item = []
         list_shipping = []
         if(orders.exists()):
-            count = len(orders)
             for order in orders:
                 items = order.orderitem_set.all()
                 list_item.append(items)
@@ -577,5 +577,5 @@ def order(request):
         user = None
         order = {'get_cart_items':0, 'get_cart_total':0}
     combined_data = [(order, items, shippings) for order, items, shippings in zip(orders, list_item, list_shipping)]
-    context = {'count': count, 'combined_data': combined_data}
+    context = {'combined_data': combined_data}
     return render(request, 'app/order.html', context)

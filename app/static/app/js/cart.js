@@ -42,20 +42,16 @@ function updateUserOrder(productId, action){
 addCartEventListeners();
 
 //Check cart is empty
-
 document.addEventListener("DOMContentLoaded", function () {
     var paymentBtn = document.getElementById("payment__link-btn");
     
-    if (paymentBtn) {
-        paymentBtn.onclick = function () {
+    if(paymentBtn){
+        paymentBtn.onclick = function(){
             if(cartItems === 0){
-                alert("Giỏ hàng của bạn đang rỗng, quay lại đặt hàng ngay thôi !!!")
-            }
-            else{
+                alert("Giỏ hàng của bạn đang rỗng, quay lại đặt hàng ngay thôi!")
+            }else{
                 window.location.href = '/payment/';
             }
         }
-    } else {
-
     }
 });
