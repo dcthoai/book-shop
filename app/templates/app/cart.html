@@ -16,6 +16,7 @@
 
         <div class="nav">
             <div class="nav__select">
+                <input class="nav__select-checkbox" type="checkbox">
                 <div class="nav__select-heading">Chọn tất cả <span>({{order.get_cart_items}} sản phẩm)</span></div>
             </div>
 
@@ -26,6 +27,8 @@
         <div class="list-product">
             {% for item in items %}
                 <div class="product">
+                    <input class="product__select" type="checkbox">
+
                     <div class="wrapper">
                         <div class="product__img">
                             <a href="{% url 'book' item.product.slugName %}">
@@ -78,12 +81,12 @@
             <span>{{order.get_cart_total}}đ</span>
         </div>
 
-        <button type="button" id="payment__link-btn">Thanh toán</button>    
+        <button type="button" id="payment__link-btn" class="payment__link-btn">Thanh toán</button>
     </div>
-    
-    <script> 
+
+    <script>
         addCartEventListeners();
-        var cartItems = {{ order.get_cart_items }};
+        var cartItems = {{order.get_cart_items}};
     </script>
 
 {% endblock content %}

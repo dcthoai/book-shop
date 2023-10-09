@@ -240,26 +240,6 @@ def account(request):
     context = {'user': user, 'order': order}
     return render(request, 'app/account.html', context)
 
-# Update payment
-def updatePayment(request):
-    data = json.loads(request.body)
-    name = data['name']
-    phoneNumber = data['phoneNumber']
-    address = data['address']
-    customer = request.user
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    shipping, created = ShippingAddress.objects.get_or_create(customer=customer,order=order)
-    shipping.name = name
-    shipping.phoneNumber = phoneNumber
-    shipping.address = address
-    order.complete = True
-    order.save()
-    shipping.save()
-
-    response_data = {'message': 'payment-complete'}
-    return JsonResponse(response_data, safe=False) 
-
-
 # API get list product for homepage
 def productsApi(request):
     start = int(request.GET.get('start', 0))
@@ -569,3 +549,22 @@ def order(request):
         order = {'get_cart_items':0, 'get_cart_total':0}
     context = {'items':items, 'order': order}
     return render(request, 'app/order.html', context)
+
+# Update payment
+def updatePayment(request):
+    data = json.loads(request.body)
+    name = data['name']
+    phoneNumber = data['phoneNumber']
+    address = data['address']
+    customer = request.user
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    shipping, created = ShippingAddress.objects.get_or_create(customer=customer,order=order)
+    shipping.name = name
+    shipping.phoneNumber = phoneNumber
+    shipping.address = address
+    order.complete = True
+    order.save()
+    shipping.save()
+
+    response_data = {'message': 'payment-complete'}
+    return JsonResponse(response_data, safe=False)

@@ -310,7 +310,6 @@ html{
     opacity: 0.7;
 }
 
-
 .payment .space{
     width: 95%;
     margin: 0 auto;
@@ -318,7 +317,6 @@ html{
 }
 
 /* payment confirm */
-
 .payment__confirm{
     position: fixed;
     top: 0;

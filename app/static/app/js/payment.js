@@ -4,8 +4,6 @@ function confirmPayment() {
     var name = document.querySelector('.info__name').value;
     var phoneNumber = document.querySelector('.info__phone-number').value;
     var address = document.querySelector('.info__address').value;
-
-    // var option = document.getElementsByName('payment-method');
     var choseOption = null;
 
     //lấy giá trị nút cancel và accept
@@ -20,56 +18,48 @@ function confirmPayment() {
         }
     }
 
-    
     // Hiển thị thông tin đã lấy
-    if (name === "" || phoneNumber === "" || address === "") {
-        if (choseOption === null) {
-            alert("Vui lòng nhập đầy đủ thông tin của người nhận và chọn phương thức thanh toán !!!");
-        } else {
-            alert("Vui lòng nhập đầy đủ thông tin của người nhận!!!");
+    if(name === "" || phoneNumber === "" || address === ""){
+        if(choseOption === null){
+            alert("Vui lòng nhập đầy đủ thông tin của người nhận và chọn phương thức thanh toán!");
+        }else{
+            alert("Vui lòng nhập đầy đủ thông tin của người nhận!");
         }
-    } else if (choseOption === null) {
-        alert("Vui lòng chọn phương thức thanh toán!!!");
-    } else {
-        console.log('Họ tên người nhận: ' + name);
-        console.log('Số điện thoại người nhận: ' + phoneNumber);
-        console.log('Địa chỉ người nhận: ' + address);
-        console.log('Phương thức thanh toán: ' + choseOption);
-        // Điều gì xảy ra sau khi người dùng bấm vào nút, bạn có thể viết ở đây.
+    }else{
+        if(choseOption === null){
+            alert("Vui lòng chọn phương thức thanh toán!");
+        }else{
+            if(choseOption === "momo-pay"){
+                srcImg.src = "/static/app/images/momo-qr-pay.png";
+            }
+            else if(choseOption === "zalo-pay"){
+                srcImg.src = "/static/app/images/zalo-qr-pay.jpg";
+            }
+            else if(choseOption === "banking"){
+                srcImg.src = "/static/app/images/banking-qr-pay.jpg";
+            }
+            else if(choseOption === "direct-pay"){
+                updatePayment(name, phoneNumber, address);
+            }
+            // xử lý trừng hợp thanh toán online bằng banking
+            if(choseOption === "momo-pay" ||choseOption === "zalo-pay" || choseOption === "banking"){
+                paymentConfirm.style.display = 'block';
 
-        if(choseOption === "momo-pay"){
-            srcImg.src = "/static/app/images/momo-qr-pay.png";
-        }
-        else if(choseOption === "zalo-pay"){
-            srcImg.src = "/static/app/images/zalo-qr-pay.jpg";
-        }
-        else if(choseOption === "banking"){
-            srcImg.src = "/static/app/images/banking-qr-pay.jpg";
-        }
-        else if(choseOption === "direct-pay"){
-            updatePayment(name,phoneNumber,address);
-        }
-        // xử lý trừng hợp thanh toán online bằng banking
-        if(choseOption === "momo-pay" ||choseOption === "zalo-pay" || choseOption === "banking"){
-            paymentConfirm.style.display = 'block';
-            // confirm
-            acceptBtn.onclick = function(){
-                updatePayment(name,phoneNumber,address);
-            }
-            // nút cancel
-            cancelBtn.onclick = function(){
-                paymentConfirm.style.display = 'none';
-            }
-            closeBtn.onclick = function(){
-                paymentConfirm.style.display = 'none';
-            }
-        }
-        
+                acceptBtn.onclick = function(){
+                    updatePayment(name, phoneNumber, address);
+                }
 
-       
+                cancelBtn.onclick = function(){
+                    paymentConfirm.style.display = 'none';
+                }
+
+                closeBtn.onclick = function(){
+                    paymentConfirm.style.display = 'none';
+                }
+            }
+        }       
     }
 }
-
 
 var payment = document.getElementById('payment');
 var paymentConfirm = document.getElementById('payment__confirm');
@@ -85,8 +75,6 @@ var nameInfo = document.getElementById('nameInfo');
 var phoneNumberInfo = document.getElementById('phoneNumberInfo');
 var addressInfo = document.getElementById('addressInfo');
 
-
-
 // Thêm sự kiện "click" cho nút "Xác nhận thanh toán" khi trang đã tải xong
 document.addEventListener("DOMContentLoaded", function () {
     var confirmButton = document.getElementById("confirm-payment-btn");
@@ -94,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
  // gửi dữ liệu về 
- function updatePayment(name,phoneNumber,address){
+function updatePayment(name,phoneNumber,address){
     var url = '/update-payment/';
     fetch(url, {
         method: 'POST',
@@ -130,5 +118,4 @@ function complete(name,phoneNumber,address){
     returnBtn.onclick = function(){
         window.location.href = '/';
     }
-
 }

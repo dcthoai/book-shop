@@ -178,6 +178,7 @@ function fetchProducts() {
         `).join('');
 
         content.innerHTML += productHTML;
+        addCartEventListeners();
         start += 18;
     });
 }
