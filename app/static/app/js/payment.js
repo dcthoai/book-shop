@@ -25,39 +25,37 @@ function confirmPayment() {
         }else{
             alert("Vui lòng nhập đầy đủ thông tin của người nhận!");
         }
-    }else{
-        if(choseOption === null){
-            alert("Vui lòng chọn phương thức thanh toán!");
-        }else{
-            if(choseOption === "momo-pay"){
-                srcImg.src = "/static/app/images/momo-qr-pay.png";
-            }
-            else if(choseOption === "zalo-pay"){
-                srcImg.src = "/static/app/images/zalo-qr-pay.jpg";
-            }
-            else if(choseOption === "banking"){
-                srcImg.src = "/static/app/images/banking-qr-pay.jpg";
-            }
-            else if(choseOption === "direct-pay"){
-                updatePayment(name, phoneNumber, address);
-            }
-            // xử lý trừng hợp thanh toán online bằng banking
-            if(choseOption === "momo-pay" ||choseOption === "zalo-pay" || choseOption === "banking"){
-                paymentConfirm.style.display = 'block';
+    } else if (choseOption === null) {
+        alert("Vui lòng chọn phương thức thanh toán!!!");
+    } else {
 
-                acceptBtn.onclick = function(){
-                    updatePayment(name, phoneNumber, address);
-                }
-
-                cancelBtn.onclick = function(){
-                    paymentConfirm.style.display = 'none';
-                }
-
-                closeBtn.onclick = function(){
-                    paymentConfirm.style.display = 'none';
-                }
+        if(choseOption === "momo-pay"){
+            srcImg.src = "/static/app/images/momo-qr-pay.png";
+        }
+        else if(choseOption === "zalo-pay"){
+            srcImg.src = "/static/app/images/zalo-qr-pay.jpg";
+        }
+        else if(choseOption === "banking"){
+            srcImg.src = "/static/app/images/banking-qr-pay.jpg";
+        }
+        else if(choseOption === "direct-pay"){
+            updatePayment(name,phoneNumber,address);
+        }
+        // xử lý trừng hợp thanh toán online bằng banking
+        if(choseOption === "momo-pay" ||choseOption === "zalo-pay" || choseOption === "banking"){
+            alert("Hiện tại thì phần thanh toán này chưa được cập nhật, bạn vui lòng chọn hình thức thanh toán khác nhé !");
+            // confirm
+            acceptBtn.onclick = function(){
+                updatePayment(name,phoneNumber,address);
             }
-        }       
+            // nút cancel
+            cancelBtn.onclick = function(){
+                paymentConfirm.style.display = 'none';
+            }
+            closeBtn.onclick = function(){
+                paymentConfirm.style.display = 'none';
+            }
+        }     
     }
 }
 

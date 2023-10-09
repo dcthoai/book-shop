@@ -10,30 +10,45 @@
     <div class="order">
         <h2 class="order__heading">Đơn hàng của bạn</h2>
         <div class="order__content">
-            <h4>Xem lại sản phẩm của bạn:</h4>
-            <div class="list__product">
-                {% for item in items %}
-                <div class="product">
-                    <div class="product__img">
-                        <a href="/book/{{item.product.slugName}}"><img src="{{item.product.imageURL}}" alt="image-product"></a>
-                    </div>
+            <div class="list__order">
+                {% for order, items, shippings in combined_data %}
+                    {% for shipping in shippings %}
+                        <div class="order-details">
+                            <h3 class = "order-details-title">Thông tin người nhận:</h3>
+                            <ul class = "order-details__list">
+                                <li class = "order-details__list-item">Họ và tên: <span> {{ shipping.name }}</span></li>
+                                <li class = "order-details__list-item">Địa chỉ: <span> {{ shipping.address }}</span></li>
+                                <li class = "order-details__list-item">Số điện thoại: <span> {{ shipping.phoneNumber }}</span></li>
+                                <li class = "order-details__list-item">Tổng số đơn đã đặt: <span>{{ order.get_cart_items }}</span></li>
+                                <li class = "order-details__list-item">Tổng tiền thanh toán: <span style="color : red;">{{order.get_cart_total}} đ</span></li>
+                            </ul>
 
-                    <div class="product__info">
-                        <div class="description">
-                            <div class="description__heading"><a href="/book/{{item.product.slugName}}">{{item.product.name}}</a></div>
-                            <div class="description__price">
-                                {{item.product.price}}đ 
-                                <del>{{item.product.cost}}đ</del>
-                                <div style="float: right; font-size: 16px; color: #ff0000;" class="description__price mobile">x{{item.quantity}}</div>
-                            </div>
+                            <h3 class = "order-details-title">Danh sách sản phẩm đã đặt:</h3>
+                            {% for item in items %}
+                            <div class="product">
+                                <div class="product__img">
+                                    <a href="/book/{{item.product.slugName}}"><img src="{{item.product.imageURL}}" alt="image-product"></a>
+                                </div>
+            
+                                <div class="product__info">
+                                    <div class="description">
+                                        <div class="description__heading"><a href="/book/{{item.product.slugName}}">{{item.product.name}}</a></div>
+                                        <div class="description__price">
+                                            {{item.product.price}}đ 
+                                            <del>{{item.product.cost}}đ</del>
+                                            <div style="float: right; font-size: 16px; color: #ff0000;" class="description__price mobile">x{{item.quantity}}</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="price">
+                                        <div class="price__quantity">x{{item.quantity}}</div>
+                                        <div class="price__total">{{item.get_total}}đ</div>
+                                    </div>
+                                </div>
+                            </div>  
+                            {% endfor %}
                         </div>
-                        
-                        <div class="price">
-                            <div class="price__quantity">x{{item.quantity}}</div>
-                            <div class="price__total">{{item.get_total}}đ</div>
-                        </div>
-                    </div>
-                </div>  
+                    {% endfor %}
                 {% endfor %}
             </div>
         </div>
