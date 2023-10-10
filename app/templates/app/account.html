@@ -9,7 +9,7 @@
 {% block content %}
     <div class="personal">
         <!-- Form verify change email -->
-        <div class="form-main">
+        <div class="form-account">
             <div class="form">
                 <div class="form__close-btn">
                     <i class="fa-solid fa-xmark"></i>
@@ -30,7 +30,7 @@
                     <div class="form__content-heading">Chọn một ảnh làm ảnh đại diện của bạn</div>
                     <p>Xem trước avatar của bạn:</p>
                     <div class="form__content-demo">
-                        <img style="width: 100%; height: 100%; border-radius: 100%;" src="{{user.profile.avatarURL}}">
+                        <img src="{% static 'app/images/avatar-icon.png' %}">
                     </div>
                     <input type="file" name="file-avatar" id="file-avatar">
                 </div>

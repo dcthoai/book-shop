@@ -240,8 +240,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 // Change and update user informations
 var formsChange = document.querySelectorAll('.personal .details .details__info .form-change');
-var formMain = document.querySelector('.personal .form-main')
-var formLayer = formMain.querySelector('.form__layer');
+var formAccount = document.querySelector('.personal .form-account')
+var formLayerAccount = formAccount.querySelector('.form__layer');
 const formVerifyEmail = `
     <form action="" method="POST" class="form__verify">
         <h4 class="form__verify-heading">Nhập mã xác thực được gửi tới email của bạn</h4>
@@ -307,19 +307,19 @@ formsChange.forEach(function(formChange){
 
 // Authenticate when the user wants to change the account email
 function verifyChangeEmail(){
-    formMain.style.display = 'block';
-    formLayer.innerHTML = formVerifyEmail;
-    var formInputEmail = formLayer.querySelector('.form__verify-input');
-    var formSubmit = formLayer.querySelector('.form__verify-submit');
-    var formCancel = formLayer.querySelector('.form__verify-cancel');
-    var formClose = formMain.querySelector('.form__close-btn');
+    formAccount.style.display = 'block';
+    formLayerAccount.innerHTML = formVerifyEmail;
+    var formInputEmail = formLayerAccount.querySelector('.form__verify-input');
+    var formAccountSubmit = formLayerAccount.querySelector('.form__verify-submit');
+    var formAccountCancel = formLayerAccount.querySelector('.form__verify-cancel');
+    var formAccountClose = formAccount.querySelector('.form__close-btn');
 
-    formClose.addEventListener('click', function(){
-        formMain.style.display = 'none';
+    formAccountClose.addEventListener('click', function(){
+        formAccount.style.display = 'none';
     })
 
     // POST request verify new email
-    formSubmit.addEventListener('click', function(){
+    formAccountSubmit.addEventListener('click', function(){
         loaddingElement.style.display = 'block';
         let data = formInputEmail.value
 
@@ -354,9 +354,9 @@ function verifyChangeEmail(){
         })
     })
 
-    formCancel.addEventListener('click', function(){
-        formMain.style.display = 'none';
-        formLayer.innerHTML = '';
+    formAccountCancel.addEventListener('click', function(){
+        formAccount.style.display = 'none';
+        formLayerAccount.innerHTML = '';
     })
 }
 
@@ -553,18 +553,18 @@ submitEmailRecover.addEventListener('click', function(){
 
 // Validator verify code to recover
 function verifyCodeRecover(){
-    formMain.style.display = 'block';
-    formLayer.innerHTML = formVerifyEmail;
-    var formCodeRecover = formLayer.querySelector('.form__verify-input');
-    var formSubmit = formLayer.querySelector('.form__verify-submit');
-    var formCancel = formLayer.querySelector('.form__verify-cancel');
-    var formClose = formMain.querySelector('.form__close-btn');
+    formAccount.style.display = 'block';
+    formLayerAccount.innerHTML = formVerifyEmail;
+    var formCodeRecover = formLayerAccount.querySelector('.form__verify-input');
+    var formAccountSubmit = formLayerAccount.querySelector('.form__verify-submit');
+    var formAccountCancel = formLayerAccount.querySelector('.form__verify-cancel');
+    var formAccountClose = formAccount.querySelector('.form__close-btn');
 
-    formClose.addEventListener('click', function(){
-        formMain.style.display = 'none';
+    formAccountClose.addEventListener('click', function(){
+        formAccount.style.display = 'none';
     })
 
-    formSubmit.addEventListener('click', function(){
+    formAccountSubmit.addEventListener('click', function(){
         loaddingElement.style.display = 'block';
         let codeRecover = formCodeRecover.value
 
@@ -594,22 +594,22 @@ function verifyCodeRecover(){
         })
     })
 
-    formCancel.addEventListener('click', function(){
-        formMain.style.display = 'none';
-        formLayer.innerHTML = '';
+    formAccountCancel.addEventListener('click', function(){
+        formAccount.style.display = 'none';
+        formLayerAccount.innerHTML = '';
     })
 }
 
 // Create a new password when email recover is authenticate
 function createNewPassword(){
-    formLayer.innerHTML = formRecoverPasswordHTML;
-    var formSubmit = formLayer.querySelector('.form__verify-submit');
-    var formCreateNewPassword = formLayer.querySelector('.form__verify-input');
-    var formClose = formMain.querySelector('.form__close-btn');
+    formLayerAccount.innerHTML = formRecoverPasswordHTML;
+    var formAccountSubmit = formLayerAccount.querySelector('.form__verify-submit');
+    var formCreateNewPassword = formLayerAccount.querySelector('.form__verify-input');
+    var formAccountClose = formAccount.querySelector('.form__close-btn');
 
-    formClose.addEventListener('click', function(){
-        formLayer.innerHTML = '';
-        formMain.style.display = 'none';
+    formAccountClose.addEventListener('click', function(){
+        formLayerAccount.innerHTML = '';
+        formAccount.style.display = 'none';
     })
 
     formCreateNewPassword.onblur = function(){
@@ -620,7 +620,7 @@ function createNewPassword(){
         validateNewPassword(this, 'Vui lòng nhập tối thiểu 8 kí tự.');
     }
 
-    formSubmit.addEventListener('click', function(){
+    formAccountSubmit.addEventListener('click', function(){
         if(!validateNewPassword(formCreateNewPassword, 'Vui lòng nhập tối thiểu 8 kí tự.')){
             loaddingElement.style.display = 'block';
 

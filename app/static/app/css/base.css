@@ -248,15 +248,7 @@ body{
 .header .nav .nav__user{
     position: relative;
 }
-  
-.header .nav .nav__user-avatar{
-    width: 100%;
-    height: 100%;
-    border-radius: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-  
+
 .header .nav .sign-btn{
     color: #fff;
     font-size: 18px;
@@ -282,13 +274,13 @@ body{
     background-color: transparent;
     display: none;
 }
-  
-.header .nav .user-btn .fa-circle-user{
-    width: 36px;
-    height: 36px;
-    font-size: 36px;
-    color: #656565;
-    background-color: #fff;
+
+.header .nav .user-btn img{
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    object-fit: cover;
+    vertical-align: middle;
 }
   
   /* User */
@@ -328,11 +320,19 @@ body{
     width: 64px;
     height: 64px;
     border-radius: 100%;
-    border: 0.5px solid #e4e4e4;
+    border: 1px solid #e4e4e4;
     position: relative;
     margin: 0 20px;
 }
-  
+
+.header .nav__user .user__header-avatar img{
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
 .header .nav__user .user .change-avatar{
     position: absolute;
     top: 42px;
@@ -410,10 +410,10 @@ body{
 .form-main{
     position: fixed;
     top: 0;
-    z-index: 10;
+    z-index: 101;
     width: 100vw;
     height: 100vh;
-    padding-top: 80px;
+    padding-top: 100px;
     background-color: #6666665c;
     display: none;
     transition: all 0.3s ease-in;
