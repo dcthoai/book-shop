@@ -1,6 +1,7 @@
 
 var paymentConfirmButton = document.getElementById('payment-confirm');
 var formPaymentStatus = document.querySelector('.payment-status');
+var listProductsOrderComplete = document.querySelectorAll('.payment .list__product .product');
 
 paymentConfirmButton.addEventListener('click', function(){
     var name = document.querySelector('.payment .payment__info input[name="payment-name"]').value.trim();
@@ -22,7 +23,7 @@ paymentConfirmButton.addEventListener('click', function(){
             alert("Vui lòng chọn phương thức thanh toán!");
         }else{
             if(choseOption == 'cash-pay'){
-                paymentComplete();
+                confirmPaymentOrder(name, phoneNumber, address);
             }else{
                 alert('Phương thức thanh toán này hiện tại chưa được hỗ trợ, vui lòng chọn phương thức thanh toán khác');
             }
@@ -30,32 +31,62 @@ paymentConfirmButton.addEventListener('click', function(){
     }
 })
 
-// function updatePayment(name, phoneNumber, address){
-//     var url = '/update-payment/';
-//     fetch(url, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'X-CSRFToken': csrftoken
-//         },
-//         body: JSON.stringify({
-//             'phoneNumber': phoneNumber,
-//             'address': address,
-//             'name': name
-//         })
-//     })
-//     .then((response) => response.json())
-//     .then((data) => {
-//         if(data.success){
-//             paymentComplete();
-//         }else{
-//             paymentFailed();
-//         }
-//     })
-//     .catch(error => function(){
-//         console.log(error);
-//     })
-// }
+function confirmPaymentOrder(name, phoneNumber, address){
+    fetch('/confirm-payment-order/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({
+            'name': name,
+            'phone-number': phoneNumber,
+            'address': address
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success){
+            paymentComplete();
+        }else{
+            paymentFailed();
+        }
+    })
+    .catch(error => {
+        console.log(error);
+    })
+}
+
+function updateCartItemsIsOrder(){
+    var listProductsId = [];
+
+    listProductsOrderComplete.forEach(function(item){
+        let id = item.dataset.product;
+        listProductsId.push(id);
+    });
+
+    fetch('/update-cart-items/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({
+            'listProductsId': listProductsId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success){
+            console.log('success');
+        }else{
+            console.log(data.error);
+        }
+    })
+    .catch(error => {
+        console.log(error);
+    })
+}
 
 function paymentComplete(){
     formPaymentStatus.style.display = 'block';
@@ -64,7 +95,10 @@ function paymentComplete(){
     
     setTimeout(function(){
         formPaymentStatus.style.display = 'none';
+        window.location.href = '/order';
     }, 3000);
+
+    updateCartItemsIsOrder();
 }
 
 function paymentFailed(){
@@ -79,4 +113,7 @@ function paymentFailed(){
 
 formPaymentStatus.querySelector('.payment-status__ok').addEventListener('click', function(){
     formPaymentStatus.style.display = 'none';
+    if(formPaymentStatus.querySelector('.payment-status__heading').innerHTML == 'Thành công'){
+        window.location.href = '/order';
+    }
 })

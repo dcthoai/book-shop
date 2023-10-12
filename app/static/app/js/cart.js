@@ -78,7 +78,6 @@ function requestCreateOrder(listProductsOrder){
     .then(response => response.json())
     .then(data => {
         if(data.success){
-            console.log(data);
             window.location.href = '/payment';
         }else{
             alert(data.error);

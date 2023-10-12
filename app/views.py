@@ -98,14 +98,12 @@ def order(request):
     if request.user.is_authenticated:
         customer = request.user
         cart, created = Cart.objects.get_or_create(customer=customer)
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
+        orders = Order.objects.filter(customer=customer)
     else:
         customer = None
-        items = []
         cart = {'getCartItemsAmount': 0}
         order = {'get_cart_items':0, 'get_cart_total':0}
-    context = {'cart': cart ,'order': order, 'items': items}
+    context = {'cart': cart ,'orders': orders}
     return render(request, 'app/order.html', context)
 
 # Search product by name
@@ -183,7 +181,7 @@ def createOrder(request):
             listProductsOrder = data['listProductsOrder']
 
             Order.objects.filter(customer=request.user, active=True).update(active=False)
-            order= Order.objects.create(customer=request.user, complete=False, active=True)
+            order = Order.objects.create(customer=request.user, complete=False, active=True)
 
             for item in listProductsOrder:
                 try:
@@ -199,8 +197,45 @@ def createOrder(request):
             return JsonResponse({'success': 'Đã tạo đơn hàng', 'orderItems': list(orderItems)})
         else:
             return JsonResponse({'error': 'Vui lòng đăng nhập để thanh toán'})
-    return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
 
+def confirmPaymentOrder(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+
+            order, created = Order.objects.get_or_create(customer=request.user, complete=False, active=True)
+            try:
+                order.name = data['name']
+                order.phoneNumber = data['phone-number']
+                order.address = data['address']
+                order.active = False
+                order.save()
+                return JsonResponse({'success': 'Thành công'})
+            except:
+                return JsonResponse({'error': 'Thông tin không hợp lệ'})
+        else:
+            return JsonResponse({'error': 'Vui lòng đăng nhập để thanh toán'})
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
+
+def updateCartItem(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+            listProductsId = data['listProductsId']
+
+            cart, created = Cart.objects.get_or_create(customer=request.user)
+            for productId in listProductsId:
+                product = Product.objects.get(id=productId)
+                cartItem, created = CartItem.objects.get_or_create(cart=cart, product=product)
+                cartItem.delete()
+            return JsonResponse({'success': 'Cập nhật thành công'})
+        else:
+            return JsonResponse({'error': 'Người dùng chưa đăng nhập'})
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
 
 # Load info account page
 def account(request):

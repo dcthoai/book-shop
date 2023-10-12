@@ -84,7 +84,7 @@
             <h4>Xem lại sản phẩm của bạn:</h4>
             <div class="list__product">
                 {% for item in items %}
-                <div class="product">
+                <div class="product" data-product="{{item.product.id}}">
                     <div class="product__img">
                         <a href="/book/{{item.product.slugName}}"><img src="{{item.product.imageURL}}" alt="image-product"></a>
                     </div>

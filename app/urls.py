@@ -31,4 +31,6 @@ urlpatterns = [
     path('notifications/', views.notifications, name='notifications'),
     path('order/', views.order, name='order'),
     path('create-order/', views.createOrder, name='create-order'),
+    path('confirm-payment-order/', views.confirmPaymentOrder, name='confirm-payment-order'),
+    path('update-cart-items/', views.updateCartItem, name='update-cart-items'),
 ]
