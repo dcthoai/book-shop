@@ -47,18 +47,18 @@
                     <div class="quantity__book">
                         <label class="heading" for="quantity">Số lượng:</label>
                         <div class="quantity">
-                            <button type="button" class="quantity__add"><i class="fa-solid fa-minus"></i></button>
+                            <button type="button" class="quantity__add" onclick="subValue()"><i class="fa-solid fa-minus"></i></button>
                             <input class="quantity__input" type="text" id="quantity" name="quantity" min="1" max="100" value="1">
-                            <button type="button" class="quantity__sub"><i class="fa-solid fa-plus"></i></button>
+                            <button type="button" class="quantity__sub" onclick="addValue()"><i class="fa-solid fa-plus"></i></button>
                         </div>
                     </div>
     
                     <div class="buy">
-                        <div class="buy-now">
+                        <div class="buy-now" id="buy-now">
                             <button type="button" class="buy-now-btn">Mua ngay</button>
                         </div>
                         <div class="shop-cart">
-                            <button type="button" data-product="{{product.id}}" data-action="add" class="shop-cart-btn add-to-cart">
+                            <button type="button" data-product="{{product.id}}" data-action="add" data-quantity = "1" id="book-add-btn" class="shop-cart-btn add-to-cart">
                                 Thêm vào giỏ hàng 
                                 <i class="fa-solid fa-cart-shopping"></i>
                             </button>

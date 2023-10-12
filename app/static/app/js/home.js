@@ -173,7 +173,7 @@ function fetchProducts() {
                     </div>
                 </a>
 
-                <button type="button" data-product="${product.id}" data-action="add" class="add-to-cart">Thêm vào giỏ hàng</button>
+                <button type="button" data-product="${product.id}" data-action="add" data-quantity="1" class="add-to-cart">Thêm vào giỏ hàng</button>
             </div>
         `).join('');
 

@@ -86,4 +86,30 @@ nextSuggest.addEventListener('mouseleave', function(){
 })
 
 // Update amount product in shopcart
-addCartEventListeners();
+var bookBtn = document.getElementById('book-add-btn');
+function addValue() {
+    var input = document.getElementById('quantity');
+    var value = parseInt(input.value, 10);
+    if (!isNaN(value) && value < 100) {
+        input.value = value + 1;
+        bookBtn.dataset.quantity = input.value;
+
+    }
+}
+
+function subValue() {
+    var input = document.getElementById('quantity');
+    var value = parseInt(input.value, 10);
+    if (!isNaN(value) && value > 1) {
+        input.value = value - 1;
+        bookBtn.dataset.quantity = input.value;
+    }
+}
+
+
+
+
+
+
+
+

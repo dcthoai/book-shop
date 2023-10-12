@@ -25,7 +25,6 @@ function confirmPayment() {
         }else{
             alert("Vui lòng nhập đầy đủ thông tin của người nhận!");
         }
-<<<<<<< HEAD
     } else if (choseOption === null) {
         alert("Vui lòng chọn phương thức thanh toán!!!");
     } else {
@@ -58,31 +57,6 @@ function confirmPayment() {
             }
         }
         
-=======
-    }else{
-        if(choseOption === null){
-            alert("Vui lòng chọn phương thức thanh toán!");
-        }else{
-            if(choseOption === "momo-pay"){
-                srcImg.src = "/static/app/images/momo-qr-pay.png";
-            }
-            else if(choseOption === "zalo-pay"){
-                srcImg.src = "/static/app/images/zalo-qr-pay.jpg";
-            }
-            else if(choseOption === "banking"){
-                srcImg.src = "/static/app/images/banking-qr-pay.jpg";
-            }
-            else if(choseOption === "direct-pay"){
-                updatePayment(name, phoneNumber, address);
-            }
-            // xử lý trừng hợp thanh toán online bằng banking
-            if(choseOption === "momo-pay" ||choseOption === "zalo-pay" || choseOption === "banking"){
-                paymentConfirm.style.display = 'block';
-
-                acceptBtn.onclick = function(){
-                    updatePayment(name, phoneNumber, address);
-                }
->>>>>>> c767de87e4e0e35c8ac0e2c62ad5e76fc23e5ca5
 
                 cancelBtn.onclick = function(){
                     paymentConfirm.style.display = 'none';
@@ -93,8 +67,7 @@ function confirmPayment() {
                 }
             }
         }       
-    }
-}
+    
 
 var payment = document.getElementById('payment');
 var paymentConfirm = document.getElementById('payment__confirm');

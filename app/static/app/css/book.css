@@ -235,6 +235,7 @@ html{
 
 .content__product .quantity__book button:hover{
     cursor: pointer;
+    color: #ff0000;
 }
 
 .suggest{

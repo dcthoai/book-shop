@@ -7,18 +7,19 @@ function addCartEventListeners() {
         btn.onclick = function(){
             var productId = this.dataset.product
             var action = this.dataset.action
+            var quantity = parseInt(this.dataset.quantity, 10); //update
 
             if(user === "AnonymousUser"){
                 alert('User not logged in');
             }else{
-                updateUserOrder(productId, action);
+                updateUserOrder(productId, action, quantity);
             }
         }
     });
 }
 
 // POST request to update product in cart
-function updateUserOrder(productId, action){
+function updateUserOrder(productId, action, quantity){
     var url = '/update-item/';
     fetch(url, {
         method: 'POST',
@@ -28,7 +29,8 @@ function updateUserOrder(productId, action){
         },
         body: JSON.stringify({
             'productId': productId,
-            'action': action
+            'action': action,
+            'quantity':quantity
         })
     })
     .then((response) => {
