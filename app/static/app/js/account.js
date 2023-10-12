@@ -312,9 +312,9 @@ function verifyChangeEmail(){
     var formInputEmail = formLayerAccount.querySelector('.form__verify-input');
     var formAccountSubmit = formLayerAccount.querySelector('.form__verify-submit');
     var formAccountCancel = formLayerAccount.querySelector('.form__verify-cancel');
-    var formAccountClose = formAccount.querySelector('.form__close-btn');
+    var formClose = formAccount.querySelector('.form__close-btn');
 
-    formAccountClose.addEventListener('click', function(){
+    formClose.addEventListener('click', function(){
         formAccount.style.display = 'none';
     })
 
@@ -558,9 +558,9 @@ function verifyCodeRecover(){
     var formCodeRecover = formLayerAccount.querySelector('.form__verify-input');
     var formAccountSubmit = formLayerAccount.querySelector('.form__verify-submit');
     var formAccountCancel = formLayerAccount.querySelector('.form__verify-cancel');
-    var formAccountClose = formAccount.querySelector('.form__close-btn');
+    var formClose = formAccount.querySelector('.form__close-btn');
 
-    formAccountClose.addEventListener('click', function(){
+    formClose.addEventListener('click', function(){
         formAccount.style.display = 'none';
     })
 
@@ -605,9 +605,9 @@ function createNewPassword(){
     formLayerAccount.innerHTML = formRecoverPasswordHTML;
     var formAccountSubmit = formLayerAccount.querySelector('.form__verify-submit');
     var formCreateNewPassword = formLayerAccount.querySelector('.form__verify-input');
-    var formAccountClose = formAccount.querySelector('.form__close-btn');
+    var formClose = formAccount.querySelector('.form__close-btn');
 
-    formAccountClose.addEventListener('click', function(){
+    formClose.addEventListener('click', function(){
         formLayerAccount.innerHTML = '';
         formAccount.style.display = 'none';
     })

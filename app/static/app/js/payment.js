@@ -55,19 +55,9 @@ function confirmPayment() {
             closeBtn.onclick = function(){
                 paymentConfirm.style.display = 'none';
             }
-        }
-        
-
-                cancelBtn.onclick = function(){
-                    paymentConfirm.style.display = 'none';
-                }
-
-                closeBtn.onclick = function(){
-                    paymentConfirm.style.display = 'none';
-                }
-            }
-        }       
-    
+        }     
+    }
+}
 
 var payment = document.getElementById('payment');
 var paymentConfirm = document.getElementById('payment__confirm');
