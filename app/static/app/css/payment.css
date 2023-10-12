@@ -268,3 +268,48 @@ html{
     margin: 0 auto;
     border-bottom: 1px solid #ccc;
 }
+
+.payment-status{
+    display: none;
+    width: 280px;
+    max-width: 80%;
+    background-color: #fff;
+    box-shadow: 0 0 24px 4px #ebebeb;
+    border-radius: 12px;
+    position: fixed;
+    z-index: 102;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.payment-status .payment-status__heading{
+    margin: 24px 0;
+    width: 100%;
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.payment-status .payment-status__icon{
+    display: block;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    margin: 0 auto;
+}
+
+.payment-status .payment-status__ok{
+    display: block;
+    width: 120px;
+    height: 42px;
+    margin: 24px auto;
+    margin-top: 48px;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    background-color: #ff2828;
+}

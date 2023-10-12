@@ -577,3 +577,45 @@ function loggedOut(){
         alert(error);
     });
 }
+
+// POST request to update product in cart
+function updateCartItem(productId, action, quantity = 1){
+    fetch('/update-item/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({
+            'productId': productId,
+            'action': action,
+            'quantity': quantity
+        })
+    })
+    .then((response) => {
+        return response.json()
+    })
+    .then((data) => {
+        location.reload();
+    })
+    .catch(error => {
+        console.log(error);
+    })
+}
+
+function addUpdateCartItemListener(){
+    var addToCartBtns = document.querySelectorAll('.add-to-cart');
+
+    addToCartBtns.forEach(function(button){
+        button.onclick = function(){
+            var productId = this.dataset.product
+            var action = this.dataset.action
+
+            if(user === "AnonymousUser"){
+                alert('User not logged in');
+            }else{
+                updateCartItem(productId, action);
+            }
+        }
+    })
+}

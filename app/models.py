@@ -69,6 +69,24 @@ class Product(models.Model):
             url = 'static/app/images/icon-camera.png'
         return url
 
+class Cart(models.Model):
+    customer = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+
+    def getCartItemsAmount(self):
+        cartItems = self.cartitem_set.all()
+        total = sum([item.quantity for item in cartItems])
+        return total
+
+class CartItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
+    cart = models.ForeignKey(Cart, on_delete=models.SET_NULL, blank=True, null=True)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
+    dateAdded = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_total(self):
+        return self.product.price * self.quantity
+
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     dateOrder = models.DateTimeField(auto_now_add=True)
@@ -102,6 +120,7 @@ class OrderItem(models.Model):
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
+    name = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=250, null=True)
     phoneNumber = models.CharField(max_length=10, null=True)
     dateAdded = models.DateTimeField(auto_now_add=True)

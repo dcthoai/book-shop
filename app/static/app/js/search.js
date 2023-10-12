@@ -41,4 +41,4 @@ $(document).ready(function(){
 });
 
 // Update amount product in shopcart
-addCartEventListeners();
+addUpdateCartItemListener();

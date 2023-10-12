@@ -16,15 +16,15 @@
         <div class="payment__info">
             <div class="wrapper">
                 <span>Họ tên</span>
-                <input type="text" class="info__input" placeholder="Nhập họ tên người nhận">
+                <input name="payment-name" type="text" class="info__input" placeholder="Nhập họ tên người nhận">
             </div>
             <div class="wrapper">
                 <span>Số điện thoại</span>
-                <input type="text" class="info__input" placeholder="Nhập số điện thoại người nhận">
+                <input name="payment-phone" type="text" class="info__input" placeholder="Nhập số điện thoại người nhận">
             </div>
             <div class="wrapper">
                 <span>Địa chỉ</span>
-                <input type="text" class="info__input" placeholder="Nhập địa chỉ người nhận">
+                <input name="payment-address" type="text" class="info__input" placeholder="Nhập địa chỉ người nhận">
             </div>
         </div>
 
@@ -37,7 +37,7 @@
 
             <div>
                 <div class="payment__method-choice">
-                    <input type="radio" name="payment-method">
+                    <input type="radio" name="payment-method" value='zalo-pay'>
                     <div class="des">
                         <div class="des__icon">
                             <img src="{% static 'app/images/zalopay.jpg' %}" alt="ZaloPay">
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="payment__method-choice">
-                    <input type="radio" name="payment-method">
+                    <input type="radio" name="payment-method" value='momo-pay'>
                     <div class="des">
                         <div class="des__icon">
                             <img src="{% static 'app/images/momopay.jpg' %}" alt="MomoPay">                    
@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="payment__method-choice">
-                    <input type="radio" name="payment-method">
+                    <input type="radio" name="payment-method" value='banking-pay'>
                     <div class="des">
                         <div class="des__icon">
                             <img src="{% static 'app/images/atmpay.jpg' %}" alt="ATMPay">
@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="payment__method-choice">
-                    <input type="radio" name="payment-method">
+                    <input type="radio" name="payment-method" value='cash-pay'>
                     <div class="des">
                         <div class="des__icon">
                             <img src="{% static 'app/images/cashpay.jpg' %}" alt="CashPay">
@@ -94,7 +94,7 @@
                             <div class="description__heading"><a href="/book/{{item.product.slugName}}">{{item.product.name}}</a></div>
                             <div class="description__price">
                                 {{item.product.price}}đ 
-                                <del>79.000đ</del>
+                                <del>{{item.product.cost}}</del>
                                 <div class="description__price-amount mobile">x{{item.quantity}}</div>
                             </div>
                         </div>
@@ -126,11 +126,19 @@
                 </div>
 
                 <div class="payment__controls-confirm">
-                    <button type="button">Xác nhận thanh toán</button>
+                    <button type="button" id="payment-confirm">Xác nhận thanh toán</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="payment-status">
+        <h3 class="payment-status__heading"></h3>
+        <img class="payment-status__icon" src="">
+        <button class="payment-status__ok" type="button">Ok</button>
+    </div>
+
+    <script src="{% static 'app/js/payment.js' %}"></script>
 {% endblock content %}
 
 {% block footer %}{% endblock footer%}

@@ -11,7 +11,7 @@ from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome, Profile
+from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome, Profile, Cart, CartItem
 from random import sample
 import unidecode
 import smtplib
@@ -29,6 +29,163 @@ from django.conf import settings
 EXPIRATION_TIME = 3 * 60  # 3 minutes
 
 # Create your views here.
+# Load Home page
+def home(request):
+    if request.user.is_authenticated:
+        customer = request.user
+        cart, created = Cart.objects.get_or_create(customer=customer)
+    else:
+        cart = {'getCartItemsAmount': 0}
+    sliders = SliderHome.objects.all()
+    products = Product.objects.all()
+    context = {'products': products, 'cart': cart, 'sliders': sliders}
+    return render(request, 'app/home.html', context)
+
+# Load notifications page
+def notifications(request):
+    if request.user.is_authenticated:
+        user = request.user
+        cart, created = Cart.objects.get_or_create(customer=user)
+    else:
+        user = None
+        cart = {'getCartItemsAmount': 0}
+    context = {'cart': cart}
+    return render(request, 'app/notifications.html', context)
+
+# Load info product page
+def book(request, slugName):
+    if request.user.is_authenticated:
+        customer = request.user
+        cart, created = Cart.objects.get_or_create(customer=customer)
+    else:
+        customer = None
+        cart = {'getCartItemsAmount': 0}
+    products = Product.objects.all()
+    product = get_object_or_404(Product, slugName=slugName)
+    context = {'cart': cart, 'products': products, 'product': product}
+    return render(request, 'app/book.html', context)
+
+# Load cart page
+def cart(request):
+    if request.user.is_authenticated:
+        customer = request.user
+        cart, created = Cart.objects.get_or_create(customer=customer)
+        cartItems = cart.cartitem_set.all()
+    else:
+        customer = None
+        cartItems = []
+        cart = {'getCartItemsAmount': 0}
+    context = {'cartItems': cartItems, 'cart': cart}
+    return render(request, 'app/cart.html', context)
+
+# Load payment page
+def payment(request):
+    if request.user.is_authenticated:
+        customer = request.user
+        cart, created = Cart.objects.get_or_create(customer=customer)
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+    else:
+        customer = None
+        items = []
+        cart = {'getCartItemsAmount': 0}
+        order = {'get_cart_items':0, 'get_cart_total':0}
+    context = {'cart': cart, 'order': order, 'items': items}
+    return render(request, 'app/payment.html', context)
+
+# Load informations of customer orders
+def order(request):
+    if request.user.is_authenticated:
+        customer = request.user
+        cart, created = Cart.objects.get_or_create(customer=customer)
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+    else:
+        customer = None
+        items = []
+        cart = {'getCartItemsAmount': 0}
+        order = {'get_cart_items':0, 'get_cart_total':0}
+    context = {'cart': cart ,'order': order, 'items': items}
+    return render(request, 'app/order.html', context)
+
+# Search product by name
+def search(request, query):
+    if request.user.is_authenticated:
+        customer = request.user
+        cart, created = Cart.objects.get_or_create(customer=customer)
+    else:
+        cart = {'getCartItemsAmount': 0}
+    result = query
+    query = '-'.join(unidecode.unidecode(query.strip()).split())
+    products = Product.objects.filter(slugName__icontains=query)
+    size = products.count()
+    context = {'result' : result, 'size' : size, 'cart': cart ,'products' : products}
+    return render(request, 'app/search.html', context)
+
+# Search product by category
+def filter_category(request):
+    category = request.GET.get('category')
+    products = Product.objects.filter(category=category)
+    product_list = []
+
+    for product in products:
+        product_dict = model_to_dict(product, exclude=["image"])
+        product_dict['imageURL'] = product.imageURL
+        product_list.append(product_dict)
+
+    return JsonResponse(product_list, safe=False)
+
+# API get list product for homepage
+def productsApi(request):
+    start = int(request.GET.get('start', 0))
+    products = Product.objects.all()[start:start+18]
+
+    product_list = []
+    for product in products:
+        product_dict = model_to_dict(product, exclude=["image"])  # remove image field
+        product_dict['imageURL'] = product.imageURL  # add URL image
+        product_list.append(product_dict)
+
+    return JsonResponse(product_list, safe=False)
+
+# Handle update product to cart
+def updateItem(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+            action = data['action']
+            
+            product = Product.objects.get(id=data['productId'])
+            cart, created = Cart.objects.get_or_create(customer=request.user)
+            cartItem, created = CartItem.objects.get_or_create(cart=cart, product=product)
+
+            if action == 'add':
+                cartItem.quantity += data['quantity']
+            elif action == 'remove':
+                cartItem.quantity -= 1
+            elif action == 'delete':
+                cartItem.quantity = -1
+            cartItem.save()
+            if cartItem.quantity <= 0:
+                cartItem.delete()
+
+            return JsonResponse({'success': 'Cập nhật thành công'})
+        else:
+            return JsonResponse({'error': 'Người dùng chưa đăng nhập'})
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
+
+# Load info account page
+def account(request):
+    if request.user.is_authenticated:
+        user = request.user
+        cart, created = Cart.objects.get_or_create(customer=user)
+    else:
+        user = None
+        cart = {'getCartItemsAmount': 0}
+    context = {'user': user, 'cart': cart}
+    return render(request, 'app/account.html', context)
+
 # Handle send and receive new user account registration information
 @csrf_exempt
 def register(request):
@@ -119,139 +276,15 @@ def signIn(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
 
-@csrf_exempt
-def signOut(request):
-    logout(request)
-    return JsonResponse({'success': 'Đăng xuất thành công.'}, status=200)
-
-# Load Home page
-def home(request):
-    if request.user.is_authenticated:
-        customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
-    else:
-        items = []
-        order = {'get_cart_items':0, 'get_cart_total':0}
-    sliders = SliderHome.objects.all()
-    products = Product.objects.all()
-    context = {'products': products, 'order': order, 'sliders': sliders}
-    return render(request, 'app/home.html', context)
-
-# Load cart page
-def cart(request):
-    if request.user.is_authenticated:
-        customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
-    else:
-        items = []
-        order = {'get_cart_items':0, 'get_cart_total':0}
-    context = {'items':items, 'order':order}
-    return render(request, 'app/cart.html', context)
-
-# Load info product page
-def book(request, slugName):
-    if request.user.is_authenticated:
-        customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
-    else:
-        items = []
-        order = {'get_cart_items':0, 'get_cart_total':0}
-    products = Product.objects.all()
-    product = get_object_or_404(Product, slugName=slugName)
-    context = {'order': order, 'products': products, 'product': product}
-    return render(request, 'app/book.html', context)
-
-# Load payment page
-def payment(request):
-    if request.user.is_authenticated:
-        customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
-    else:
-        items = []
-        order = {'get_cart_items':0, 'get_cart_total':0}
-    context = {'items':items, 'order':order}
-    return render(request, 'app/payment.html', context)
-
-# Handle update product to cart
-def updateItem(request):
-    data = json.loads(request.body)
-    productId = data['productId']
-    action = data['action']
-    customer = request.user
-    product = Product.objects.get(id = productId)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
-    if action == 'add':
-        orderItem.quantity += 1
-    elif action == 'remove':
-        orderItem.quantity -= 1
-    elif action == 'delete':
-        orderItem.quantity = -1
-    orderItem.save()
-    if orderItem.quantity <= 0:
-        orderItem.delete()
-
-    return JsonResponse('added', safe=False)
-
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-def search(request, query):
-    if request.user.is_authenticated:
-        customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
-    else:
-        items = []
-        order = {'get_cart_items':0, 'get_cart_total':0}
-
-    result = query
-    query = '-'.join(unidecode.unidecode(query.strip()).split())
-    products = Product.objects.filter(slugName__icontains=query)
-    size = products.count()
-    context = {'result' : result, 'size' : size, 'order' : order ,'products' : products}
-    return render(request, 'app/search.html', context)
-
-def filter_category(request):
-    category = request.GET.get('category')
-    products = Product.objects.filter(category=category)
-    product_list = []
-
-    for product in products:
-        product_dict = model_to_dict(product, exclude=["image"])
-        product_dict['imageURL'] = product.imageURL
-        product_list.append(product_dict)
-
-    return JsonResponse(product_list, safe=False)
-
-def account(request):
-    if request.user.is_authenticated:
-        user = request.user
-        order, created = Order.objects.get_or_create(customer=user, complete=False)
-    else:
-        user = None
-        order = {'get_cart_items':0, 'get_cart_total':0}
-    context = {'user': user, 'order': order}
-    return render(request, 'app/account.html', context)
-
-# API get list product for homepage
-def productsApi(request):
-    start = int(request.GET.get('start', 0))
-    products = Product.objects.all()[start:start+18]
-
-    product_list = []
-    for product in products:
-        product_dict = model_to_dict(product, exclude=["image"])  # remove image field
-        product_dict['imageURL'] = product.imageURL  # add URL image
-        product_list.append(product_dict)
-
-    return JsonResponse(product_list, safe=False)
+@csrf_exempt
+def signOut(request):
+    logout(request)
+    return JsonResponse({'success': 'Đăng xuất thành công.'}, status=200)
 
 # API to update info account
 @csrf_exempt
@@ -528,23 +561,3 @@ def createNewPassword(request):
         return JsonResponse({'success': 'Khôi phục tài khoản thành công, vui lòng đăng nhập lại.'})
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
-
-def notifications(request):
-    if request.user.is_authenticated:
-        user = request.user
-        order, created = Order.objects.get_or_create(customer=user, complete=False)
-    else:
-        user = None
-        order = {'get_cart_items':0, 'get_cart_total':0}
-    context = {'order': order}
-    return render(request, 'app/notifications.html', context)
-
-def order(request):
-    if request.user.is_authenticated:
-        user = request.user
-        order, created = Order.objects.get_or_create(customer=user, complete=False)
-    else:
-        user = None
-        order = {'get_cart_items':0, 'get_cart_total':0}
-    context = {'order': order}
-    return render(request, 'app/order.html', context)

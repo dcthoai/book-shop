@@ -178,7 +178,7 @@ function fetchProducts() {
         `).join('');
 
         content.innerHTML += productHTML;
-        addCartEventListeners();
+        addUpdateCartItemListener();
         start += 18;
     });
 }
@@ -231,3 +231,5 @@ filter.onclick = function() {
         fetchProductsByCategory(category);
     }
 }
+
+addUpdateCartItemListener();

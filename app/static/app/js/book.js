@@ -86,4 +86,4 @@ nextSuggest.addEventListener('mouseleave', function(){
 })
 
 // Update amount product in shopcart
-addCartEventListeners();
+addUpdateCartItemListener();

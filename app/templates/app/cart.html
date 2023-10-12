@@ -17,7 +17,7 @@
         <div class="nav">
             <div class="nav__select">
                 <input class="nav__select-checkbox" type="checkbox">
-                <div class="nav__select-heading">Chọn tất cả <span>({{order.get_cart_items}} sản phẩm)</span></div>
+                <div class="nav__select-heading">Chọn tất cả <span>({{cart.getCartItemsAmount}} sản phẩm)</span></div>
             </div>
 
             <div class="nav__item pc tablet">Số lượng</div>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="list-product">
-            {% for item in items %}
+            {% for item in cartItems %}
                 <div class="product">
                     <input class="product__select" type="checkbox">
 
@@ -78,14 +78,12 @@
     <div class="cart__payment">
         <div class="total__price">
             <div class="total__price-heading">Tổng thanh toán:</div>
-            <span>{{order.get_cart_total}}đ</span>
+            <span id="total-price">0đ</span>
         </div>
 
-        <a href="{% url 'payment' %}" class="payment__link">
-            <button type="button" class="payment__link-btn">Thanh toán</button>
-        </a>
+        <button type="button" class="payment__link">Thanh toán</button>
     </div>
     
-    <script> addCartEventListeners(); </script>
-
+    <script src="{% static 'app/js/cart.js' %}"></script>
+    <script src="{% static 'app/js/payment.js' %}"></script>
 {% endblock content %}

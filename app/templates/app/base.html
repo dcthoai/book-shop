@@ -18,7 +18,6 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
-    <script src="{% static 'app/js/cart.js' %}"></script>
 
     <script type="text/javascript">
         var user = '{{request.user}}';
@@ -80,7 +79,7 @@
             
                 <div class="nav__cart pc tablet">
                     <a href="{% url 'cart' %}" class="nav__cart-link">
-                        <i class="fa-solid fa-cart-shopping"><div class="nav__cart-quantity">{{order.get_cart_items}}</div></i>
+                        <i class="fa-solid fa-cart-shopping"><div class="nav__cart-quantity">{{cart.getCartItemsAmount}}</div></i>
                     </a>
                 </div>
             
@@ -138,6 +137,11 @@
     <div class="loadding">
         <div class="loadding-content"></div>
     </div>
+    
+    <script>    var staticURL = '{% static "" %}'; </script>
+    <script src="{% static 'app/js/validator.js' %}"></script>
+    <script src="{% static 'app/js/app.js' %}"></script>
+    <script src="{% static 'app/js/search.js' %}"></script>
 
     {% block content %}{% endblock content %}
     
@@ -165,11 +169,7 @@
             </div>
         </footer>
     {% endblock footer %}
-
-    <script>    var staticURL = '{% static "" %}'; </script>
-    <script src="{% static 'app/js/search.js' %}"></script>
-    <script src="{% static 'app/js/app.js' %}"></script>
-    <script src="{% static 'app/js/validator.js' %}"></script>
+    
     <script src="{% static 'app/js/res.js' %}"></script>
 </body>
 </html>
