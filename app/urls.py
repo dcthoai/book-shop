@@ -30,4 +30,5 @@ urlpatterns = [
     path('api/password/create/', views.createNewPassword, name='create-new-password'),
     path('notifications/', views.notifications, name='notifications'),
     path('order/', views.order, name='order'),
+    path('create-order/', views.createOrder, name='create-order'),
 ]

@@ -16,7 +16,7 @@
 
         <div class="nav">
             <div class="nav__select">
-                <input class="nav__select-checkbox" type="checkbox">
+                <input id="selectAllProducts" class="nav__select-checkbox" type="checkbox">
                 <div class="nav__select-heading">Chọn tất cả <span>({{cart.getCartItemsAmount}} sản phẩm)</span></div>
             </div>
 
@@ -61,7 +61,7 @@
                                 </div>
         
                                 <div class="details__price pc tablet">
-                                    <span>{{item.get_total}}đ</span>
+                                    <span class="product-total-price">{{item.get_total}}đ</span>
                                 </div>
         
                                 <button type="button" class="details__del add-to-cart" data-product="{{item.product.id}}" data-action="delete">
@@ -81,7 +81,7 @@
             <span id="total-price">0đ</span>
         </div>
 
-        <button type="button" class="payment__link">Thanh toán</button>
+        <button type="button" id="payment-link-btn" class="payment__link">Thanh toán</button>
     </div>
     
     <script src="{% static 'app/js/cart.js' %}"></script>

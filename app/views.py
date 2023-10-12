@@ -11,7 +11,7 @@ from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from .models import User, Product, Order, OrderItem, ShippingAddress, SliderHome, Profile, Cart, CartItem
+from .models import User, Product, Order, OrderItem, SliderHome, Profile, Cart, CartItem
 from random import sample
 import unidecode
 import smtplib
@@ -83,7 +83,7 @@ def payment(request):
     if request.user.is_authenticated:
         customer = request.user
         cart, created = Cart.objects.get_or_create(customer=customer)
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order, created = Order.objects.get_or_create(customer=customer, complete=False, active=True)
         items = order.orderitem_set.all()
     else:
         customer = None
@@ -174,6 +174,33 @@ def updateItem(request):
             return JsonResponse({'error': 'Người dùng chưa đăng nhập'})
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
+
+# Create a order for current user
+def createOrder(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+            listProductsOrder = data['listProductsOrder']
+
+            Order.objects.filter(customer=request.user, active=True).update(active=False)
+            order= Order.objects.create(customer=request.user, complete=False, active=True)
+
+            for item in listProductsOrder:
+                try:
+                    product = Product.objects.get(id=item['id'])
+                    quantity = item['quantity']
+                    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+                    orderItem.quantity = quantity
+                    orderItem.save()
+                except:
+                    return JsonResponse({'error': 'Sản phẩm này không còn tồn tại, vui lòng cập nhật giỏ hàng'})
+
+            orderItems = order.orderitem_set.values()
+            return JsonResponse({'success': 'Đã tạo đơn hàng', 'orderItems': list(orderItems)})
+        else:
+            return JsonResponse({'error': 'Vui lòng đăng nhập để thanh toán'})
+    return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
+
 
 # Load info account page
 def account(request):

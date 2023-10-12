@@ -89,9 +89,12 @@ class CartItem(models.Model):
 
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    name = models.CharField(max_length=100, null=True)
+    address = models.CharField(max_length=250, null=True)
+    phoneNumber = models.CharField(max_length=10, null=True)
     dateOrder = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False, null=True, blank=False)
-    transactionId = models.CharField(max_length=50, null=True)
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id)
@@ -116,17 +119,6 @@ class OrderItem(models.Model):
     @property
     def get_total(self):
         return self.product.price * self.quantity
-
-class ShippingAddress(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
-    name = models.CharField(max_length=100, null=True)
-    address = models.CharField(max_length=250, null=True)
-    phoneNumber = models.CharField(max_length=10, null=True)
-    dateAdded = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.address
 
 class SliderHome(models.Model):
     image = models.ImageField(upload_to='sliders', null=True, blank=True)
