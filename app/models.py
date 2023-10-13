@@ -96,6 +96,10 @@ class Order(models.Model):
     complete = models.BooleanField(default=False, null=True, blank=False)
     active = models.BooleanField(default=False)
 
+    def getDateOrder(self):
+        weekdays = ["Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ Nhật"]
+        return weekdays[self.dateOrder.astimezone().weekday()] + ', ' + self.dateOrder.astimezone().strftime("%d/%m/%Y, %H:%M")
+
     def __str__(self):
         return str(self.id)
 

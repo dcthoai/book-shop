@@ -7,11 +7,59 @@
 {% endblock title %}
 
 {% block content %}
-    <div class="order">
-        <h2 class="order__heading">Đơn hàng của bạn</h2>
+    <div class="your-order">
+        <h2 class="your-order__heading">Đơn hàng của bạn</h2>
             
-        <div class="order__content">
-            <span class="order__empty-message">Bạn chưa có đơn nào, đặt hàng ngay</span>
+        <div class="your-order__content">
+
+            <div class="list-order">
+                {% for order, orderItems in ordersWithItems %}
+                <div class="order">
+                    <a class="order-demo" href="/order/details/{{order.id}}">
+                        <div class="order-demo__img">
+                            <img src="{{orderItems.first.product.imageURL}}" alt="image-product">
+                        </div>
+
+                        <div class="order-demo__info">
+                            <h4 class="info__heading">{{orderItems.first.product.name}}</h4>
+                            
+                            <div class="info__body">
+                                <div class="info__body-price">
+                                    <del>{{orderItems.first.product.cost}}</del>
+                                    {{orderItems.first.product.price}}đ
+                                </div>
+                                
+                                <div class="total-price">
+                                    <div class="total-price__quantity">x{{orderItems.first.quantity}}</div>
+                                    <div class="total-price__total">{{orderItems.first.get_total}}đ</div>
+                                    <span>Và {{ orderItems|length|add:"-1" }} sản phẩm khác, nhấn để xem chi tiết</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-demo__status">
+                            {% if order.complete %}
+                                Đã hoàn thành
+                            {% else %}
+                                Chưa hoàn thành
+                            {% endif %}
+                        </div>
+                    </a>
+
+                    {% if order.complete %}
+                        <button data-order="{{order.id}}" type="button" disabled class="order__complete complete">
+                            <img src="{% static 'app/images/success-icon.png' %}">
+                        </button>
+                    {% else %}
+                        <button data-order="{{order.id}}" type="button" class="order__complete">Đã nhận hàng</button>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <span style="display: none" class="order__empty-message">Bạn chưa có đơn nào, đặt hàng ngay</span>
         </div>
     </div>
+
+    <script src="{% static 'app/js/order.js' %}"><script>
 {% endblock content %}

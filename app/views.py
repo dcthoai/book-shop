@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
@@ -83,8 +83,12 @@ def payment(request):
     if request.user.is_authenticated:
         customer = request.user
         cart, created = Cart.objects.get_or_create(customer=customer)
-        order, created = Order.objects.get_or_create(customer=customer, complete=False, active=True)
-        items = order.orderitem_set.all()
+        try:
+            order = get_object_or_404(Order, customer=customer, complete=False, active=True)
+            items = order.orderitem_set.all()
+        except Http404:
+            order = {'get_cart_items':0, 'get_cart_total':0}
+            items = []
     else:
         customer = None
         items = []
@@ -99,12 +103,33 @@ def order(request):
         customer = request.user
         cart, created = Cart.objects.get_or_create(customer=customer)
         orders = Order.objects.filter(customer=customer)
+        ordersWithItems = []
+
+        for order in orders:
+            orderItems = order.orderitem_set.all()
+            ordersWithItems.append((order, orderItems))
     else:
         customer = None
         cart = {'getCartItemsAmount': 0}
-        order = {'get_cart_items':0, 'get_cart_total':0}
-    context = {'cart': cart ,'orders': orders}
+        ordersWithItems = []
+    context = {'cart': cart ,'ordersWithItems': ordersWithItems}
     return render(request, 'app/order.html', context)
+
+# Load order infomations details
+def orderDetails(request, order_id):
+    if request.user.is_authenticated:
+        customer = request.user
+        cart, created = Cart.objects.get_or_create(customer=customer)
+        try:
+            order = get_object_or_404(Order, id=order_id)
+        except Http404:
+            order = {}
+    else:
+        customer = None
+        cart = {'getCartItemsAmount': 0}
+        order = {}
+    context = {'cart': cart ,'order': order}
+    return render(request, 'app/orderdetail.html', context)
 
 # Search product by name
 def search(request, query):
@@ -200,21 +225,40 @@ def createOrder(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
 
+def confirmOrderComplete(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+            customer = request.user
+            
+            try:
+                order = get_object_or_404(Order, customer=customer, id=data['order-id'])
+                order.complete = True
+                order.save()
+                return JsonResponse({'success': 'Đơn hàng đã hoàn thành'})
+            except Http404:
+                return JsonResponse({'error': 'Không tìm thấy đơn hàng'})
+        else:
+            return JsonResponse({'error': 'Vui lòng đăng nhập để tiếp tục'})
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
+
 def confirmPaymentOrder(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
             data = json.loads(request.body)
 
-            order, created = Order.objects.get_or_create(customer=request.user, complete=False, active=True)
             try:
+                order = get_object_or_404(Order, customer=request.user, complete=False, active=True)
+
                 order.name = data['name']
                 order.phoneNumber = data['phone-number']
                 order.address = data['address']
                 order.active = False
                 order.save()
                 return JsonResponse({'success': 'Thành công'})
-            except:
-                return JsonResponse({'error': 'Thông tin không hợp lệ'})
+            except Http404:
+                return JsonResponse({'error': 'Order not found'}, status=404)
         else:
             return JsonResponse({'error': 'Vui lòng đăng nhập để thanh toán'})
     else:
