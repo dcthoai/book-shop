@@ -85,5 +85,58 @@ nextSuggest.addEventListener('mouseleave', function(){
     nextSuggest.style.color = '#000';
 })
 
-// Update amount product in shopcart
-addUpdateCartItemListener();
+var buyNowButton = document.querySelector('.content__product .buy .buy-now-btn');
+var addToCartButton = document.querySelector('.content__product .buy .shop-cart-btn.add-to-cart');
+var productQuantityInput = document.querySelector('.content__product .quantity__book #quantity');
+var quantityNextButton = document.querySelector('.content__product .quantity__book .quantity__add');
+var quantityPrevButton = document.querySelector('.content__product .quantity__book .quantity__sub');
+
+quantityNextButton.addEventListener('click', function(){
+    productQuantityInput.value = Number(productQuantityInput.value) + 1;
+});
+
+quantityPrevButton.addEventListener('click', function(){
+    if(Number(productQuantityInput.value) > 1){
+        productQuantityInput.value = Number(productQuantityInput.value) - 1;
+    }
+})
+
+buyNowButton.addEventListener('click', function(){
+    let productId = buyNowButton.dataset.product;
+    let quantityProduct = Number(productQuantityInput.value);
+    let listProductsOrder = [{'id': productId, 'quantity': quantityProduct}];
+
+    fetch('/create-order/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({
+            'listProductsOrder': listProductsOrder
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success){
+            window.location.href = '/payment';
+        }else{
+            alert(data.error);
+        }
+    })
+    .catch(error => {
+        console.log(error);
+    })
+});
+
+addToCartButton.addEventListener('click', function(){
+    let productId = addToCartButton.dataset.product;
+    let action = addToCartButton.dataset.action;
+    let quantityProduct = Number(productQuantityInput.value);
+
+    if(user === "AnonymousUser"){
+        alert('User not logged in');
+    }else{
+        updateCartItem(productId, action, quantityProduct);
+    }
+})

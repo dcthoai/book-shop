@@ -608,8 +608,8 @@ function addUpdateCartItemListener(){
 
     addToCartBtns.forEach(function(button){
         button.onclick = function(){
-            var productId = this.dataset.product
-            var action = this.dataset.action
+            let productId = this.dataset.product
+            let action = this.dataset.action
 
             if(user === "AnonymousUser"){
                 alert('User not logged in');

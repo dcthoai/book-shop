@@ -47,15 +47,15 @@
                     <div class="quantity__book">
                         <label class="heading" for="quantity">Số lượng:</label>
                         <div class="quantity">
-                            <button type="button" class="quantity__add"><i class="fa-solid fa-minus"></i></button>
-                            <input class="quantity__input" type="text" id="quantity" name="quantity" min="1" max="100" value="1">
-                            <button type="button" class="quantity__sub"><i class="fa-solid fa-plus"></i></button>
+                            <button type="button" class="quantity__sub"><i class="fa-solid fa-minus"></i></button>
+                            <input disabled class="quantity__input" type="text" id="quantity" name="quantity" min="1" max="100" value="1">
+                            <button type="button" class="quantity__add"><i class="fa-solid fa-plus"></i></button>
                         </div>
                     </div>
     
                     <div class="buy">
                         <div class="buy-now">
-                            <button type="button" class="buy-now-btn">Mua ngay</button>
+                            <button type="button" data-product="{{product.id}}" class="buy-now-btn">Mua ngay</button>
                         </div>
                         <div class="shop-cart">
                             <button type="button" data-product="{{product.id}}" data-action="add" class="shop-cart-btn add-to-cart">
