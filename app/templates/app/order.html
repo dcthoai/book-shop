@@ -38,20 +38,28 @@
                         </div>
 
                         <div class="order-demo__status">
-                            {% if order.complete %}
-                                Đã hoàn thành
+                            {% if order.isPaid %}
+                                {% if order.complete %} 
+                                    <label style="color: #31af91">Đã hoàn thành</label>
+                                {% else %}
+                                    Chưa hoàn thành
+                                {% endif %}
                             {% else %}
-                                Chưa hoàn thành
+                                <label style="color: #ff0000">Chưa thanh toán</label>
                             {% endif %}
                         </div>
                     </a>
 
-                    {% if order.complete %}
-                        <button data-order="{{order.id}}" type="button" disabled class="order__complete complete">
-                            <img src="{% static 'app/images/success-icon.png' %}">
-                        </button>
+                    {% if order.isPaid %}
+                        {% if order.complete %}
+                            <button data-order="{{order.id}}" type="button" disabled class="order-demo-button order__complete complete">
+                                <img src="{% static 'app/images/success-icon.png' %}">
+                            </button>
+                        {% else %}
+                            <button data-order="{{order.id}}" type="button" class="order-demo-button order__complete">Đã nhận hàng</button>
+                        {% endif %}
                     {% else %}
-                        <button data-order="{{order.id}}" type="button" class="order__complete">Đã nhận hàng</button>
+                        <button data-order="{{order.id}}" type="button" class="order-demo-button order__pay-again">Thanh toán</button>
                     {% endif %}
                 </div>
                 {% endfor %}

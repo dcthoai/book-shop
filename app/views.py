@@ -206,7 +206,7 @@ def createOrder(request):
             listProductsOrder = data['listProductsOrder']
 
             Order.objects.filter(customer=request.user, active=True).update(active=False)
-            order = Order.objects.create(customer=request.user, complete=False, active=True)
+            order = Order.objects.create(customer=request.user, complete=False, active=True, isPaid=False)
 
             for item in listProductsOrder:
                 try:
@@ -220,6 +220,28 @@ def createOrder(request):
 
             orderItems = order.orderitem_set.values()
             return JsonResponse({'success': 'Đã tạo đơn hàng', 'orderItems': list(orderItems)})
+        else:
+            return JsonResponse({'error': 'Vui lòng đăng nhập để thanh toán'})
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
+
+def confirmPaymentOrder(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+
+            try:
+                order = get_object_or_404(Order, customer=request.user, complete=False, active=True)
+
+                order.name = data['name']
+                order.phoneNumber = data['phone-number']
+                order.address = data['address']
+                order.active = False
+                order.isPaid = True
+                order.save()
+                return JsonResponse({'success': 'Thành công'})
+            except Http404:
+                return JsonResponse({'error': 'Order not found'}, status=404)
         else:
             return JsonResponse({'error': 'Vui lòng đăng nhập để thanh toán'})
     else:
@@ -240,27 +262,6 @@ def confirmOrderComplete(request):
                 return JsonResponse({'error': 'Không tìm thấy đơn hàng'})
         else:
             return JsonResponse({'error': 'Vui lòng đăng nhập để tiếp tục'})
-    else:
-        return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
-
-def confirmPaymentOrder(request):
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            data = json.loads(request.body)
-
-            try:
-                order = get_object_or_404(Order, customer=request.user, complete=False, active=True)
-
-                order.name = data['name']
-                order.phoneNumber = data['phone-number']
-                order.address = data['address']
-                order.active = False
-                order.save()
-                return JsonResponse({'success': 'Thành công'})
-            except Http404:
-                return JsonResponse({'error': 'Order not found'}, status=404)
-        else:
-            return JsonResponse({'error': 'Vui lòng đăng nhập để thanh toán'})
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
 

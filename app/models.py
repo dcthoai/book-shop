@@ -95,6 +95,7 @@ class Order(models.Model):
     dateOrder = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False, null=True, blank=False)
     active = models.BooleanField(default=False)
+    isPaid = models.BooleanField(default=False) # Check if the order has been paid
 
     def getDateOrder(self):
         weekdays = ["Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ Nhật"]
