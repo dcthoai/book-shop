@@ -121,14 +121,17 @@ def orderDetails(request, order_id):
         customer = request.user
         cart, created = Cart.objects.get_or_create(customer=customer)
         try:
-            order = get_object_or_404(Order, id=order_id)
+            order = get_object_or_404(Order, customer=customer, id=order_id)
+            items = order.orderitem_set.all()
         except Http404:
-            order = {}
+            order = {'get_cart_items':0, 'get_cart_total':0}
+            items = []
     else:
         customer = None
         cart = {'getCartItemsAmount': 0}
-        order = {}
-    context = {'cart': cart ,'order': order}
+        order = {'get_cart_items':0, 'get_cart_total':0}
+        items = []
+    context = {'cart': cart ,'order': order, 'items': items}
     return render(request, 'app/orderdetail.html', context)
 
 # Search product by name

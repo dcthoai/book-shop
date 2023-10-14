@@ -1,6 +1,6 @@
 
-var confirmOrderComplete = document.querySelectorAll('.your-order .list-order .order__complete');
-var orderPaymentAgain = document.querySelectorAll('.your-order .list-order .order__pay-again');
+var confirmOrderComplete = document.querySelectorAll('.order__complete');
+var orderPaymentAgain = document.querySelectorAll('.order__pay-again');
 
 confirmOrderComplete.forEach(function(item){
     item.addEventListener('click', function(){

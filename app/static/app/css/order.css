@@ -146,11 +146,15 @@ a{
     height: 40px;
     border: none;
     border-radius: 6px;
-    background-color: #ff0000;
+    background-color: #ff5500;
     cursor: pointer;
     color: #fff;
     font-size: 20px;
     font-weight: 600;
+}
+
+.your-order .list-order .order__pay-again{
+    background-color: #ff0000;
 }
 
 .your-order .list-order .order__complete.complete{
