@@ -241,7 +241,25 @@ def confirmPaymentOrder(request):
                 order.save()
                 return JsonResponse({'success': 'Thành công'})
             except Http404:
-                return JsonResponse({'error': 'Order not found'}, status=404)
+                return JsonResponse({'error': 'Không tìm thấy đơn hàng'}, status=404)
+        else:
+            return JsonResponse({'error': 'Vui lòng đăng nhập để thanh toán'})
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại'})
+
+def paymentOrderAgain(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+
+            try:
+                order = get_object_or_404(Order, customer=request.user, complete=False, id=data['order-id'])
+                order.active = True
+                order.save()
+
+                return JsonResponse({'success': 'Gửi yêu cầu thanh toán lại thành công'})
+            except Http404:
+                return JsonResponse({'error': 'Không tìm thấy đơn hàng'}, status=404)
         else:
             return JsonResponse({'error': 'Vui lòng đăng nhập để thanh toán'})
     else:
