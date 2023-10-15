@@ -322,6 +322,9 @@ def register(request):
         if User.objects.filter(username=data['username']).exists():
             return JsonResponse({'error': 'Username đã tồn tại, vui lòng sử dụng một tên khác.'})
         
+        if User.objects.filter(email=data['email']).exists():
+            return JsonResponse({'error': 'Email này đã được đăng ký cho một tài khoản khác, vui lòng sử dụng một email khác.'})
+        
         verifyCode = ''.join(random.choices('0123456789', k=6)) # Create a random code
         senderEmail = 'dcthoai1023@gmail.com'
         senderPassword = 'nyitsxfirfuskyat'
@@ -444,6 +447,12 @@ def updateAccount(request):
                     return JsonResponse({'error': 'Số điện thoại chưa đúng định dạng (chỉ gồm 10 kí tự số).'})
 
             elif 'email' in data:
+                if user.email == data['email']:
+                    return JsonResponse({'error': 'Email này trùng với email hiện tại của bạn, vui lòng sử dụng một email khác'})
+
+                if User.objects.filter(email=data['email']).exists():
+                    return JsonResponse({'error': 'Email này đã được đăng ký cho một tài khoản khác, vui lòng sử dụng một email khác.'})
+                
                 verifyCode = ''.join(random.choices('0123456789', k=6))
                 senderEmail = 'dcthoai1023@gmail.com'
                 senderPassword = 'nyitsxfirfuskyat'
