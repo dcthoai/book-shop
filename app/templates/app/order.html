@@ -30,38 +30,35 @@
                                     {{orderItems.first.product.price}}đ
                                 </div>
                                 
-                                <div class="total-price">
-                                    <div class="total-price__quantity">x{{orderItems.first.quantity}}</div>
-                                    <div class="total-price__total">{{orderItems.first.get_total}}đ</div>
+                                <div class="info__body-total">
+                                    <div class="total-price">
+                                        <div style="display: inline;" class="total-price__quantity">
+                                            x{{orderItems.first.quantity}}
+                                        </div>
+                                        {{orderItems.first.get_total}}đ
+                                    </div>
                                     <span>Và {{ orderItems|length|add:"-1" }} sản phẩm khác, nhấn để xem chi tiết</span>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="order-demo__status">
-                            {% if order.isPaid %}
-                                {% if order.complete %} 
-                                    <label style="color: #31af91">Đã hoàn thành</label>
-                                {% else %}
-                                    <label style="color: #ff7600">Chưa hoàn thành</label>
-                                {% endif %}
-                            {% else %}
-                                <label style="color: #ff0000">Chưa thanh toán</label>
-                            {% endif %}
-                        </div>
                     </a>
 
-                    {% if order.isPaid %}
-                        {% if order.complete %}
-                            <button data-order="{{order.id}}" type="button" disabled class="order-demo-button order__complete complete">
-                                <img src="{% static 'app/images/success-icon.png' %}">
-                            </button>
+                    <div class="order-demo__status">
+                        {% if order.isPaid %}
+                            {% if order.complete %}
+                                <label style="color: #31af91">Đã hoàn thành</label>
+                                <button data-order="{{order.id}}" type="button" disabled class="order-demo-button order__complete complete">
+                                    <img src="{% static 'app/images/success-icon.png' %}">
+                                </button>
+                            {% else %}
+                                <label style="color: #ff7600">Chưa hoàn thành</label>
+                                <button data-order="{{order.id}}" type="button" class="order-demo-button order__complete">Đã nhận hàng</button>
+                            {% endif %}
                         {% else %}
-                            <button data-order="{{order.id}}" type="button" class="order-demo-button order__complete">Đã nhận hàng</button>
+                            <label style="color: #ff0000">Chưa thanh toán</label>
+                            <button data-order="{{order.id}}" type="button" class="order-demo-button order__pay-again">Thanh toán</button>
                         {% endif %}
-                    {% else %}
-                        <button data-order="{{order.id}}" type="button" class="order-demo-button order__pay-again">Thanh toán</button>
-                    {% endif %}
+                    </div>
                 </div>
                 {% endfor %}
             </div>

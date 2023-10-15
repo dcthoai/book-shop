@@ -104,12 +104,16 @@ a{
     color: #ff0000;
 }
 
+.order-details .order-details__controls{
+    display: flex;
+}
+
 .order-details .order-details__bill{
     flex: 1;
     width: 100%;
     padding: 24px;
     padding-left: 48px;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
 }
 
@@ -135,7 +139,7 @@ a{
 
 .order-details .order-details__status .order-demo-button{
     width: 160px;
-    height: 40px;
+    height: 36px;
     margin-top: 24px;
     border: none;
     border-radius: 6px;
@@ -151,13 +155,10 @@ a{
 }
 
 .order-details .order-details__status .order__complete.complete{
-    width: 48px;
-    height: 48px;
-    background-color: none;
-    border-radius: 100%;
+    background-color: transparent;
 }
 
 .order-details .order-details__status .order__complete.complete img{
-    width: 100%;
-    height: 100%;
+    width: 42px;
+    aspect-ratio: 1/1;
 }

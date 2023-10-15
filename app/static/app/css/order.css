@@ -45,7 +45,6 @@ a{
 }
 
 .your-order .list-order .order{
-    display: flex;
     position: relative;
     margin-bottom: 24px;
     border: 1px solid #eee;
@@ -64,6 +63,7 @@ a{
 .your-order .list-order .order-demo__img{
     width: 100px;
     max-width: 20%;
+    margin-right: 24px;
 }
 
 .your-order .list-order .order-demo__img img{
@@ -72,7 +72,6 @@ a{
 }
 
 .your-order .list-order .order-demo__info{
-    padding: 0 32px;
     width: 100%;
     flex: 1;
     display: flex;
@@ -87,7 +86,7 @@ a{
     font-weight: 600;
     line-height: 24px;
     text-align: justify;
-    margin-top: 6px;
+    margin-bottom: 16px;
 }
 
 .your-order .list-order .info__body{
@@ -107,43 +106,48 @@ a{
     font-style: italic;
 }
 
-.your-order .list-order .total-price{
+.your-order .list-order .info__body-total{
     display: flex;
     margin-top: 6px;
 }
 
-.your-order .list-order .total-price__quantity{
+.your-order .list-order .total-price{
     font-size: 18px;
     font-weight: 600;
+    line-height: 20px;
+    color: #ff0000;
+    margin-right: 24px;
+    margin-bottom: 6px;
 }
 
-.your-order .list-order .total-price__total{
-    font-size: 18px;
-    font-weight: 600;
-    color: #ff0000;
-    padding-left: 12px;
+.your-order .list-order .total-price__quantity{
+    color: #000;
+    font-weight: 300;
+    margin-right: 12px;
 }
 
 .your-order .list-order .total-price span{
     font-size: 14px;
-    line-height: 20px;
+    line-height: 22px;
     color: #555;
-    margin-left: 24px;
 }
 
 .your-order .list-order .order-demo__status{
-    width: 200px;
-    max-width: 20%;
-    text-align: center;
-    padding-top: 16px;
+    width: 240px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .your-order .list-order .order-demo-button{
     width: 160px;
-    position: absolute;
-    right: 24px;
-    bottom: 24px;
-    height: 40px;
+    height: 36px;
     border: none;
     border-radius: 6px;
     background-color: #ff5500;
@@ -158,14 +162,10 @@ a{
 }
 
 .your-order .list-order .order__complete.complete{
-    width: 48px;
-    height: 48px;
-    right: 80px;
-    background-color: none;
-    border-radius: 100%;
+    background-color: transparent;
 }
 
 .your-order .list-order .order__complete.complete img{
-    width: 100%;
-    height: 100%;
+    width: 42px;
+    aspect-ratio: 1/1;
 }
