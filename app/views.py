@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
-from django.views.decorators.csrf import csrf_exempt # disable django's verifier (Cross-Site Request Forgery Exempt)
 from django.db.models.signals import post_save
 from django.forms.models import model_to_dict
 from django.dispatch import receiver
@@ -315,7 +314,6 @@ def account(request):
     return render(request, 'app/account.html', context)
 
 # Handle send and receive new user account registration information
-@csrf_exempt
 def register(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -353,7 +351,6 @@ def register(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
 
-@csrf_exempt
 def verify(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -384,7 +381,6 @@ def verify(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
 
-@csrf_exempt
 def signIn(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -412,13 +408,11 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-@csrf_exempt
 def signOut(request):
     logout(request)
     return JsonResponse({'success': 'Đăng xuất thành công.'}, status=200)
 
 # API to update info account
-@csrf_exempt
 def updateAccount(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -485,7 +479,6 @@ def updateAccount(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'})
 
-@csrf_exempt
 def getIdUser(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -495,7 +488,6 @@ def getIdUser(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'})
 
-@csrf_exempt
 def verifyChangeEmail(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -523,7 +515,6 @@ def verifyChangeEmail(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
 
-@csrf_exempt
 @api_view(['POST'])
 def updateAvatar(request):
     if request.method == 'POST':
@@ -545,7 +536,6 @@ def updateAvatar(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
 
-@csrf_exempt
 def changePassword(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -563,7 +553,6 @@ def changePassword(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'})
 
-@csrf_exempt
 def recoverPassword(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -599,7 +588,6 @@ def recoverPassword(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
     
-@csrf_exempt
 def verifyRecoverPassword(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -620,7 +608,6 @@ def verifyRecoverPassword(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
 
-@csrf_exempt
 def recoverSuccess(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -632,7 +619,6 @@ def recoverSuccess(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
 
-@csrf_exempt
 def recover(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -666,7 +652,6 @@ def recover(request):
         except:
             return JsonResponse({'error': 'Email không khớp với bất kì tài khoản nào.'})
 
-@csrf_exempt
 def recoverAccount(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -687,7 +672,6 @@ def recoverAccount(request):
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
 
-@csrf_exempt
 def createNewPassword(request):
     if request.method == 'POST':
         data = json.loads(request.body)

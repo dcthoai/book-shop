@@ -217,6 +217,7 @@ var validateSignUp = function(){
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
                 },
                 body: JSON.stringify(data),
             })
@@ -260,6 +261,7 @@ function verify(){
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
             },
             body: JSON.stringify(dataVerify),
         })
@@ -303,6 +305,7 @@ var validateSignIn = function(){
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
                 },
                 body: JSON.stringify(data),
             })
@@ -349,7 +352,8 @@ function forgotPassword(){
             fetch('/api/recover/', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
                 },
                 body: JSON.stringify({
                     email: email.value.trim()
@@ -412,7 +416,8 @@ function recoverPassword(email){
         fetch('/api/recover-account/', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
             },
             body: JSON.stringify({
                 verify_code: verifyCode.value.trim()
@@ -468,6 +473,7 @@ function createNewPassword(email){
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
                 },
                 body: JSON.stringify({
                     new_password: formCreateNewPassword.value.trim(),
@@ -563,6 +569,7 @@ function loggedOut(){
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
         },
     })
     .then(response => response.json())
