@@ -23,6 +23,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.files import File
 from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage
 
 
 EXPIRATION_TIME = 3 * 60  # 3 minutes
@@ -36,8 +37,7 @@ def home(request):
     else:
         cart = {'getCartItemsAmount': 0}
     sliders = SliderHome.objects.all()
-    products = Product.objects.all()
-    context = {'products': products, 'cart': cart, 'sliders': sliders}
+    context = {'cart': cart, 'sliders': sliders}
     return render(request, 'app/home.html', context)
 
 # Load notifications page
@@ -59,7 +59,13 @@ def book(request, slugName):
     else:
         customer = None
         cart = {'getCartItemsAmount': 0}
-    products = Product.objects.all()
+    
+    allProducts = list(Product.objects.values('id', 'slugName', 'imageURL'))
+    random.shuffle(allProducts)  # Xáo trộn danh sách
+    if len(allProducts) > 30:
+        products = allProducts[:30]  # Lấy 30 sản phẩm đầu tiên sau khi xáo trộn
+    else:
+        products = allProducts
     product = get_object_or_404(Product, slugName=slugName)
     context = {'cart': cart, 'products': products, 'product': product}
     return render(request, 'app/book.html', context)
@@ -162,16 +168,18 @@ def filter_category(request):
 
 # API get list product for homepage
 def productsApi(request):
-    start = int(request.GET.get('start', 0))
-    products = Product.objects.all()[start:start+18]
+    start = int(request.GET.get('start', 1))
+    allProducts = list(Product.objects.values('id', 'name', 'price', 'cost', 'slugName', 'imageURL'))
+    random.shuffle(allProducts)
 
-    product_list = []
-    for product in products:
-        product_dict = model_to_dict(product, exclude=["image"])  # remove image field
-        product_dict['imageURL'] = product.imageURL  # add URL image
-        product_list.append(product_dict)
+    paginator = Paginator(allProducts, 18)
+    try:
+        pageObj = paginator.page(start)
+        listProducts = list(pageObj.object_list)
+    except EmptyPage:
+        listProducts = []
 
-    return JsonResponse(product_list, safe=False)
+    return JsonResponse(listProducts, safe=False)
 
 # Handle update product to cart
 def updateItem(request):

@@ -151,7 +151,7 @@ function addSwipe(){
 addSwipe();
 
 // Load product
-var start = 0;
+var start = 1;
 var content = document.querySelector('.content .wrapper');
 var moreBook = document.getElementById('more-book-btn');
 
@@ -179,7 +179,7 @@ function fetchProducts() {
 
         content.innerHTML += productHTML;
         addUpdateCartItemListener();
-        start += 18;
+        start += 1;
     });
 }
 

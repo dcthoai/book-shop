@@ -25,6 +25,7 @@ class Product(models.Model):
     price = models.IntegerField()
     cost = models.IntegerField()
     image = models.ImageField(upload_to='product', null=True, blank=True)
+    imageURL = models.URLField(default='static/app/images/icon-camera.png', null=True, blank=True)
     publisher = models.CharField(default='N/A', max_length=100, null=True, blank=True)
     author = models.CharField(default='N/A', max_length=100, null=True, blank=True)
     description = models.CharField(default='Người bán chưa cung cấp thông tin mô tả sản phẩm.', max_length=3000, null=True, blank=True)
@@ -48,6 +49,11 @@ class Product(models.Model):
     )
     
     def save(self, *args, **kwargs):
+        try:
+            self.imageURL = self.image.url
+        except:
+            self.imageURL = 'static/app/images/icon-camera.png'
+
         if self.name:
             self.slugName = unidecode.unidecode(self.name)
             self.slugName = self.slugName.lower()
@@ -60,14 +66,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
-    @property
-    def imageURL(self):
-        try:
-            url = self.image.url
-        except:
-            url = 'static/app/images/icon-camera.png'
-        return url
 
 class Cart(models.Model):
     customer = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
