@@ -1,0 +1,88 @@
+
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Giỏ hàng</title>
+    <link rel="stylesheet" href="{% static 'app/css/cart.css' %}"/>
+{% endblock title %}
+
+{% block content %}
+
+    <div class="content__cart">
+        <div class="cart__header">
+            <h4 class="cart__heading">GIỎ HÀNG</h4>
+        </div>
+
+        <div class="nav">
+            <div class="nav__select">
+                <input id="selectAllProducts" class="nav__select-checkbox" type="checkbox">
+                <div class="nav__select-heading">Chọn tất cả <span>({{cart.getCartItemsAmount}} sản phẩm)</span></div>
+            </div>
+
+            <div class="nav__item pc tablet">Số lượng</div>
+            <div class="nav__item pc tablet">Thành tiền</div>
+        </div>
+
+        <div class="list-product">
+            {% for item in cartItems %}
+                <div class="product">
+                    <input class="product__select" type="checkbox">
+
+                    <div class="wrapper">
+                        <div class="product__img">
+                            <a href="{% url 'book' item.product.slugName %}">
+                                <img style="width: 100%; height: 100%;" src="{{item.product.imageURL}}" alt="">
+                            </a>
+                        </div>
+
+                        <div class="product__info">
+                            <div class="decription">
+                                <div>
+                                    <div class="decription__heading"><a href="{% url 'book' item.product.slugName %}">{{item.product.name}}</a></div>
+                                    <span class="pc">Nhà xuất bản: <h4>{{item.product.publisher}}</h4></span>
+                                    <span class="pc">Tác giả: <h4>{{item.product.author}}</h4></span>
+                                    <div class="pc">
+                                        <p class="decription__intro"><span style="display: inline;">Giới thiệu:   </span>{{item.product.description}}</p>
+                                    </div>
+                                </div>
+                                <div class="decription__price">{{item.product.price}}đ <del>{{item.product.cost}}đ</del></div>
+                            </div>
+
+                            <div class="details">
+                                <div class="details__quantity">
+                                    <button type="button" data-product="{{item.product.id}}" data-action="remove" class="add-to-cart details__quantity-button">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <input type="text" class="details__quantity-input" value="{{item.quantity}}">
+                                    <button type="button" data-product="{{item.product.id}}" data-action="add" class="add-to-cart details__quantity-button">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+        
+                                <div class="details__price pc tablet">
+                                    <span class="product-total-price">{{item.get_total}}đ</span>
+                                </div>
+        
+                                <button type="button" class="details__del add-to-cart" data-product="{{item.product.id}}" data-action="delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="cart__payment">
+        <div class="total__price">
+            <div class="total__price-heading">Tổng thanh toán:</div>
+            <span id="total-price">0đ</span>
+        </div>
+
+        <button type="button" id="payment-link-btn" class="payment__link">Thanh toán</button>
+    </div>
+    
+    <script src="{% static 'app/js/cart.js' %}"></script>
+{% endblock content %}

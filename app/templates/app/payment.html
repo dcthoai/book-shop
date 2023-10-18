@@ -1,0 +1,144 @@
+
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Thanh toán</title>
+    <link rel="stylesheet" href="{% static 'app/css/payment.css' %}"/>
+{% endblock title %}
+
+{% block content %}
+    <div class="payment">
+        <div class="payment__header">
+            <span>Đơn hàng của bạn</span>
+        </div>
+
+        <div class="payment__info">
+            <div class="wrapper">
+                <span>Họ tên</span>
+                <input name="payment-name" type="text" class="info__input" placeholder="Nhập họ tên người nhận">
+            </div>
+            <div class="wrapper">
+                <span>Số điện thoại</span>
+                <input name="payment-phone" type="text" class="info__input" placeholder="Nhập số điện thoại người nhận">
+            </div>
+            <div class="wrapper">
+                <span>Địa chỉ</span>
+                <input name="payment-address" type="text" class="info__input" placeholder="Nhập địa chỉ người nhận">
+            </div>
+        </div>
+
+        <div class="space"></div>
+
+        <div class="payment__method">
+            <div class="payment__method-heading">
+                Chọn phương thức thanh toán của bạn:
+            </div>
+
+            <div>
+                <div class="payment__method-choice">
+                    <input type="radio" name="payment-method" value='zalo-pay'>
+                    <div class="des">
+                        <div class="des__icon">
+                            <img src="{% static 'app/images/zalopay.jpg' %}" alt="ZaloPay">
+                        </div>
+                        <span class="des__heading">Ví ZaloPay</span>
+                    </div>
+                </div>
+
+                <div class="payment__method-choice">
+                    <input type="radio" name="payment-method" value='momo-pay'>
+                    <div class="des">
+                        <div class="des__icon">
+                            <img src="{% static 'app/images/momopay.jpg' %}" alt="MomoPay">                    
+                        </div>
+                        <span class="des__heading">Ví Momo</span>
+                    </div>
+                </div>
+
+                <div class="payment__method-choice">
+                    <input type="radio" name="payment-method" value='banking-pay'>
+                    <div class="des">
+                        <div class="des__icon">
+                            <img src="{% static 'app/images/atmpay.jpg' %}" alt="ATMPay">
+                        </div>
+                        <span class="des__heading">ATM/Internet Banking</span>
+                    </div>
+                </div>
+
+                <div class="payment__method-choice">
+                    <input type="radio" name="payment-method" value='cash-pay'>
+                    <div class="des">
+                        <div class="des__icon">
+                            <img src="{% static 'app/images/cashpay.jpg' %}" alt="CashPay">
+                        </div>
+                        <span class="des__heading">Thanh toán bằng tiền mặt khi nhận hàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space"></div>
+
+        <div class="payment__content">
+            <h4>Xem lại sản phẩm của bạn:</h4>
+            <div class="list__product">
+                {% for item in items %}
+                <div class="product" data-product="{{item.product.id}}">
+                    <div class="product__img">
+                        <a href="/book/{{item.product.slugName}}"><img src="{{item.product.imageURL}}" alt="image-product"></a>
+                    </div>
+
+                    <div class="product__info">
+                        <div class="description">
+                            <div class="description__heading"><a href="/book/{{item.product.slugName}}">{{item.product.name}}</a></div>
+                            <div class="description__price">
+                                {{item.product.price}}đ 
+                                <del>{{item.product.cost}}</del>
+                                <div class="description__price-amount mobile">x{{item.quantity}}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="price">
+                            <div class="price__quantity">x{{item.quantity}}</div>
+                            <div class="price__total">{{item.get_total}}đ</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="payment__controls">
+            <div style="max-width: 960px; margin: 0 auto;">
+                <div class="wrapper">
+                    <div class="payment__controls-back">
+                        <a href="{% url 'cart' %}">
+                            <i class="fa-solid fa-angle-left"></i>
+                            <p>Quay lại giỏ hàng</p>
+                        </a>
+                    </div>
+
+                    <div class="payment__controls-price">
+                        Tổng cộng:
+                        <span>{{order.getOrderTotalPrice}}đ</span>
+                    </div>
+                </div>
+
+                <div class="payment__controls-confirm">
+                    <button type="button" id="payment-confirm">Xác nhận thanh toán</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="payment-status">
+        <h3 class="payment-status__heading"></h3>
+        <img class="payment-status__icon" src="">
+        <button class="payment-status__ok" type="button">Ok</button>
+    </div>
+
+    <script src="{% static 'app/js/payment.js' %}"></script>
+{% endblock content %}
+
+{% block footer %}{% endblock footer%}

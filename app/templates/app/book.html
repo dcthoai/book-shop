@@ -1,0 +1,93 @@
+
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Book</title>
+    <link rel="stylesheet" href="{% static 'app/css/book.css' %}"/>
+{% endblock title %}
+
+{% block content %}
+
+    <div class="content__product">
+            <div class="product-img">
+                <div class="img" style="background-image: url({{product.imageURL}});"></div>
+            </div>
+
+            <div class="product__control">
+                <div class="product__heading">
+                    <h2>{{product.name}}</h2>
+                    <div class="product-info">
+                        <h4 class="info__publisher">Nhà xuất bản: <span>{{product.publisher}}</span></h4>
+                        <h4 class="info__author">Tác giả: <span>{{product.author}}</span></h4>
+                        <div class="info__decription">
+                            <span>Giới thiệu: </span>
+                            <div style="display: inline;">
+                                <p style="display: inline;" id="product-content-des" class="info__decription-content">{{product.description}}</p>
+                                <button id="toggleDesBook" type="button"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wrapper">
+                    <h4 class="info__price">
+                        {{product.price}}đ
+                        <del>{{product.cost}}đ</del>
+                    </h4>
+                    <div class="delivery-time">
+                        <div class="delivery-time__heading">Thời gian giao hàng: </div>
+                        <div class="delivery-time__link"><a href="">Chọn địa chỉ</a></div>
+                    </div>
+                    <div class="policy">
+                        <div class="policy__heading">Chính sách đổi trả: </div>
+                        <div class="policy__link"><a href="">Xem thêm</a></div>
+                    </div>
+
+                    <div class="quantity__book">
+                        <label class="heading" for="quantity">Số lượng:</label>
+                        <div class="quantity">
+                            <button type="button" class="quantity__sub"><i class="fa-solid fa-minus"></i></button>
+                            <input disabled class="quantity__input" type="text" id="quantity" name="quantity" min="1" max="100" value="1">
+                            <button type="button" class="quantity__add"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+    
+                    <div class="buy">
+                        <div class="buy-now">
+                            <button type="button" data-product="{{product.id}}" class="buy-now-btn">Mua ngay</button>
+                        </div>
+                        <div class="shop-cart">
+                            <button type="button" data-product="{{product.id}}" data-action="add" class="shop-cart-btn add-to-cart">
+                                Thêm vào giỏ hàng 
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="suggest">
+        <h4 class="heading">Gợi ý</h4>
+
+        <button id="prev-suggest" type="button" class="suggest__prev pc tablet"><i class="fa-solid fa-angle-left"></i></button>
+
+        <div class="suggest__content">
+            <div class="wrapper">
+                {% for productItem in products %}
+                <div class="book">
+                    <a href="{% url 'book' productItem.slugName %}" class="book__link">
+                        <div class="book__img" style="background-image: url({{productItem.imageURL}});"></div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button id="next-suggest" type="button" class="suggest__next pc tablet"><i class="fa-solid fa-angle-right"></i></button>
+    </div>
+
+    <script src="{% static 'app/js/book.js' %}"></script>
+{% endblock content %}

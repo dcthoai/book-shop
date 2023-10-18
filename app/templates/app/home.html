@@ -1,0 +1,69 @@
+
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Thế giới sách online - ABC Book</title>
+    <link rel="stylesheet" href="{% static 'app/css/home.css' %}"/>
+{% endblock title %}
+
+{% block content %}
+
+    {% comment %} Slider, banner ads {% endcomment %}
+    <div class="slider grid">
+        <div class="slider__content">
+            <button class="prev-slide" type="button"><i class="fa-solid fa-angle-left"></i></button>
+            <div class="wrapper">
+                {% for slider in sliders %}
+                    <a href="{{ slider.url }}" class="slider__link">
+                        <div class="slider__link-item" style="background-image: url({{ slider.image.url }})"></div>
+                    </a>
+                {% endfor %}
+            </div>
+            <button class="next-slide" type="button"><i class="fa-solid fa-angle-right"></i></button>
+        </div>
+
+        <div class="slider__more pc">
+            <a href="" class="slider__more-link">
+                <div class="slider__more-img" style="background-image: url({% static 'app/images/banner1.png' %});"></div>
+            </a>
+            <a href="" class="slider__more-link">
+                <div class="slider__more-img" style="background-image: url({% static 'app/images/banner2.png' %});"></div>
+            </a>
+        </div>
+    </div>
+
+    {% comment %} Most searched product suggestions {% endcomment %}
+    <div class="content">
+        <div class="content__header">
+            <h2 class="content__heading">Nổi bật</h2>
+
+            <div class="content__filter">
+                <h4>Danh mục</h4>
+                <div class="content__filter-input">
+                    <select class="filter-category" name="category">
+                        <option value="category0">Nổi bật</option>
+                        <option value="category1">Sách văn học</option>
+                        <option value="category2">Sách kinh tế</option>
+                        <option value="category3">Sách thiếu nhi</option>
+                        <option value="category4">Sách giáo khoa</option>
+                        <option value="category5">Sách ngoại ngữ</option>
+                        <option value="category6">Tâm lý - kĩ năng sống</option>
+                        <option value="category7">Tiểu sử - hồi ký</option>
+                    </select>
+                </div>
+                <button class="content__filter-btn" type="button" id="filter-btn">Tìm kiếm</button>
+            </div>
+        </div>
+
+        <div class="wrapper grid">
+            {% comment %} List product {% endcomment %}
+        </div>
+
+        <div class="content__more">
+            <button type="button" id="more-book-btn" class="content__more-btn">Xem thêm</button>
+        </div>
+    </div>
+
+    <script src="{% static 'app/js/home.js' %}"></script>
+{% endblock content %}

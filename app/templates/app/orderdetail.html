@@ -1,0 +1,70 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Chi tiết</title>
+    <link rel="stylesheet" href="{% static 'app/css/orderdetail.css' %}"/>
+{% endblock title %}
+
+{% block content %}
+    <div class="order-details">
+        <h2 class="order-details__heading">Thông tin đơn hàng</h2>
+
+        <div class="customer">
+            <h4>Người nhận: <span>{{order.name}}</span></h4>
+            <h4>Số điện thoại: <span>{{order.phoneNumber}}</span></h4>
+            <h4>Địa chỉ nhận hàng: <span>{{order.address}}</span></h4>
+        </div>
+
+        <div class="list-product">
+            <h4 class="list-product__heading">Danh sách sản phẩm:</h4>
+            {% for item in items %}
+                <a class="product" href="{% url 'book' item.product.slugName %}">
+                    <img class="product__img" src="{{item.product.imageURL}}">
+                    
+                    <div class="product__info">
+                        <h4 class="info__heading">{{item.product.name}}</h4>
+                        
+                        <div class="info__body">
+                            <div class="info__body-price">
+                                <del>{{item.product.cost}}</del>
+                                {{item.product.price}}đ
+                            </div>
+                            
+                            <div class="total-price">
+                                <div class="total-price__quantity">x{{item.quantity}}</div>
+                                <div class="total-price__total">{{item.get_total}}đ</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        <div class="order-details__controls">
+            <div class="order-details__bill">
+                Tổng thanh toán: <span>{{order.getOrderTotalPrice}}đ</span>
+                <label>({{order.getOrderItemsAmount}} sản phẩm)</label>
+            </div>
+            
+            <div class="order-details__status">
+                {% if order.isPaid %}
+                    {% if order.complete %} 
+                        <label style="color: #31af91">Đã hoàn thành</label>
+                        <button data-order="{{order.id}}" type="button" disabled class="order-demo-button order__complete complete">
+                            <img src="{% static 'app/images/success-icon.png' %}">
+                        </button>
+                    {% else %}
+                        <label style="color: #ff7600">Chưa hoàn thành</label>
+                        <button data-order="{{order.id}}" type="button" class="order-demo-button order__complete">Đã nhận hàng</button>
+                    {% endif %}
+                {% else %}
+                    <label style="color: #ff0000">Chưa thanh toán</label>
+                    <button data-order="{{order.id}}" type="button" class="order-demo-button order__pay-again">Thanh toán</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'app/js/order.js' %}"></script>
+{% endblock content %}

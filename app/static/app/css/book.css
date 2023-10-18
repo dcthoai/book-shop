@@ -1,0 +1,327 @@
+
+html{
+    font-size: 16px;
+    line-height: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    scroll-behavior: smooth;
+}
+
+.content__product{
+    width: 1200px;
+    max-width: 100%;
+    margin: 32px auto;
+    margin-top: 100px;
+    padding: 48px;
+    border-radius: 4px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Product image */
+.content__product .product-img{
+    align-self: flex-start;
+    width: 33%;
+    min-width: 200px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #ffadad;
+    box-shadow: 0 0 5px 1px #ff000030;
+}
+
+.content__product .product-img .img{
+    width: 100%;
+    aspect-ratio: 9/14;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.content__product .product__heading h2{
+    font-size: 26px;
+    font-weight: 300;
+    margin-top: 0;
+    margin-bottom: 32px;
+    text-align: left;
+}
+
+.content__product .product-info .info__decription span{
+    font-size: 18px;
+    font-weight: 600;
+    margin-right: 12px;
+}
+
+.content__product .product-info .info__decription{
+    margin-top: 12px;
+    line-height: 1.4;
+    text-align: justify;
+}
+
+.content__product .product-info #toggleDesBook{
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: underline;
+    color: #000;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* Product controls */
+.content__product .product__control{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 48px;
+}
+
+.content__product .wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.content__product .product-info{
+    width: 100%;
+}
+
+.content__product .delivery-time{
+    display: flex;
+}
+
+.content__product .policy{
+    display: flex;
+}
+
+.content__product .info__publisher{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.content__product .info__publisher span,
+.content__product .info__author span{
+    font-weight: 300;
+    margin-left: 8px;
+}
+
+.content__product .info__author{
+    font-size: 18px;
+    font-weight: 600;
+    margin: 6px 0;
+}
+
+.content__product .delivery-time .delivery-time__heading{
+    width: 160px;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.content__product .delivery-time .delivery-time__link a{
+    display: block;
+    color: #1db0ff;
+    text-decoration: none;
+}
+
+.content__product .policy .policy__heading{
+    width: 160px;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 6px;
+}
+
+.content__product .policy .policy__link a{
+    display: block;
+    color: #1db0ff;
+    text-decoration: none;
+    margin-top: 6px;
+}
+
+.content__product .info__price{
+    margin: 24px 0;
+    color: #f62f2f;
+    font-size: 26px;
+}
+
+.content__product .info__price del{
+    margin-left: 8px;
+    color: #6f6f6f;
+    font-size: 18px;
+}
+
+.content__product .buy{
+    display: flex;
+    margin: 0 auto;
+    margin-top: 24px;
+    width: 100%;
+}
+
+.content__product .buy .buy-now{
+    width: 50%;
+    max-width: 200px;
+}
+
+.content__product .buy .shop-cart{
+    width: 50%;
+    max-width: 200px;
+    margin-left: 12px;
+}
+
+.content__product .buy button{
+    width: 100%;
+    height: 42px;
+    background-color: #fff;
+    border: 1px solid #f62f2f;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.content__product .buy-now button{
+    background-color: #f62f2f;
+}
+
+.content__product .shop-cart button{
+    color: #f62f2f;
+}
+
+.content__product .buy button:hover{
+    cursor: pointer;
+    opacity: 0.85;
+}
+
+.content__product .quantity__book{
+    display: flex;
+    margin: 16px 0;
+    align-items: end;
+}
+
+.content__product .quantity__book .heading{
+    color: #626262;
+    font-size: 18px;
+    font-weight: 600;
+    margin-right: 48px;
+    margin-bottom: 4px;
+}
+
+.content__product .quantity__book .quantity{
+    width: 120px;
+    height: 36px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content__product .quantity__book .quantity__input{
+    width: 60px;
+    height: 100%;
+    font-size: 24px;
+    border: none;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    text-align: center;
+}
+
+.content__product .quantity__book .quantity__input:focus{
+    outline: none;
+}
+
+.content__product .quantity__book .quantity__sub,
+.content__product .quantity__book .quantity__add{
+    width: 30%;
+    font-size: 16px;
+    border: none;
+    background-color: #fff;
+}
+
+.content__product .quantity__book button:hover{
+    cursor: pointer;
+}
+
+.suggest{
+    margin: 32px auto;
+    padding: 26px 0;
+    width: 1200px;
+    max-width: 100%;
+    background-color: #fff;
+    border-radius: 4px;
+    position: relative;
+}
+
+.suggest .heading{
+    margin-left: 32px;
+    font-size: 22px;
+    font-weight: 300;
+    color: #626262;
+}
+
+.suggest .suggest__content{
+    overflow: hidden;
+    width: 1080px;
+    max-width: 100%;
+    margin: 0 auto;
+    margin-top: 24px;
+}
+
+.suggest .wrapper{
+    display: flex;
+    transition: all 0.5s ease;
+}
+
+.suggest .book{
+    min-width: 170px;
+    margin: 12px 5px;
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #1ac7b6;
+    box-shadow: 0 1px 5px 1px #e2ebffc7;
+    transition: all ease 0.25s;
+    position: relative;
+}
+  
+.suggest .book:hover{
+    z-index: 2;
+    transform: scale(1.05);
+    border: 1px solid #ff5227;
+    box-shadow: 0 1px 5px 1px #ff000085;
+}
+  
+.suggest .book .book__link{
+    text-decoration: none;
+    color: #000;
+}
+  
+.suggest .book .book__img{
+    width: 100%;
+    height: 260px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.suggest .suggest__prev{
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    border: none;
+    background-color: transparent;
+    transition: all 0.2s ease;
+}
+
+.suggest .suggest__next{
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    border: none;
+    background-color: transparent;
+    transition: all 0.2s ease;
+}
+
+.suggest .suggest__prev i,
+.suggest .suggest__next i{
+    font-size: 36px;
+}
+
+.suggest .suggest__prev:hover,
+.suggest .suggest__next:hover{
+    cursor: pointer;
+}

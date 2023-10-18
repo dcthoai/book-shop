@@ -1,0 +1,164 @@
+
+.order-details{
+    width: 960px;
+    max-width: 100%;
+    margin: 100px auto;
+    background-color: #fff;
+    border-radius: 6px;
+}
+
+a{
+    text-decoration: none;
+    color: #000;
+}
+
+.order-details .order-details__heading{
+    width: 100%;
+    padding: 36px 0;
+    font-size: 24px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.order-details .customer{
+    width: 100%;
+    padding: 24px;
+    padding-left: 48px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-details .customer h4{
+    font-size: 20px;
+    line-height: 32px;
+}
+
+.order-details .customer span{
+    margin-left: 16px;
+    font-size: 22px;
+    font-weight: 300;
+    color: #555;
+}
+
+.order-details .list-product{
+    width: 100%;
+    padding: 32px;
+}
+
+.order-details .list-product .product{
+    display: flex;
+    width: 100%;
+    margin: 16px 0;
+    padding: 16px 0;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    box-shadow: 0 0 5px 1px #f3f3f3;
+}
+
+.order-details .list-product .product__img{
+    width: 100px;
+    max-width: 20%;
+    aspect-ratio: 3/4;
+    margin-left: 16px;
+    margin-right: 24px;
+}
+
+.order-details .list-product .product__info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.order-details .list-product .info__heading{
+    font-size: 18px;
+    font-weight: 600;
+    color: #2a2a2a;
+    width: 100%;
+    flex: 1;
+}
+
+.order-details .list-product .info__body-price{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.order-details .list-product .info__body-price del{
+    font-size: 14px;
+    font-weight: 300;
+    color: #555;
+}
+
+.order-details .list-product .total-price{
+    display: flex;
+    padding: 6px 0;
+}
+
+.order-details .list-product .total-price__quantity{
+    font-size: 18px;
+    font-weight: 600;
+    padding-right: 12px;
+}
+
+.order-details .list-product .total-price__total{
+    font-size: 18px;
+    font-weight: 600;
+    color: #ff0000;
+}
+
+.order-details .order-details__controls{
+    display: flex;
+}
+
+.order-details .order-details__bill{
+    flex: 1;
+    width: 100%;
+    padding: 24px;
+    padding-left: 48px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.order-details .order-details__bill span{
+    color: #ff0000;
+}
+
+.order-details .order-details__bill label{
+    font-size: 18px;
+    color: #555;
+}
+
+.order-details .order-details__status{
+    width: 300px;
+    max-width: 50%;
+    padding: 32px 0;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.order-details .order-details__status .order-demo-button{
+    width: 160px;
+    height: 36px;
+    margin-top: 24px;
+    border: none;
+    border-radius: 6px;
+    background-color: #ff5500;
+    cursor: pointer;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.order-details .order-details__status .order__pay-again{
+    background-color: #ff0000;
+}
+
+.order-details .order-details__status .order__complete.complete{
+    background-color: transparent;
+}
+
+.order-details .order-details__status .order__complete.complete img{
+    width: 42px;
+    aspect-ratio: 1/1;
+}
