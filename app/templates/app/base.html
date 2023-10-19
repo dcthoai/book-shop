@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="EANqwosnloOwASlgvg8k5QPXQkmyCccZW4nt1IGidp4"/>
     {% block title %}{% endblock title %}
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia|Mooli">
@@ -160,10 +159,10 @@
                     </div>
 
                     <div class="contact__form">
-                        <div class="form__input"><input type="text" placeholder="Name" ></div>
-                        <div class="form__input"><input type="text" placeholder="Email"></div>
-                        <div class="form__message"><input type="text" placeholder="Message"></div>
-                        <button type="button" class="form__send-btn">SEND</button>
+                        <div class="form__input"><input type="text" placeholder="Name" name="name"></div>
+                        <div class="form__input"><input type="text" placeholder="Email" name="email"></div>
+                        <div class="form__message"><input type="text" placeholder="Message" name="message"></div>
+                        <button type="button" id="send-feedback" class="form__send-btn">SEND</button>
                     </div>
                 </div>
             </div>
@@ -171,5 +170,6 @@
     {% endblock footer %}
     
     <script src="{% static 'app/js/res.js' %}"></script>
+    <script src="{% static 'app/js/feedback.js' %}"></script>
 </body>
 </html>

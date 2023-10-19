@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 import unidecode
 import re
+import urllib.parse
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -25,7 +26,7 @@ class Product(models.Model):
     price = models.IntegerField()
     cost = models.IntegerField()
     image = models.ImageField(upload_to='product', null=True, blank=True)
-    imageURL = models.URLField(default='static/app/images/icon-camera.png', null=True, blank=True)
+    imageURL = models.URLField(null=True, blank=True)
     publisher = models.CharField(default='N/A', max_length=100, null=True, blank=True)
     author = models.CharField(default='N/A', max_length=100, null=True, blank=True)
     description = models.CharField(default='Người bán chưa cung cấp thông tin mô tả sản phẩm.', max_length=3000, null=True, blank=True)
@@ -49,10 +50,11 @@ class Product(models.Model):
     )
     
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         try:
-            self.imageURL = self.image.url
+            self.imageURL = urllib.parse.unquote(self.image.url)
         except:
-            self.imageURL = 'static/app/images/icon-camera.png'
+            self.imageURL = '/static/app/images/icon-camera.png'
 
         if self.name:
             self.slugName = unidecode.unidecode(self.name)

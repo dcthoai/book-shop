@@ -167,18 +167,21 @@ def filter_category(request):
     return JsonResponse(product_list, safe=False)
 
 # API get list product for homepage
+allProductsAPI = list(Product.objects.values('id', 'name', 'price', 'cost', 'slugName', 'imageURL'))
+paginator = Paginator(allProductsAPI, 18)
+
 def productsApi(request):
     start = int(request.GET.get('start', 1))
-    allProducts = list(Product.objects.values('id', 'name', 'price', 'cost', 'slugName', 'imageURL'))
-    random.shuffle(allProducts)
 
-    paginator = Paginator(allProducts, 18)
+    if start == 1:
+        random.shuffle(allProductsAPI)
+
     try:
         pageObj = paginator.page(start)
         listProducts = list(pageObj.object_list)
     except EmptyPage:
         listProducts = []
-
+ 
     return JsonResponse(listProducts, safe=False)
 
 # Handle update product to cart
@@ -337,7 +340,7 @@ def register(request):
         receiverEmail = data['email']
 
         message = MIMEMultipart()
-        message['From'] = senderEmail
+        message['From'] = 'ABC Book'
         message['To'] = receiverEmail
         message['Subject'] = 'Mã xác thực tài khoản của bạn'
 
@@ -461,7 +464,7 @@ def updateAccount(request):
                 receiverEmail = data['email']
 
                 message = MIMEMultipart()
-                message['From'] = senderEmail
+                message['From'] = 'ABC Book'
                 message['To'] = receiverEmail
                 message['Subject'] = 'Mã xác thực tài khoản của bạn'
 
@@ -573,7 +576,7 @@ def recoverPassword(request):
             receiverEmail = data['email_recover']
 
             message = MIMEMultipart()
-            message['From'] = senderEmail
+            message['From'] = 'ABC Book'
             message['To'] = receiverEmail
             message['Subject'] = 'Khôi phục tài khoản'
 
@@ -639,7 +642,7 @@ def recover(request):
             receiverEmail = data['email']
 
             message = MIMEMultipart()
-            message['From'] = senderEmail
+            message['From'] = 'ABC Book'
             message['To'] = receiverEmail
             message['Subject'] = 'Khôi phục tài khoản'
 
@@ -688,5 +691,46 @@ def createNewPassword(request):
         user.save()
 
         return JsonResponse({'success': 'Khôi phục tài khoản thành công, vui lòng đăng nhập lại.'})
+    else:
+        return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
+
+def sendFeedback(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+            senderEmail = 'dcthoai1023@gmail.com'
+            senderPassword = 'nyitsxfirfuskyat'
+            receiverEmail = data['email']
+
+            # Email 1
+            message1 = MIMEMultipart()
+            message1['From'] = 'ABCBook'
+            message1['To'] = 'Tôi'
+            message1['Subject'] = 'Phản hồi của khách hàng:'
+
+            content1 = f'Phản hồi từ khách hàng {data["name"]}, địa chỉ {receiverEmail}.\nNội dung:\n{data["message"]}'
+            message1.attach(MIMEText(content1, 'plain'))
+
+            # Email 2
+            message2 = MIMEMultipart()
+            message2['From'] = 'ABCBook'
+            message2['To'] = receiverEmail
+            message2['Subject'] = 'Phản hồi về góp ý của bạn'
+
+            content2 = f'Phản hồi của bạn về trang web của chúng tôi đã được gửi đến đội ngũ quản trị viên. Vui lòng kiên nhẫn chờ đợi.'
+            
+            message2.attach(MIMEText(content2, 'plain'))
+            session = smtplib.SMTP('smtp.gmail.com', 587)  # Used gmail with port 587
+            session.starttls()
+            session.login(senderEmail, senderPassword)
+            try:
+                session.sendmail(senderEmail, 'dcthoai1023@gmail.com', message1.as_string())
+                session.sendmail(senderEmail, receiverEmail, message2.as_string())
+                return JsonResponse({'success': 'Gửi phản hồi thành công'})
+            except:
+                return JsonResponse({'error': 'Hệ thống đang gặp lỗi, vui lòng thử lại sau'})
+            session.quit()
+        else:
+            return JsonResponse({'error': 'Vui lòng đăng nhập để thực hiện chức năng này'})
     else:
         return JsonResponse({'error': 'Gửi yêu cầu thất bại, vui lòng thử lại sau.'}, status=400)
