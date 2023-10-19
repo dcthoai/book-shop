@@ -25,7 +25,7 @@ class Product(models.Model):
     price = models.IntegerField()
     cost = models.IntegerField()
     image = models.ImageField(upload_to='product', null=True, blank=True)
-    imageURL = models.URLField(default='static/app/images/icon-camera.png', null=True, blank=True)
+    imageURL = models.URLField(null=True, blank=True)
     publisher = models.CharField(default='N/A', max_length=100, null=True, blank=True)
     author = models.CharField(default='N/A', max_length=100, null=True, blank=True)
     description = models.CharField(default='Người bán chưa cung cấp thông tin mô tả sản phẩm.', max_length=3000, null=True, blank=True)
