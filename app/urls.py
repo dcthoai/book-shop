@@ -36,4 +36,5 @@ urlpatterns = [
     path('confirm-order-complete/', views.confirmOrderComplete, name='confirm-order-complete'),
     path('order/details/<int:order_id>', views.orderDetails, name='order-details'),
     path('order/payment-again/', views.paymentOrderAgain, name='payment-again'),
+    path('feedback/', views.sendFeedback, name='feedback'),
 ]

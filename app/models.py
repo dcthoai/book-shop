@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 import unidecode
 import re
+import urllib.parse
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -49,10 +50,11 @@ class Product(models.Model):
     )
     
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         try:
-            self.imageURL = self.image.url
+            self.imageURL = urllib.parse.unquote(self.image.url)
         except:
-            self.imageURL = 'static/app/images/icon-camera.png'
+            self.imageURL = '/static/app/images/icon-camera.png'
 
         if self.name:
             self.slugName = unidecode.unidecode(self.name)
