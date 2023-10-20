@@ -698,8 +698,8 @@ def sendFeedback(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
             data = json.loads(request.body)
-            senderEmail = 'dcthoai1023@gmail.com'
-            senderPassword = 'nyitsxfirfuskyat'
+            senderEmail = 'nguyenquynh722003@gmail.com'
+            senderPassword = 'pvxhpvtfdhufhwlf'
             receiverEmail = data['email']
 
             # Email 1
@@ -708,7 +708,7 @@ def sendFeedback(request):
             message1['To'] = 'Tôi'
             message1['Subject'] = 'Phản hồi của khách hàng:'
 
-            content1 = f'Phản hồi từ khách hàng {data["name"]}, địa chỉ {receiverEmail}.\nNội dung:\n{data["message"]}'
+            content1 = f'Phản hồi từ khách hàng {data["name"]}, địa chỉ {receiverEmail}\nNội dung:\n{data["message"]}'
             message1.attach(MIMEText(content1, 'plain'))
 
             # Email 2
@@ -724,6 +724,7 @@ def sendFeedback(request):
             session.starttls()
             session.login(senderEmail, senderPassword)
             try:
+                session.sendmail(senderEmail, 'nguyenquynh722003@gmail.com', message1.as_string())
                 session.sendmail(senderEmail, 'dcthoai1023@gmail.com', message1.as_string())
                 session.sendmail(senderEmail, receiverEmail, message2.as_string())
                 return JsonResponse({'success': 'Gửi phản hồi thành công'})
