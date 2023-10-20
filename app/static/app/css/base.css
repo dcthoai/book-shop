@@ -649,7 +649,7 @@ body{
   
 .footer .wrapper{
     width: 100%;
-    max-width: 800px;
+    max-width: 960px;
     margin: 0 auto;
     padding: 64px 16px;
     text-align: center;
@@ -678,7 +678,7 @@ body{
   
 .footer .wrapper .contact__info li{
     font-size: 18px;
-    line-height: 1;
+    line-height: 1.2;
     margin: 12px;
 }
   
