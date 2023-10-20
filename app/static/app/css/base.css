@@ -683,6 +683,7 @@ body{
 }
   
 .footer .wrapper .contact__form{
+    padding-top: 12px;
     flex: 1;
     position: relative;
 }
