@@ -135,7 +135,7 @@ addToCartButton.addEventListener('click', function(){
     let quantityProduct = Number(productQuantityInput.value);
 
     if(user === "AnonymousUser"){
-        alert('User not logged in');
+        alert('Vui lòng đăng nhập để thực hiện chức năng này');
     }else{
         updateCartItem(productId, action, quantityProduct);
     }

@@ -619,7 +619,7 @@ function addUpdateCartItemListener(){
             let action = this.dataset.action
 
             if(user === "AnonymousUser"){
-                alert('User not logged in');
+                alert('Vui lòng đăng nhập để thực hiện chức năng này');
             }else{
                 updateCartItem(productId, action);
             }

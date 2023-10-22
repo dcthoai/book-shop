@@ -230,9 +230,7 @@ def createOrder(request):
                     orderItem.save()
                 except:
                     return JsonResponse({'error': 'Sản phẩm này không còn tồn tại, vui lòng cập nhật giỏ hàng'})
-
-            orderItems = order.orderitem_set.values()
-            return JsonResponse({'success': 'Đã tạo đơn hàng', 'orderItems': list(orderItems)})
+            return JsonResponse({'success': 'Đã tạo đơn hàng'})
         else:
             return JsonResponse({'error': 'Vui lòng đăng nhập để thanh toán'})
     else:
