@@ -334,7 +334,7 @@ def register(request):
         
         verifyCode = ''.join(random.choices('0123456789', k=6)) # Create a random code
         senderEmail = 'dcthoai1023@gmail.com'
-        senderPassword = 'nyitsxfirfuskyat'
+        senderPassword = ''
         receiverEmail = data['email']
 
         message = MIMEMultipart()
@@ -458,7 +458,7 @@ def updateAccount(request):
                 
                 verifyCode = ''.join(random.choices('0123456789', k=6))
                 senderEmail = 'dcthoai1023@gmail.com'
-                senderPassword = 'nyitsxfirfuskyat'
+                senderPassword = ''
                 receiverEmail = data['email']
 
                 message = MIMEMultipart()
@@ -570,7 +570,7 @@ def recoverPassword(request):
         if(data['email_recover'] == user.email):
             verifyCode = ''.join(random.choices('0123456789', k=6))
             senderEmail = 'dcthoai1023@gmail.com'
-            senderPassword = 'nyitsxfirfuskyat'
+            senderPassword = ''
             receiverEmail = data['email_recover']
 
             message = MIMEMultipart()
@@ -636,7 +636,7 @@ def recover(request):
 
             verifyCode = ''.join(random.choices('0123456789', k=6))
             senderEmail = 'dcthoai1023@gmail.com'
-            senderPassword = 'nyitsxfirfuskyat'
+            senderPassword = ''
             receiverEmail = data['email']
 
             message = MIMEMultipart()
@@ -697,7 +697,7 @@ def sendFeedback(request):
         if request.user.is_authenticated:
             data = json.loads(request.body)
             senderEmail = 'nguyenquynh722003@gmail.com'
-            senderPassword = 'pvxhpvtfdhufhwlf'
+            senderPassword = ''
             receiverEmail = data['email']
 
             # Email 1
