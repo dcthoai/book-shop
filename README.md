@@ -9,4 +9,4 @@ To run project, install python 3.11 and run:
   
 `py manage.py runserver` <br/>
 
-If you want to use send OTP function, go to [/app/views.py](#app/views.py) then change MAIL_SENDER and MAIL_PASSWORD_KEY to your info
+If you want to use send OTP function, go to [/app/views.py](https://github.com/dcthoai/book-shop/blob/main/app/views.py) and then change MAIL_SENDER and MAIL_PASSWORD_KEY to your info
