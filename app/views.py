@@ -28,6 +28,9 @@ from django.core.paginator import Paginator, EmptyPage
 
 EXPIRATION_TIME = 3 * 60  # 3 minutes
 
+MAIL_SENDER = '' # Thêm email và khóa bảo mật ứng dụng 2 lớp của email vào đây để dùng chức năng gửi email.
+MAIL_PASSWORD_KEY = ''
+
 # Create your views here.
 # Load Home page
 def home(request):
@@ -333,8 +336,8 @@ def register(request):
             return JsonResponse({'error': 'Email này đã được đăng ký cho một tài khoản khác, vui lòng sử dụng một email khác.'})
         
         verifyCode = ''.join(random.choices('0123456789', k=6)) # Create a random code
-        senderEmail = 'dcthoai1023@gmail.com'
-        senderPassword = ''
+        senderEmail = MAIL_SENDER
+        senderPassword = MAIL_PASSWORD_KEY
         receiverEmail = data['email']
 
         message = MIMEMultipart()
@@ -457,8 +460,8 @@ def updateAccount(request):
                     return JsonResponse({'error': 'Email này đã được đăng ký cho một tài khoản khác, vui lòng sử dụng một email khác.'})
                 
                 verifyCode = ''.join(random.choices('0123456789', k=6))
-                senderEmail = 'dcthoai1023@gmail.com'
-                senderPassword = ''
+                senderEmail = MAIL_SENDER
+                senderPassword = MAIL_PASSWORD_KEY
                 receiverEmail = data['email']
 
                 message = MIMEMultipart()
@@ -569,8 +572,8 @@ def recoverPassword(request):
 
         if(data['email_recover'] == user.email):
             verifyCode = ''.join(random.choices('0123456789', k=6))
-            senderEmail = 'dcthoai1023@gmail.com'
-            senderPassword = ''
+            senderEmail = MAIL_SENDER
+            senderPassword = MAIL_PASSWORD_KEY
             receiverEmail = data['email_recover']
 
             message = MIMEMultipart()
@@ -635,8 +638,8 @@ def recover(request):
             user = User.objects.get(email=data['email'])
 
             verifyCode = ''.join(random.choices('0123456789', k=6))
-            senderEmail = 'dcthoai1023@gmail.com'
-            senderPassword = ''
+            senderEmail = MAIL_SENDER
+            senderPassword = MAIL_PASSWORD_KEY
             receiverEmail = data['email']
 
             message = MIMEMultipart()
@@ -696,8 +699,8 @@ def sendFeedback(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
             data = json.loads(request.body)
-            senderEmail = 'nguyenquynh722003@gmail.com'
-            senderPassword = ''
+            senderEmail = MAIL_SENDER
+            senderPassword = MAIL_PASSWORD_KEY
             receiverEmail = data['email']
 
             # Email 1
@@ -722,7 +725,6 @@ def sendFeedback(request):
             session.starttls()
             session.login(senderEmail, senderPassword)
             try:
-                session.sendmail(senderEmail, 'nguyenquynh722003@gmail.com', message1.as_string())
                 session.sendmail(senderEmail, 'dcthoai1023@gmail.com', message1.as_string())
                 session.sendmail(senderEmail, receiverEmail, message2.as_string())
                 return JsonResponse({'success': 'Gửi phản hồi thành công'})
